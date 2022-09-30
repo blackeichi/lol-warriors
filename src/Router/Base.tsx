@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import React, { useState } from "react";
 import ReactPlayer from "react-player";
 import styled from "styled-components";
@@ -11,6 +11,7 @@ import {
   faArrowUp,
   faArrowUp19,
 } from "@fortawesome/free-solid-svg-icons";
+import { homeData } from "../util/data";
 
 const Box = styled.div`
   width: 100vw;
@@ -35,6 +36,7 @@ const RemoCon = styled.div`
   gap: 10px;
   font-size: 30px;
   font-weight: 700;
+  z-index: 3;
 `;
 
 const VideoBox = styled(motion.div)`
@@ -49,7 +51,6 @@ const VideoBox = styled(motion.div)`
 const Overlay = styled.div`
   width: 100%;
   height: 80%;
-
   overflow: hidden;
   position: absolute;
   top: 0;
@@ -104,46 +105,49 @@ const Btn = styled(motion.h1)`
   font-family: "MonoplexKR-Regular";
 `;
 
-const ImgBox = styled(motion.div)<{ url: string }>`
-  background-image: linear-gradient(
-      rgba(0, 0, 0, 1),
-      rgba(0, 0, 0, 0.2),
-      rgba(0, 0, 0, 0.1),
-      rgba(0, 0, 0, 0),
-      rgba(0, 0, 0, 0),
-      rgba(0, 0, 0, 0),
-      rgba(0, 0, 0, 0),
-      rgba(0, 0, 0, 0),
-      rgba(0, 0, 0, 0.1),
-      rgba(0, 0, 0, 0.2),
-      rgba(0, 0, 0, 1)
-    ),
-    url(${(prop) => prop.url});
-  width: 100vw;
-  height: 100vh;
-  position: absolute;
-  top: 1500px;
-  background-position: center;
-  background-repeat: none;
-  background-size: cover;
+const Container = styled(motion.div)`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  top: 1700;
 `;
 const HomeBox = styled(motion.div)`
   width: 100%;
   height: 100%;
   position: absolute;
-  top: 1700px;
-  pointer-events: none;
   display: flex;
   align-items: center;
+  overflow: hidden;
+`;
+const TopBlock = styled.div`
+  position: absolute;
+  top: 0;
+  z-index: 5;
+  width: 100%;
+  background-color: black;
+  height: 20vw;
+  max-height: 100px;
 `;
 
-const boxMove = {
+const BotBlock = styled.div`
+  position: absolute;
+  bottom: 0;
+  z-index: 2;
+  width: 100%;
+  background-color: black;
+  height: 20vw;
+  max-height: 100px;
+`;
+const startVariant = {
   onStart: {
-    top: 0,
+    y: 0,
     display: "flex",
   },
   onEnd: {
-    top: -1700,
+    y: -1700,
     transition: {
       duration: 2,
     },
@@ -152,45 +156,39 @@ const boxMove = {
     },
   },
 };
-const imgMove = {
-  onStart: {
-    top: 1500,
+const boxMove = {
+  enter: (isNext: number) => {
+    return {
+      top: isNext > 0 ? 1700 : -1700,
+    };
+  },
+  center: {
+    zIndex: 1,
+    top: 0,
     display: "flex",
   },
-  onEnd: {
-    top: -1500,
-    transition: {
-      duration: 4,
-    },
-    transitionEnd: {
-      display: "none",
-    },
+  exit: (isNext: number) => {
+    return {
+      top: isNext > 0 ? -1700 : 1700,
+    };
   },
 };
 
 export const Base = () => {
   const [started, setStarted] = useState(false);
   const [pages, setPage] = useRecoilState(pageState);
-  const [changePage, setChange] = useState(false);
-  const onUp = async () => {
-    setChange(true);
-    await setPage((prev) => prev - 1);
-    setTimeout(() => {
-      setChange(false);
-    }, 1000);
+  const [isNext, setIsNext] = useState(1);
+  const onUp = () => {
+    setPage((prev) => prev - 1);
+    setIsNext(-1);
   };
-  console.log(changePage);
-  const onDown = async () => {
-    setChange(true);
-    await setPage((prev) => prev + 1);
-    setTimeout(() => {
-      setChange(false);
-    }, 1000);
+  const onDown = () => {
+    setPage((prev) => prev + 1);
+    setIsNext(1);
   };
-  console.log(pages);
   return (
-    <Box className="App">
-      <VideoBox variants={boxMove} animate={started ? "onEnd" : "onStart"}>
+    <Box>
+      <VideoBox variants={startVariant} animate={started ? "onEnd" : "onStart"}>
         <Overlay>
           <OverVideo muted autoPlay loop>
             <source src="videos/main-video.webm" type="video/webm" />
@@ -217,30 +215,33 @@ export const Base = () => {
           </TextBox>
         </Content>
       </VideoBox>
-      <HomeBox
-        animate={
-          started
-            ? changePage
-              ? { top: -1500, display: "none" }
-              : {
-                  top: 0,
-                  display: "flex",
-                  transitionEnd: {},
-                }
-            : { top: 1500, display: "none" }
-        }
-        transition={{ duration: 3 }}
-      >
-        <ReactPlayer
-          url={"https://youtu.be/UxpjpxLi-Qg"}
-          width="100%"
-          height="100%"
-          loop={true}
-          playing={true}
-          muted={true}
-          controls={false}
-        />
-      </HomeBox>
+      {started && (
+        <AnimatePresence custom={isNext}>
+          <HomeBox
+            key={pages}
+            variants={boxMove}
+            custom={isNext}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ duration: 2 }}
+          >
+            <TopBlock />
+            <ReactPlayer
+              url={homeData[pages].url}
+              width="100%"
+              height="100%"
+              volume={0.1}
+              playing={true}
+              loop={true}
+              controls={false}
+              style={{ maxHeight: "90vh", pointerEvents: "none" }}
+            />
+            <BotBlock />
+          </HomeBox>
+        </AnimatePresence>
+      )}
+
       {started && (
         <RemoCon>
           {pages !== 0 && (
