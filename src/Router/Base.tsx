@@ -14,7 +14,6 @@ import {
   Btn,
   Content,
   ContentBox,
-  ContentOverlay,
   ContentTitle,
   HomeBox,
   Line,
@@ -115,26 +114,37 @@ export const Base = () => {
             transition={{ duration: 2 }}
           >
             <TopBlock />
-            <ReactPlayer
-              url={homeData[pages].url}
-              width="100%"
-              height="100%"
-              volume={0.1}
-              playing={true}
-              loop={true}
-              controls={false}
-              style={{ maxHeight: "90vh", pointerEvents: "none" }}
-            />
+            <div style={{ position: "relative" }}>
+              <ReactPlayer
+                url={homeData[pages].url}
+                width="100vw"
+                height="100vh"
+                volume={0.1}
+                playing={true}
+                loop={true}
+                controls={false}
+                style={{
+                  maxHeight: "90vh",
+                  pointerEvents: "none",
+                  maxWidth: "1500px",
+                }}
+              />
+              <ContentBox
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 6 }}
+              >
+                <ContentTitle>{homeData[pages].title}</ContentTitle>
+                {homeData[pages].input && (
+                  <input
+                    onSubmit={() => {
+                      console.log("submit");
+                    }}
+                  />
+                )}
+              </ContentBox>
+            </div>
             <BotBlock />
-            <ContentOverlay
-              animate={{
-                opacity: 1,
-              }}
-              transition={{ duration: 1 }}
-            />
-            <ContentBox>
-              <ContentTitle>소환사 검색</ContentTitle>
-            </ContentBox>
           </HomeBox>
         </AnimatePresence>
       )}

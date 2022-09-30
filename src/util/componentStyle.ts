@@ -99,6 +99,7 @@ export const HomeBox = styled(motion.div)`
   position: absolute;
   display: flex;
   align-items: center;
+  justify-content: center;
   overflow: hidden;
 `;
 export const TopBlock = styled.div`
@@ -107,30 +108,24 @@ export const TopBlock = styled.div`
   z-index: 5;
   width: 100%;
   background-color: black;
-  height: 20vw;
-  max-height: 100px;
+  height: 15vh;
 `;
-export const ContentBox = styled.div`
+export const ContentBox = styled(motion.div)`
   position: absolute;
-  width: 25vw;
+  top: 0;
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
-  padding: 10px;
-  margin-top: 30vh;
+  align-items: center;
+  height: 100%;
+  justify-content: center;
+  padding: 0 100px;
+  opacity: 0;
+  background-color: rgba(0, 0, 0, 0.5);
 `;
 export const ContentTitle = styled.h1`
   color: white;
   font-size: 20px;
   font-weight: 700;
-`;
-export const ContentOverlay = styled(motion.div)`
-  position: absolute;
-  background-color: rgba(0, 0, 0, 0.5);
-  opacity: 0;
-  width: 500px;
-  height: 500px;
-  transform: rotate(-45deg);
 `;
 
 export const BotBlock = styled.div`
@@ -139,6 +134,5 @@ export const BotBlock = styled.div`
   z-index: 2;
   width: 100%;
   background-color: black;
-  height: 20vw;
-  max-height: 100px;
+  height: 15vh;
 `;
