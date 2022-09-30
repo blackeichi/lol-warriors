@@ -6,141 +6,29 @@ import "../util/index.css";
 import { useRecoilState } from "recoil";
 import { pageState } from "../util/atom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faArrowDown,
-  faArrowUp,
-  faArrowUp19,
-} from "@fortawesome/free-solid-svg-icons";
+import { faArrowDown, faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { homeData } from "../util/data";
+import {
+  BotBlock,
+  Box,
+  Btn,
+  Content,
+  ContentBox,
+  ContentOverlay,
+  ContentTitle,
+  HomeBox,
+  Line,
+  Logo,
+  Overlay,
+  OverVideo,
+  RemoCon,
+  Start,
+  TextBox,
+  TopBlock,
+  Video,
+  VideoBox,
+} from "../util/componentStyle";
 
-const Box = styled.div`
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  position: relative;
-  background-color: black;
-`;
-const RemoCon = styled.div`
-  width: 100px;
-  height: 100px;
-  position: fixed;
-  right: 20px;
-  bottom: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  font-size: 30px;
-  font-weight: 700;
-  z-index: 3;
-`;
-
-const VideoBox = styled(motion.div)`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-`;
-
-const Overlay = styled.div`
-  width: 100%;
-  height: 80%;
-  overflow: hidden;
-  position: absolute;
-  top: 0;
-`;
-const OverVideo = styled.video`
-  width: 100%;
-  left: 0;
-  filter: blur(15px);
-  scale: 1.1;
-`;
-const Content = styled.div`
-  width: 95%;
-  max-width: 1300px;
-  height: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-`;
-const Line = styled.div`
-  position: absolute;
-  width: 97%;
-  height: 105%;
-  border: 3px solid gray;
-  z-index: 2;
-  border-radius: 0 0 0;
-`;
-const Video = styled.video`
-  width: 100%;
-`;
-const TextBox = styled.div`
-  position: absolute;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-`;
-const Logo = styled.img`
-  width: 40vw;
-`;
-const Start = styled(motion.div)`
-  border: 2px solid white;
-  padding: 5px;
-  cursor: pointer;
-`;
-const Btn = styled(motion.h1)`
-  background-color: ${(props) => props.theme.blueColr};
-  padding: 15px 70px;
-  font-size: 14px;
-  font-family: "MonoplexKR-Regular";
-`;
-
-const Container = styled(motion.div)`
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: relative;
-  top: 1700;
-`;
-const HomeBox = styled(motion.div)`
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-`;
-const TopBlock = styled.div`
-  position: absolute;
-  top: 0;
-  z-index: 5;
-  width: 100%;
-  background-color: black;
-  height: 20vw;
-  max-height: 100px;
-`;
-
-const BotBlock = styled.div`
-  position: absolute;
-  bottom: 0;
-  z-index: 2;
-  width: 100%;
-  background-color: black;
-  height: 20vw;
-  max-height: 100px;
-`;
 const startVariant = {
   onStart: {
     y: 0,
@@ -238,6 +126,15 @@ export const Base = () => {
               style={{ maxHeight: "90vh", pointerEvents: "none" }}
             />
             <BotBlock />
+            <ContentOverlay
+              animate={{
+                opacity: 1,
+              }}
+              transition={{ duration: 1 }}
+            />
+            <ContentBox>
+              <ContentTitle>소환사 검색</ContentTitle>
+            </ContentBox>
           </HomeBox>
         </AnimatePresence>
       )}
