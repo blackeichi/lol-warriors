@@ -27,6 +27,7 @@ import {
   Video,
   VideoBox,
 } from "../util/componentStyle";
+import { useForm } from "react-hook-form";
 
 const startVariant = {
   onStart: {
@@ -62,6 +63,7 @@ const boxMove = {
 };
 
 export const Base = () => {
+  const { register, handleSubmit } = useForm();
   const [started, setStarted] = useState(false);
   const [pages, setPage] = useRecoilState(pageState);
   const [isNext, setIsNext] = useState(1);
@@ -72,6 +74,10 @@ export const Base = () => {
   const onDown = () => {
     setPage((prev) => prev + 1);
     setIsNext(1);
+  };
+  const [username, setUsername] = useState("");
+  const onValid = (data: any) => {
+    setUsername(data.username);
   };
   return (
     <Box>
@@ -136,11 +142,14 @@ export const Base = () => {
               >
                 <ContentTitle>{homeData[pages].title}</ContentTitle>
                 {homeData[pages].input && (
-                  <input
-                    onSubmit={() => {
-                      console.log("submit");
-                    }}
-                  />
+                  <form onSubmit={handleSubmit(onValid)}>
+                    <input
+                      {...register("username", {
+                        required: "Username is required",
+                      })}
+                      type="text"
+                    />
+                  </form>
                 )}
               </ContentBox>
             </div>
