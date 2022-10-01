@@ -112,22 +112,26 @@ export const TopBlock = styled.div`
 `;
 export const ContentBox = styled(motion.div)`
   position: absolute;
-  top: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 100%;
   justify-content: center;
-  padding: 0 100px;
+  font-family: "MonoplexKR-Regular";
   opacity: 0;
   background-color: rgba(0, 0, 0, 0.5);
+  padding: 20px;
 `;
 export const ContentTitle = styled.h1`
   color: white;
   font-size: 20px;
   font-weight: 700;
 `;
-
+export const ContentInput = styled.input`
+  outline: none;
+  box-sizing: border-box;
+  padding: 5px 10px;
+  margin-top: 20px;
+`;
 export const BotBlock = styled.div`
   position: absolute;
   bottom: 0;
