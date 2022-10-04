@@ -19,7 +19,7 @@ function App() {
           <BrowserRouter basename={process.env.PUBLIC_URL}>
             <Routes>
               <Route path="/" element={<Home />} />
-              <Route path="/summoners/*" element={<Summoner />} />
+              <Route path="/summoner/*" element={<Summoner />} />
             </Routes>
           </BrowserRouter>
         </Box>

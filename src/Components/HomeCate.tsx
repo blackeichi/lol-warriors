@@ -39,7 +39,7 @@ export const HomeCate = () => {
   const isNext = useRecoilValue(nextState);
   const navigate = useNavigate();
   const onValid = (data: any) => {
-    navigate(`/summoners/?username=${data.username}`);
+    navigate(`/summoner/?username=${data.username}`);
   };
   return (
     <AnimatePresence custom={isNext}>
