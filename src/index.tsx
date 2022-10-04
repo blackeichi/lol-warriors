@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
+import { QueryClient, QueryClientProvider } from "react-query";
 import { createGlobalStyle } from "styled-components";
 import App from "./App";
 import "./util/index.css";
@@ -53,10 +54,12 @@ table {
 	border-spacing: 0;
 }
 `;
-
+const client = new QueryClient();
 root.render(
   <React.StrictMode>
     <Global />
-    <App />
+    <QueryClientProvider client={client}>
+      <App />
+    </QueryClientProvider>
   </React.StrictMode>
 );
