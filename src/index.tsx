@@ -53,6 +53,7 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
 `;
 const client = new QueryClient();
 root.render(
