@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
 import { Color } from "./util/color";
 import { Search } from "./Router/Search";
-import { RecoilRoot } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { Summoner } from "./Router/Summoner";
+import { resizeState } from "./util/atom";
 
 const Box = styled.div`
   width: 100vw;
@@ -12,18 +13,32 @@ const Box = styled.div`
 `;
 
 function App() {
+  const [screen, setScreen] = useState(window.outerWidth);
+  const setLarge = useSetRecoilState(resizeState);
+  useEffect(() => {
+    const handleResize = () => {
+      setScreen(window.outerWidth);
+    };
+    window.addEventListener("resize", handleResize);
+    if (screen > 550) {
+      setLarge("Web");
+    } else if (screen <= 550) {
+      setLarge("Mobile");
+    }
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  });
   return (
     <ThemeProvider theme={Color}>
-      <RecoilRoot>
-        <Box>
-          <BrowserRouter basename={process.env.PUBLIC_URL}>
-            <Routes>
-              <Route path="/" element={<Search />} />
-              <Route path="/summoner/*" element={<Summoner />} />
-            </Routes>
-          </BrowserRouter>
-        </Box>
-      </RecoilRoot>
+      <Box>
+        <BrowserRouter basename={process.env.PUBLIC_URL}>
+          <Routes>
+            <Route path="/" element={<Search />} />
+            <Route path="/summoner/*" element={<Summoner />} />
+          </Routes>
+        </BrowserRouter>
+      </Box>
     </ThemeProvider>
   );
 }

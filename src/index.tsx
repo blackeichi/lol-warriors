@@ -1,8 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { RecoilRoot } from "recoil";
 import { createGlobalStyle } from "styled-components";
 import App from "./App";
+import "./lang/i18n";
 import "./util/index.css";
 
 const root = ReactDOM.createRoot(
@@ -53,14 +55,23 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
-
+input {
+	border:0 solid black;
+	outline : none;
+}
+select {
+	border:0 solid black;
+	outline : none;
+}
 `;
 const client = new QueryClient();
 root.render(
   <React.StrictMode>
     <Global />
     <QueryClientProvider client={client}>
-      <App />
+      <RecoilRoot>
+        <App />
+      </RecoilRoot>
     </QueryClientProvider>
   </React.StrictMode>
 );
