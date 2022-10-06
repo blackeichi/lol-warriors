@@ -16,6 +16,7 @@ export const Summoner = () => {
   const { data, isLoading } = useQuery(["data"], () =>
     getPuuid(server, username)
   );
+  console.log(data);
   useEffect(() => {
     const savedUser = localStorage.getItem("username");
     if (savedUser !== null) {
@@ -29,14 +30,13 @@ export const Summoner = () => {
       const exist = getUser.find(
         (element) => element.username === newObject.username
       );
-      console.log(exist);
       if (exist) {
         return;
       }
       getUser.push(newObject);
       localStorage.setItem("username", JSON.stringify(getUser));
     }
-  }, []);
+  });
   const lang = useRecoilValue(langState);
   return null;
 };

@@ -8,6 +8,9 @@ import { useTranslation } from "react-i18next";
 import i18next from "../lang/i18n";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { IUser } from "../util/type";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faX } from "@fortawesome/free-solid-svg-icons";
 
 const HomeBox = styled.div`
   width: 100%;
@@ -26,7 +29,7 @@ const ImgBox = styled.div`
   justify-content: center;
   align-items: center;
   pointer-events: none;
-  border-radius: 50px;
+  border-radius: 55px;
   overflow: hidden;
   position: relative;
   margin-bottom: 15px;
@@ -34,7 +37,7 @@ const ImgBox = styled.div`
 const Overlay = styled.div`
   position: absolute;
   width: 90%;
-  height: 85%;
+  height: 84%;
   border-radius: 50px;
   border: 8px solid ${(props) => props.theme.bgColr};
 `;
@@ -60,6 +63,7 @@ const ContentInput = styled(motion.input)`
   border-radius: 20px;
   font-weight: bold;
   font-size: 15px;
+  font-family: "MonoplexKR-Regular";
 `;
 const FormBox = styled.div`
   position: relative;
@@ -124,6 +128,11 @@ const EachUser = styled.div`
   display: flex;
   box-sizing: border-box;
   align-items: center;
+  gap: 10px;
+`;
+const EachUser_Info = styled.div`
+  display: flex;
+  align-items: center;
   gap: 5px;
   cursor: pointer;
 `;
@@ -134,7 +143,16 @@ const UserServer = styled.h1`
   border-radius: 5px;
   color: white;
 `;
-const Username = styled.h1``;
+const Username = styled.h1`
+  font-weight: bold;
+  font-family: "MonoplexKR-Regular";
+`;
+const Icon = styled.h1`
+  color: ${(props) => props.theme.redColr};
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+`;
 export const Search = () => {
   const { register, handleSubmit } = useForm();
   const setLang = useSetRecoilState(langState);
@@ -158,13 +176,18 @@ export const Search = () => {
     const server = event?.target.value;
     setServer(server);
   };
-  let getUser = [];
+  let getUser: any[] = [];
   const savedUser = localStorage.getItem("username");
   if (savedUser !== null) {
     getUser = JSON.parse(savedUser);
   }
-  const handleRecommend = (user: IUser) => {
+  const handleRecommend = (user: IUser, event: any) => {
     setServer(user.server);
+    navigate(`/summoner/?username=${user.username}`);
+  };
+  const handleDelete = (user: IUser, event: any) => {
+    getUser = getUser.filter((users) => users.username !== user.username);
+    localStorage.setItem("username", JSON.stringify(getUser));
   };
   return (
     <HomeBox>
@@ -221,12 +244,20 @@ export const Search = () => {
       {open && getUser.length > 0 && (
         <AutoBox size={size}>
           {getUser?.map((user: any) => (
-            <EachUser
-              key={user.username}
-              onMouseDown={(user) => handleRecommend(user)}
-            >
-              <UserServer>{user.server}</UserServer>
-              <Username>{user.username}</Username>
+            <EachUser key={user.username}>
+              <EachUser_Info
+                onMouseDown={(event) => handleRecommend(user, event)}
+              >
+                <UserServer>{user.server}</UserServer>
+                <Username>{user.username}</Username>
+              </EachUser_Info>
+              <Icon
+                onMouseDown={(event) => {
+                  handleDelete(user, event);
+                }}
+              >
+                x
+              </Icon>
             </EachUser>
           ))}
         </AutoBox>
