@@ -1,1 +1,19 @@
-{ "inputPlaceholder": "YOUR SUMMONER NAME..." }
+{
+  "inputPlaceholder": "YOUR SUMMONER NAME...",
+  "update": "Update",
+  "soloRank": "RANKED SOLO",
+  "flexRank": "RANKED FLEX",
+  "victory": "VICTORY",
+  "defeat": "DEFEAT",
+  "aram": "ARAM",
+  "norm": "NORM",
+  "solo": "R_SOLO",
+  "flex": "R_FLEX",
+  "wrTeam": "WR BY TEAM",
+  "wrLength": "WR BY GAME LAENGTH",
+  "games": "G",
+  "wins": "WIN",
+  "losses": "LOS",
+  "graph": "GRAPH",
+  "stats": "STATS"
+}

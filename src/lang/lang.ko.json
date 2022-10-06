@@ -1,1 +1,19 @@
-{ "inputPlaceholder": "소환사명..." }
+{
+  "inputPlaceholder": "소환사명...",
+  "update": "업데이트",
+  "soloRank": "솔로랭크",
+  "flexRank": "자유랭크",
+  "victory": "승리",
+  "defeat": "패배",
+  "aram": "칼바람",
+  "norm": "노말",
+  "solo": "솔로랭크",
+  "flex": "자유랭크",
+  "wrTeam": "팀별승률",
+  "wrLength": "게임시간 별 승률",
+  "games": "전",
+  "wins": "승",
+  "losses": "패",
+  "graph": "그래프",
+  "stats": "통계"
+}

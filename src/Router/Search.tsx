@@ -3,14 +3,12 @@ import ReactPlayer from "react-player";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import { langState, resizeState, serverState } from "../util/atom";
+import { resizeState, serverState } from "../util/atom";
 import { useTranslation } from "react-i18next";
-import i18next from "../lang/i18n";
+import { LangSelect } from "../Components/LangSelect";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { IUser } from "../util/type";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faX } from "@fortawesome/free-solid-svg-icons";
 
 const HomeBox = styled.div`
   width: 100%;
@@ -106,15 +104,6 @@ const LOL = styled.h1`
   font-family: "HBIOS-SYS";
   font-size: 25px;
 `;
-const LangSel = styled.div`
-  position: fixed;
-  top: 0;
-  right: 0;
-  margin: 5px;
-`;
-const LangSelect = styled(Select)`
-  background-color: transparent;
-`;
 const AutoBox = styled.div<{ size: string }>`
   width: ${(props) => (props.size === "Web" ? "500px" : "90%")};
 `;
@@ -155,7 +144,7 @@ const Icon = styled.h1`
 `;
 export const Search = () => {
   const { register, handleSubmit } = useForm();
-  const setLang = useSetRecoilState(langState);
+
   const setServer = useSetRecoilState(serverState);
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -167,11 +156,7 @@ export const Search = () => {
   };
   const size = useRecoilValue(resizeState);
   const { t } = useTranslation();
-  const handleChange = (event: any) => {
-    const lang = event?.target.value;
-    i18next.changeLanguage(lang);
-    setLang(lang);
-  };
+
   const handleServer = (event: any) => {
     const server = event?.target.value;
     setServer(server);
@@ -204,7 +189,6 @@ export const Search = () => {
           volume={0.1}
         />
       </ImgBox>
-
       <Title size={size}>LoL-Warriors</Title>
       <FormBox>
         <ServerSel>
@@ -234,13 +218,7 @@ export const Search = () => {
           </Button>
         </Form>
       </FormBox>
-      <LangSel>
-        <LangSelect onChange={handleChange}>
-          <Option value="ko">KOREAN</Option>
-          <Option value="en">ENGLISH</Option>
-          <Option value="jp">JAPANESE</Option>
-        </LangSelect>
-      </LangSel>
+      <LangSelect fixed={true} />
       {open && getUser.length > 0 && (
         <AutoBox size={size}>
           {getUser?.map((user: any) => (

@@ -1,1 +1,19 @@
-{ "inputPlaceholder": "召喚士名..." }
+{
+  "inputPlaceholder": "召喚士名...",
+  "update": "アップデート.",
+  "soloRank": "単独ランキング",
+  "flexRank": "チームランク",
+  "victory": "勝利",
+  "defeat": "敗退",
+  "aram": "ひどい風.",
+  "norm": "名目上の",
+  "solo": "独奏",
+  "flex": "チームランク",
+  "wrTeam": "チーム別勝率",
+  "wrLength": "ゲームの長さによる勝率",
+  "games": "ゲーム",
+  "wins": "勝利する",
+  "losses": "損失",
+  "graph": "グラフ",
+  "stats": "統計"
+}
