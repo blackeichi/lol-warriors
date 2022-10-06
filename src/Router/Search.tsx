@@ -3,9 +3,11 @@ import ReactPlayer from "react-player";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
-import { langState, resizeState } from "../util/atom";
+import { langState, resizeState, serverState } from "../util/atom";
 import { useTranslation } from "react-i18next";
 import i18next from "../lang/i18n";
+import { motion } from "framer-motion";
+import { useState } from "react";
 
 const HomeBox = styled.div`
   width: 100%;
@@ -48,7 +50,7 @@ const Form = styled.form<{ size: string }>`
   display: flex;
   align-items: center;
 `;
-const ContentInput = styled.input`
+const ContentInput = styled(motion.input)`
   outline: none;
   box-sizing: border-box;
   padding: 5px 10px;
@@ -78,13 +80,6 @@ const ServerSel = styled.div`
   align-items: center;
   justify-content: center;
   display: flex;
-`;
-const SubTitle = styled.h2`
-  position: absolute;
-  font-size: 9px;
-  top: 2px;
-  font-weight: 700;
-  color: darkgray;
 `;
 const Select = styled.select`
   font-size: 15px;
@@ -116,10 +111,36 @@ const LangSel = styled.div`
 const LangSelect = styled(Select)`
   background-color: transparent;
 `;
-
+const AutoBox = styled.div<{ size: string }>`
+  width: ${(props) => (props.size === "Web" ? "500px" : "90%")};
+`;
+const EachUser = styled.div`
+  width: 50%;
+  padding: 15px 10px;
+  margin-left: 70px;
+  font-weight: bold;
+  font-size: 15px;
+  background-color: white;
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+`;
+const UserServer = styled.h1`
+  text-transform: uppercase;
+  background-color: ${(props) => props.theme.bgColr};
+  padding: 5px;
+  border-radius: 5px;
+  color: white;
+`;
+const Username = styled.h1``;
 export const Search = () => {
   const { register, handleSubmit } = useForm();
+  const setLang = useSetRecoilState(langState);
+  const setServer = useSetRecoilState(serverState);
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
   const onValid = (data: any) => {
     if (data === "") {
       return;
@@ -133,7 +154,18 @@ export const Search = () => {
     i18next.changeLanguage(lang);
     setLang(lang);
   };
-  const setLang = useSetRecoilState(langState);
+  const handleServer = (event: any) => {
+    const server = event?.target.value;
+    setServer(server);
+  };
+  let getUser = [];
+  const savedUser = localStorage.getItem("username");
+  if (savedUser !== null) {
+    getUser = JSON.parse(savedUser);
+  }
+  const handleRecommend = (user: IUser) => {
+    setServer(user.server);
+  };
   return (
     <HomeBox>
       <ImgBox>
@@ -153,11 +185,10 @@ export const Search = () => {
       <Title size={size}>LoL-Warriors</Title>
       <FormBox>
         <ServerSel>
-          <SubTitle>Region</SubTitle>
-          <Select name="lang">
-            <Option value="ko">KR</Option>
-            <Option value="en">EN</Option>
-            <Option value="jp">JP</Option>
+          <Select onChange={handleServer}>
+            <Option value="kr">KR</Option>
+            <Option value="euw1">EUW</Option>
+            <Option value="jp1">JP</Option>
           </Select>
         </ServerSel>
         <Form
@@ -171,6 +202,8 @@ export const Search = () => {
             })}
             autoComplete="off"
             type="text"
+            onFocus={() => setOpen(true)}
+            onBlur={() => setOpen(false)}
             placeholder={t("inputPlaceholder")}
           />
           <Button>
@@ -179,12 +212,25 @@ export const Search = () => {
         </Form>
       </FormBox>
       <LangSel>
-        <LangSelect onChange={handleChange} name="lang">
+        <LangSelect onChange={handleChange}>
           <Option value="ko">KOREAN</Option>
           <Option value="en">ENGLISH</Option>
           <Option value="jp">JAPANESE</Option>
         </LangSelect>
       </LangSel>
+      {open && getUser.length > 0 && (
+        <AutoBox size={size}>
+          {getUser?.map((user: any) => (
+            <EachUser
+              key={user.username}
+              onMouseDown={(user) => handleRecommend(user)}
+            >
+              <UserServer>{user.server}</UserServer>
+              <Username>{user.username}</Username>
+            </EachUser>
+          ))}
+        </AutoBox>
+      )}
     </HomeBox>
   );
 };
