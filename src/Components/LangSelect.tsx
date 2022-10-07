@@ -4,8 +4,9 @@ import styled from "styled-components";
 import i18next from "../lang/i18n";
 import { langState } from "../util/atom";
 
-const LangSel = styled.div`
-  position: fixed;
+const LangSel = styled.div<{ size: string; home: boolean }>`
+  position: ${(props) =>
+    props.size === "Web" && props.home === false ? "static" : "fixed"};
   top: 0;
   right: 0;
   margin: 5px;
@@ -17,13 +18,19 @@ const Select = styled.select`
 const Option = styled.option`
   font-size: 15px;
   font-weight: bold;
+  background-color: ${(props) => props.theme.bgColr};
 `;
 const LangSelec = styled(Select)`
   background-color: transparent;
   font-family: "MonoplexKR-Regular";
 `;
 
-export const LangSelect: React.ReactElement = (fixed) => {
+type Interface = {
+  home: boolean;
+  size?: string;
+};
+
+export const LangSelect: React.FC<Interface> = ({ home, size = "Web" }) => {
   const setLang = useSetRecoilState(langState);
   const handleChange = (event: any) => {
     const lang = event?.target.value;
@@ -31,7 +38,7 @@ export const LangSelect: React.ReactElement = (fixed) => {
     setLang(lang);
   };
   return (
-    <LangSel>
+    <LangSel home={home} size={size}>
       <LangSelec onChange={handleChange}>
         <Option value="ko">한국어</Option>
         <Option value="en">ENGLISH</Option>
