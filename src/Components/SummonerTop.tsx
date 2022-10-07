@@ -1,6 +1,7 @@
 import React from "react";
+import { useQuery } from "react-query";
 import styled from "styled-components";
-import { userInterface } from "../util/api";
+import { getRank, rankInterface, userInterface } from "../util/api";
 
 const Box = styled.div`
   width: 98%;
@@ -64,6 +65,17 @@ type IUser = {
 };
 
 export const SummonerTop: React.FC<IUser> = ({ userData }) => {
+  const { data: rankData, isLoading: rankLoading } = useQuery<rankInterface>(
+    ["rankData"],
+    () => getRank(userData.id)
+  );
+  const soloRank = rankData?.find(
+    (rank) => rank.queueType === "RANKED_SOLO_5x5"
+  );
+  const teamRank = rankData?.find(
+    (rank) => rank.queueType === "RANKED_FLEX_SR"
+  );
+  console.log(soloRank);
   return (
     <Box>
       <WrapperColOne>
@@ -78,7 +90,7 @@ export const SummonerTop: React.FC<IUser> = ({ userData }) => {
           <Reload>전적 갱신</Reload>
         </NameBox>
       </WrapperColOne>
-      <WrapperColtwo></WrapperColtwo>
+      {rankLoading ? <></> : <WrapperColtwo></WrapperColtwo>}
     </Box>
   );
 };

@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { InputForm } from "../Components/InputForm";
 import { LangSelect } from "../Components/LangSelect";
 import { TitleCompo } from "../Components/TitleCompo";
-import { getPuuid, getRank, userInterface } from "../util/api";
+import { getPuuid, userInterface } from "../util/api";
 import { langState, resizeState, serverState } from "../util/atom";
 import { SummonerTop } from "../Components/SummonerTop";
 
@@ -43,10 +43,6 @@ export const Summoner = () => {
   const { data: userData, isLoading } = useQuery<userInterface>(
     ["userData"],
     () => getPuuid(server, username)
-  );
-  const { data: rankData, isLoading: rankLoading } = useQuery(
-    ["rankData"],
-    () => getRank(userData?.id)
   );
   useEffect(() => {
     const savedUser = localStorage.getItem("username");
