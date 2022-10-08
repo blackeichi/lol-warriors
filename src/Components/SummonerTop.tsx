@@ -63,6 +63,11 @@ const WrapperColtwo = styled.div``;
 type IUser = {
   userData: userInterface;
 };
+const icons = {
+  BRONZE: "bronze",
+  SILVER: "silver",
+  GOLD: "gold",
+};
 
 export const SummonerTop: React.FC<IUser> = ({ userData }) => {
   const { data: rankData, isLoading: rankLoading } = useQuery<rankInterface>(
@@ -90,7 +95,20 @@ export const SummonerTop: React.FC<IUser> = ({ userData }) => {
           <Reload>전적 갱신</Reload>
         </NameBox>
       </WrapperColOne>
-      {rankLoading ? <></> : <WrapperColtwo></WrapperColtwo>}
+      {rankLoading ? (
+        <></>
+      ) : (
+        <WrapperColtwo>
+          {soloRank && (
+            <img
+              style={{ width: "100px", height: "100px" }}
+              src="img/bronze.png"
+              //src={`img/${icons["GOLD"]}.png`}
+              alt="Tier"
+            />
+          )}
+        </WrapperColtwo>
+      )}
     </Box>
   );
 };
