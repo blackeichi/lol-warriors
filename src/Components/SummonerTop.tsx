@@ -60,13 +60,25 @@ const Reload = styled.h1`
 
 const WrapperColtwo = styled.div``;
 
+const Img = styled.img`
+  width: 100px;
+  height: 100px;
+`;
+
 type IUser = {
   userData: userInterface;
 };
-const icons = {
+type Iicon = {
+  [index: string]: string;
+};
+const icons: Iicon = {
   BRONZE: "bronze",
   SILVER: "silver",
   GOLD: "gold",
+  PLATINUM: "platinum",
+  DIAMOND: "diamond",
+  MASTER: "master",
+  CHALLENGER: "challenger",
 };
 
 export const SummonerTop: React.FC<IUser> = ({ userData }) => {
@@ -80,7 +92,7 @@ export const SummonerTop: React.FC<IUser> = ({ userData }) => {
   const teamRank = rankData?.find(
     (rank) => rank.queueType === "RANKED_FLEX_SR"
   );
-  console.log(soloRank);
+  console.log(teamRank);
   return (
     <Box>
       <WrapperColOne>
@@ -99,11 +111,26 @@ export const SummonerTop: React.FC<IUser> = ({ userData }) => {
         <></>
       ) : (
         <WrapperColtwo>
-          {soloRank && (
-            <img
-              style={{ width: "100px", height: "100px" }}
-              src="img/bronze.png"
-              //src={`img/${icons["GOLD"]}.png`}
+          <></>
+          {soloRank ? (
+            <Img
+              src={`${process.env.PUBLIC_URL}/img/${icons[soloRank.tier]}.png`}
+              alt="Tier"
+            />
+          ) : (
+            <Img
+              src={`${process.env.PUBLIC_URL}/img/provisional.png`}
+              alt="Tier"
+            />
+          )}
+          {teamRank ? (
+            <Img
+              src={`${process.env.PUBLIC_URL}/img/${icons[teamRank.tier]}.png`}
+              alt="Tier"
+            />
+          ) : (
+            <Img
+              src={`${process.env.PUBLIC_URL}/img/provisional.png`}
               alt="Tier"
             />
           )}
