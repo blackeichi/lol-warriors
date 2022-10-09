@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useQuery } from "react-query";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { InputForm } from "../Components/InputForm";
@@ -20,7 +20,7 @@ const Header = styled.div<{ size: string }>`
   background-color: ${(props) => props.theme.bgColr};
   width: 100%;
   display: flex;
-  flex-direction: ${(props) => (props.size === "Web" ? "row" : "column")};
+  flex-direction: ${(props) => (props.size !== "Mobile" ? "row" : "column")};
   justify-content: space-between;
   align-items: center;
   padding: 20px;
@@ -34,16 +34,18 @@ const Box = styled.div`
 let getUser: any[] = [];
 
 export const Summoner = () => {
+  const navigate = useNavigate();
   const size = useRecoilValue(resizeState);
   const server = useRecoilValue(serverState);
   const location = useLocation();
   const username = new URLSearchParams(location.search).get(
     "username"
   ) as string;
-  const { data: userData, isLoading } = useQuery<userInterface>(
-    ["userData"],
-    () => getPuuid(server, username)
-  );
+  const {
+    data: userData,
+    isLoading,
+    refetch,
+  } = useQuery<userInterface>(["userData"], () => getPuuid(server, username));
   useEffect(() => {
     const savedUser = localStorage.getItem("username");
     if (savedUser !== null) {
@@ -64,6 +66,9 @@ export const Summoner = () => {
       localStorage.setItem("username", JSON.stringify(getUser));
     }
   });
+  useEffect(() => {
+    refetch();
+  }, [username]);
   const lang = useRecoilValue(langState);
   return (
     <Container>
@@ -74,7 +79,7 @@ export const Summoner = () => {
           <LangSelect size={size} home={false} />
         </Box>
       </Header>
-      {userData ? <SummonerTop userData={userData} /> : <></>}
+      {userData ? <SummonerTop userData={userData} /> : <h1>Loading..</h1>}
     </Container>
   );
 };

@@ -2,11 +2,11 @@ import { atom } from "recoil";
 
 export const resizeState = atom({
   key: "resize",
-  default: "Web" || "Mobile",
+  default: "Web" || "Mid" || "Mobile",
 });
 export const langState = atom({
   key: "lang",
-  default: "ko",
+  default: "ko" || "en" || "jp",
 });
 export const serverState = atom({
   key: "server",

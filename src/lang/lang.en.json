@@ -1,5 +1,5 @@
 {
-  "inputPlaceholder": "YOUR SUMMONER NAME...",
+  "inputPlaceholder": "SUMMONER NAME...",
   "update": "Update",
   "soloRank": "RANKED SOLO",
   "flexRank": "RANKED FLEX",
@@ -12,8 +12,9 @@
   "wrTeam": "WR BY TEAM",
   "wrLength": "WR BY GAME LAENGTH",
   "games": "G",
-  "wins": "WIN",
-  "losses": "LOS",
+  "wins": "W",
+  "losses": "L",
   "graph": "GRAPH",
-  "stats": "STATS"
+  "stats": "STATS",
+  "rate": "W-R"
 }

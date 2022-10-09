@@ -1,28 +1,39 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { getRank, rankInterface, userInterface } from "../util/api";
+import { resizeState } from "../util/atom";
 
-const Box = styled.div`
+const Box = styled.div<{ size: string }>`
   width: 98%;
-  max-width: 900px;
-  background-color: ${(props) => props.theme.grayColr};
+  max-width: 980px;
+  background-color: ${(props) =>
+    props.size !== "Web" ? "white" : props.theme.grayColr};
   border-radius: 10px;
   padding: 40px;
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  border: ${(props) =>
+    props.size !== "Web" ? "none" : "1px solid rgba(0, 0, 0, 0.2)"};
   display: flex;
+  flex-direction: ${(props) => (props.size !== "Web" ? "column" : "row")};
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  box-sizing: border-box;
+  gap: ${(props) => (props.size !== "Web" ? "50px" : "0")};
 `;
 const WrapperColOne = styled.div`
   display: flex;
   align-items: center;
   gap: 10px;
 `;
-const IconBox = styled.div`
+const IconBox = styled.div<{ size: string }>`
   position: relative;
   display: flex;
   justify-content: center;
-  width: 120px;
-  height: 120px;
+  width: ${(props) => (props.size !== "Mobile" ? "120px" : "25vw")};
+  height: ${(props) => (props.size !== "Mobile" ? "120px" : "25vw")};
 `;
 
 const Icon = styled.img`
@@ -39,15 +50,17 @@ const Level = styled.h1`
   border-radius: 15px;
   font-family: "HBIOS-SYS";
 `;
-const NameBox = styled.div`
+const NameBox = styled.div<{ size: string }>`
   display: flex;
-  align-items: center;
-  gap: 5px;
+  align-items: ${(props) =>
+    props.size !== "Mobile" ? "center" : "flex-start"};
+  gap: 10px;
+  flex-direction: ${(props) => (props.size !== "Mobile" ? "row" : "column")};
 `;
-const Name = styled.h1`
+const Name = styled.h1<{ size: string }>`
   font-weight: bold;
   font-family: "MonoplexKR-Regular";
-  font-size: 25px;
+  font-size: ${(props) => (props.size !== "Mobile" ? "25px" : "7vw")};
 `;
 const Reload = styled.h1`
   padding: 10px;
@@ -58,11 +71,55 @@ const Reload = styled.h1`
   cursor: pointer;
 `;
 
-const WrapperColtwo = styled.div``;
+const WrapperColtwo = styled.div<{ size: string }>`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  background-color: ${(props) =>
+    props.size !== "Web" ? props.theme.grayColr : "transparent"};
+  width: ${(props) => (props.size !== "Web" ? "95vw" : "50%")};
+  padding: ${(props) => (props.size !== "Web" ? "30px 0" : "0")};
+  border: ${(props) =>
+    props.size !== "Web" ? "1px solid rgba(0, 0, 0, 0.2)" : "none"};
+  border-radius: 10px;
+`;
 
-const Img = styled.img`
-  width: 100px;
-  height: 100px;
+const TierBox = styled.div`
+  display: flex;
+  box-sizing: border-box;
+  align-items: center;
+`;
+
+const Img = styled.img<{ size: string }>`
+  width: ${(props) => (props.size !== "Mobile" ? "100px" : "20vw")};
+  height: ${(props) => (props.size !== "Mobile" ? "100px" : "20vw")};
+`;
+
+const TierInfo = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+  font-family: "MonoplexKR-Regular";
+`;
+
+const TierTitle = styled.h1`
+  font-size: 12px;
+  font-weight: bold;
+  color: darkgray;
+`;
+const Rank = styled.h1<{ tier?: string | undefined }>`
+  color: ${(props) => (props.tier === undefined ? "darkgray" : "black")};
+  font-weight: bold;
+  font-size: 18px;
+`;
+const WinInfo = styled.h2`
+  font-size: 13px;
+  color: ${(props) => props.theme.darkGray};
+`;
+const InfoBox = styled.div`
+  display: flex;
+  gap: 5px;
 `;
 
 type IUser = {
@@ -72,68 +129,103 @@ type Iicon = {
   [index: string]: string;
 };
 const icons: Iicon = {
+  IRON: "iron",
   BRONZE: "bronze",
   SILVER: "silver",
   GOLD: "gold",
   PLATINUM: "platinum",
   DIAMOND: "diamond",
   MASTER: "master",
+  GRANDMASTER: "grandmaster",
   CHALLENGER: "challenger",
 };
 
 export const SummonerTop: React.FC<IUser> = ({ userData }) => {
-  const { data: rankData, isLoading: rankLoading } = useQuery<rankInterface>(
-    ["rankData"],
-    () => getRank(userData.id)
-  );
+  const { t } = useTranslation();
+  const {
+    data: rankData,
+    isLoading: rankLoading,
+    refetch,
+  } = useQuery<rankInterface>(["rankData"], () => getRank(userData.id));
   const soloRank = rankData?.find(
     (rank) => rank.queueType === "RANKED_SOLO_5x5"
   );
   const teamRank = rankData?.find(
     (rank) => rank.queueType === "RANKED_FLEX_SR"
   );
-  console.log(teamRank);
+  const RankInfo: any = [soloRank, teamRank];
+  const size = useRecoilValue(resizeState);
+  useEffect(() => {
+    refetch();
+  }, [userData]);
   return (
-    <Box>
+    <Box size={size}>
       <WrapperColOne>
-        <IconBox>
+        <IconBox size={size}>
           <Icon
             src={`http://ddragon.leagueoflegends.com/cdn/12.19.1/img/profileicon/${userData.profileIconId}.png`}
           />
           <Level>{userData.summonerLevel}</Level>
         </IconBox>
-        <NameBox>
-          <Name>{userData.name}</Name>
-          <Reload>전적 갱신</Reload>
+        <NameBox size={size}>
+          <Name size={size}>{userData.name}</Name>
+          <Reload
+            onClick={() => {
+              window.location.reload();
+            }}
+          >
+            전적 갱신
+          </Reload>
         </NameBox>
       </WrapperColOne>
       {rankLoading ? (
         <></>
       ) : (
-        <WrapperColtwo>
-          <></>
-          {soloRank ? (
-            <Img
-              src={`${process.env.PUBLIC_URL}/img/${icons[soloRank.tier]}.png`}
-              alt="Tier"
-            />
-          ) : (
-            <Img
-              src={`${process.env.PUBLIC_URL}/img/provisional.png`}
-              alt="Tier"
-            />
-          )}
-          {teamRank ? (
-            <Img
-              src={`${process.env.PUBLIC_URL}/img/${icons[teamRank.tier]}.png`}
-              alt="Tier"
-            />
-          ) : (
-            <Img
-              src={`${process.env.PUBLIC_URL}/img/provisional.png`}
-              alt="Tier"
-            />
-          )}
+        <WrapperColtwo size={size}>
+          {RankInfo.map((info: rankInterface[0], index: number) => (
+            <TierBox key={index}>
+              <Img
+                size={size}
+                src={
+                  info
+                    ? `${process.env.PUBLIC_URL}/img/${icons[info.tier]}.png`
+                    : `${process.env.PUBLIC_URL}/img/provisional.png`
+                }
+                alt="Tier"
+              />
+              <TierInfo>
+                <TierTitle>
+                  {index === 0 ? t("soloRank") : t("flexRank")}
+                </TierTitle>
+                <InfoBox>
+                  <Rank tier={info?.tier}>{info ? info.tier : "Unranked"}</Rank>
+                  <Rank tier={info?.tier}>{info ? info.rank : ""}</Rank>
+                </InfoBox>
+                <WinInfo>{info?.leaguePoints} LP</WinInfo>
+                {info && (
+                  <>
+                    <WinInfo>
+                      {t("rate")}&nbsp;
+                      {Math.floor(
+                        (info?.wins / (info?.wins + info?.losses)) * 100
+                      )}
+                      %
+                    </WinInfo>
+                    <InfoBox>
+                      <WinInfo>
+                        {info?.wins}
+                        {t("wins")}
+                      </WinInfo>
+                      <WinInfo>
+                        {info?.losses}
+                        {t("losses")}
+                      </WinInfo>
+                    </InfoBox>
+                  </>
+                )}
+              </TierInfo>
+            </TierBox>
+          ))}
         </WrapperColtwo>
       )}
     </Box>

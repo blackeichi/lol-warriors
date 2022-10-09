@@ -12,8 +12,9 @@
   "wrTeam": "チーム別勝率",
   "wrLength": "ゲームの長さによる勝率",
   "games": "ゲーム",
-  "wins": "勝利する",
-  "losses": "損失",
+  "wins": "勝",
+  "losses": "敗",
   "graph": "グラフ",
-  "stats": "統計"
+  "stats": "統計",
+  "rate": "勝率"
 }

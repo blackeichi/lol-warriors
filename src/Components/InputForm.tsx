@@ -16,7 +16,7 @@ const FormBox = styled.div`
 `;
 const Form = styled.form<{ size: string; home: boolean }>`
   width: ${(props) =>
-    props.size === "Web" ? (props.home ? "500px" : "300px") : "90vw"};
+    props.size !== "Mobile" ? (props.home ? "500px" : "300px") : "90vw"};
   display: flex;
   align-items: center;
 `;
@@ -69,7 +69,7 @@ const LOL = styled.h1`
   font-size: 25px;
 `;
 const AutoBox = styled.div<{ size: string; home: boolean }>`
-  width: ${(props) => (props.size === "Web" ? "100%" : "90%")};
+  width: ${(props) => (props.size !== "Mobile" ? "100%" : "90%")};
   position: absolute;
   top: ${(props) => (props.home ? "50px" : "30px")};
 `;

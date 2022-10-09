@@ -35,7 +35,7 @@ const Title = styled.h1<{ size: string; home: boolean }>`
   font-family: "HBIOS-SYS";
   color: white;
   font-size: ${(props) =>
-    props.size === "Web"
+    props.size !== "Mobile"
       ? props.home
         ? "70px"
         : "40px"
@@ -43,7 +43,7 @@ const Title = styled.h1<{ size: string; home: boolean }>`
       ? "12vw"
       : "10vw"};
   margin-bottom: ${(props) =>
-    props.home ? "40px" : props.size === "Web" ? "0" : "10px"};
+    props.home ? "40px" : props.size !== "Mobile" ? "0" : "10px"};
   cursor: pointer;
 `;
 

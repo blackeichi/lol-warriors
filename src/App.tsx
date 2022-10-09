@@ -20,10 +20,12 @@ function App() {
       setScreen(window.outerWidth);
     };
     window.addEventListener("resize", handleResize);
-    if (screen > 550) {
+    if (screen >= 980) {
       setLarge("Web");
-    } else if (screen <= 550) {
+    } else if (screen <= 650) {
       setLarge("Mobile");
+    } else {
+      setLarge("Mid");
     }
     return () => {
       window.removeEventListener("resize", handleResize);

@@ -15,5 +15,6 @@
   "wins": "승",
   "losses": "패",
   "graph": "그래프",
-  "stats": "통계"
+  "stats": "통계",
+  "rate": "승률"
 }
