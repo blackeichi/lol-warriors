@@ -157,7 +157,7 @@ export const SummonerTop: React.FC<IUser> = ({ userData }) => {
   const size = useRecoilValue(resizeState);
   useEffect(() => {
     refetch();
-  }, [userData]);
+  }, [refetch, userData]);
   return (
     <Box size={size}>
       <WrapperColOne>

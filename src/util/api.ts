@@ -38,3 +38,13 @@ export function getRank(userid: string) {
     `https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/${userid}?api_key=${API_KEY}`
   ).then((response) => response.json());
 }
+export function getMatchs(puuid: string, count: number) {
+  return fetch(
+    `https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=${count}&api_key=${API_KEY}`
+  ).then((response) => response.json());
+}
+export function getGames(matchId: string) {
+  return fetch(
+    `https://asia.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${API_KEY}`
+  ).then((response) => response.json());
+}

@@ -1,14 +1,15 @@
 import { useEffect } from "react";
 import { useQuery } from "react-query";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { InputForm } from "../Components/InputForm";
 import { LangSelect } from "../Components/LangSelect";
 import { TitleCompo } from "../Components/TitleCompo";
 import { getPuuid, userInterface } from "../util/api";
-import { langState, resizeState, serverState } from "../util/atom";
+import { resizeState, serverState } from "../util/atom";
 import { SummonerTop } from "../Components/SummonerTop";
+import { SummonerBot } from "../Components/SummonerBot";
 
 const Container = styled.div`
   display: flex;
@@ -34,18 +35,16 @@ const Box = styled.div`
 let getUser: any[] = [];
 
 export const Summoner = () => {
-  const navigate = useNavigate();
   const size = useRecoilValue(resizeState);
   const server = useRecoilValue(serverState);
   const location = useLocation();
   const username = new URLSearchParams(location.search).get(
     "username"
   ) as string;
-  const {
-    data: userData,
-    isLoading,
-    refetch,
-  } = useQuery<userInterface>(["userData"], () => getPuuid(server, username));
+  const { data: userData, refetch } = useQuery<userInterface>(
+    ["userData"],
+    () => getPuuid(server, username)
+  );
   useEffect(() => {
     const savedUser = localStorage.getItem("username");
     if (savedUser !== null) {
@@ -68,8 +67,7 @@ export const Summoner = () => {
   });
   useEffect(() => {
     refetch();
-  }, [username]);
-  const lang = useRecoilValue(langState);
+  }, [refetch, username]);
   return (
     <Container>
       <Header size={size}>
@@ -79,7 +77,14 @@ export const Summoner = () => {
           <LangSelect size={size} home={false} />
         </Box>
       </Header>
-      {userData ? <SummonerTop userData={userData} /> : <h1>Loading..</h1>}
+      {userData ? (
+        <>
+          <SummonerTop userData={userData} />
+          <SummonerBot puuid={userData?.puuid} />
+        </>
+      ) : (
+        <h1>Loading..</h1>
+      )}
     </Container>
   );
 };

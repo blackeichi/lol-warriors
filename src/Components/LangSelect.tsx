@@ -37,19 +37,12 @@ export const LangSelect: React.FC<Interface> = ({ home, size = "Web" }) => {
     i18next.changeLanguage(lang);
     setLang(lang);
   };
-  console.log(lang);
   return (
     <LangSel home={home} size={size}>
-      <LangSelec onChange={handleChange}>
-        <Option value="ko" selected={lang === "ko" && true}>
-          한국어
-        </Option>
-        <Option value="en" selected={lang === "en" && true}>
-          ENGLISH
-        </Option>
-        <Option value="jp" selected={lang === "jp" && true}>
-          日本語
-        </Option>
+      <LangSelec defaultValue={lang} onChange={handleChange}>
+        <Option value="ko">한국어</Option>
+        <Option value="en">ENGLISH</Option>
+        <Option value="jp">日本語</Option>
       </LangSelec>
     </LangSel>
   );
