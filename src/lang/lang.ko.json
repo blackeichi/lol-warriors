@@ -6,9 +6,9 @@
   "victory": "승리",
   "defeat": "패배",
   "aram": "칼바람",
-  "norm": "노말",
-  "solo": "솔로랭크",
-  "flex": "자유랭크",
+  "norm": "일반",
+  "solo": "솔랭",
+  "flex": "자유 5:5 랭크",
   "wrTeam": "팀별승률",
   "wrLength": "게임시간 별 승률",
   "games": "전",
@@ -16,5 +16,9 @@
   "losses": "패",
   "graph": "그래프",
   "stats": "통계",
-  "rate": "승률"
+  "rate": "승률",
+  "daysago": "일 전",
+  "montsago": "월 전",
+  "minute": "분",
+  "second": "초"
 }

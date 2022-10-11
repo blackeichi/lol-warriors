@@ -1,14 +1,14 @@
 {
   "inputPlaceholder": "召喚士名...",
-  "update": "アップデート.",
+  "update": "完全更新",
   "soloRank": "単独ランキング",
   "flexRank": "チームランク",
   "victory": "勝利",
   "defeat": "敗退",
-  "aram": "ひどい風.",
-  "norm": "名目上の",
-  "solo": "独奏",
-  "flex": "チームランク",
+  "aram": "ランダムミッド",
+  "norm": "ノーマル",
+  "solo": "ソロランク",
+  "flex": "Flex 5:5 Rank",
   "wrTeam": "チーム別勝率",
   "wrLength": "ゲームの長さによる勝率",
   "games": "ゲーム",
@@ -16,5 +16,9 @@
   "losses": "敗",
   "graph": "グラフ",
   "stats": "統計",
-  "rate": "勝率"
+  "rate": "勝率",
+  "daysago": "days ago",
+  "montsago": "month ago",
+  "minute": "分",
+  "second": "秒"
 }

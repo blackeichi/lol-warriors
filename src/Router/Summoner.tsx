@@ -15,6 +15,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100vw;
 `;
 
 const Header = styled.div<{ size: string }>`
@@ -80,7 +81,7 @@ export const Summoner = () => {
       {userData ? (
         <>
           <SummonerTop userData={userData} />
-          <SummonerBot puuid={userData?.puuid} />
+          <SummonerBot puuid={userData?.puuid} username={username} />
         </>
       ) : (
         <h1>Loading..</h1>

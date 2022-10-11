@@ -27,6 +27,33 @@ export type rankInterface = [
     wins: number;
   }
 ];
+export type IMatch = {
+  assists: number;
+  champLevel: number;
+  championId: number;
+  championName: string;
+  firstBloodKill: boolean;
+  firstTowerKill: boolean;
+  goldEarned: number;
+  kills: number;
+  lane: string;
+  pentaKills: number;
+  puuid: string;
+  role: string;
+  spell1Casts: number;
+  spell2Casts: number;
+  spell3Casts: number;
+  spell4Casts: number;
+  summoner1Casts: number;
+  summoner1Id: number;
+  summoner2Casts: number;
+  summoner2Id: number;
+  summonerId: string;
+  summonerLevel: number;
+  summonerName: string;
+  totalDamageDealtToChampions: number;
+  win: true;
+};
 
 export function getPuuid(server: string, id: string) {
   return fetch(
@@ -46,5 +73,10 @@ export function getMatchs(puuid: string, count: number) {
 export function getGames(matchId: string) {
   return fetch(
     `https://asia.api.riotgames.com/lol/match/v5/matches/${matchId}?api_key=${API_KEY}`
+  ).then((response) => response.json());
+}
+export function getSpell() {
+  return fetch(
+    `https://ddragon.leagueoflegends.com/cdn/12.12.1/data/ko_KR/summoner.json`
   ).then((response) => response.json());
 }

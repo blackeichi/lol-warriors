@@ -6,9 +6,9 @@
   "victory": "VICTORY",
   "defeat": "DEFEAT",
   "aram": "ARAM",
-  "norm": "NORM",
-  "solo": "R_SOLO",
-  "flex": "R_FLEX",
+  "norm": "Normal",
+  "solo": "Ranked Solo",
+  "flex": "Flex 5:5 Rank",
   "wrTeam": "WR BY TEAM",
   "wrLength": "WR BY GAME LAENGTH",
   "games": "G",
@@ -16,5 +16,9 @@
   "losses": "L",
   "graph": "GRAPH",
   "stats": "STATS",
-  "rate": "W-R"
+  "rate": "W-R",
+  "daysago": "days ago",
+  "montsago": "month ago",
+  "minute": "m",
+  "second": "s"
 }

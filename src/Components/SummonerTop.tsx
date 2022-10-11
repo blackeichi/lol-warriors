@@ -174,7 +174,7 @@ export const SummonerTop: React.FC<IUser> = ({ userData }) => {
               window.location.reload();
             }}
           >
-            전적 갱신
+            {t("update")}
           </Reload>
         </NameBox>
       </WrapperColOne>
