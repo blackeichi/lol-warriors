@@ -36,10 +36,16 @@ export type IMatch = {
   firstTowerKill: boolean;
   goldEarned: number;
   kills: number;
-  lane: string;
-  pentaKills: number;
+  individualPosition: string;
   puuid: string;
   role: string;
+  perks: {
+    styles: [
+      { selections: [{ perk: number }]; style: number },
+      { style: number }
+    ];
+  };
+
   spell1Casts: number;
   spell2Casts: number;
   spell3Casts: number;
@@ -52,6 +58,15 @@ export type IMatch = {
   summonerLevel: number;
   summonerName: string;
   totalDamageDealtToChampions: number;
+  challenges: { kda: number };
+  totalMinionsKilled: number;
+  timeCCingOthers: number;
+  visionScore: number;
+  deaths: number;
+  tripleKills: number;
+  doubleKills: number;
+  quadraKills: number;
+  pentaKills: number;
   win: true;
 };
 
@@ -77,6 +92,11 @@ export function getGames(matchId: string) {
 }
 export function getSpell() {
   return fetch(
-    `https://ddragon.leagueoflegends.com/cdn/12.12.1/data/ko_KR/summoner.json`
+    `https://ddragon.leagueoflegends.com/cdn/12.19.1/data/ko_KR/summoner.json`
+  ).then((response) => response.json());
+}
+export function getRune() {
+  return fetch(
+    `https://ddragon.leagueoflegends.com/cdn/12.19.1/data/en_US/runesReforged.json`
   ).then((response) => response.json());
 }

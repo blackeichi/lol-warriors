@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
-import { getGames, getSpell, IMatch } from "../../util/api";
+import { getGames, getRune, getSpell, IMatch } from "../../util/api";
 import { useTranslation } from "react-i18next";
 import { t } from "i18next";
 
@@ -48,7 +48,10 @@ const BoldData = styled.h1`
   font-size: 13px;
   font-weight: bold;
 `;
-const ChampInfo = styled.div``;
+const ChampInfo = styled.div`
+  display: flex;
+  align-items: center;
+`;
 const ChampBox = styled.div`
   position: relative;
 `;
@@ -68,10 +71,30 @@ const Level = styled.h1`
   font-size: 12px;
   font-weight: bold;
 `;
-const SpellBox = styled.div``;
-const Spell = styled.img``;
-const RoonBox = styled.div``;
-const Roon = styled.img``;
+const SpellBox = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+const Spell = styled.img`
+  width: 30px;
+  height: 30px;
+  border-radius: 5px;
+`;
+const RuneBox = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+const Rune = styled.img`
+  width: 30px;
+  height: 30px;
+`;
+const KDABox = styled.div``;
+const KDATotal = styled.div``;
+const KDA = styled.div``;
+const ItemBox = styled.div``;
+const Items = styled.div``;
+const AceH1 = styled.h1``;
+
 type Idata = {
   data: string;
   username: string;
@@ -85,16 +108,18 @@ const queType: Ique = {
   430: t("norm"),
   440: t("flex"),
   450: t("aram"),
+  1900: "Event Game",
 };
 
 export const Match: React.FC<Idata> = ({ data, username }) => {
   const { t } = useTranslation();
   const { data: gameData, refetch } = useQuery([data], () => getGames(data));
   const { data: spellData } = useQuery(["spellData"], getSpell);
-
+  const { data: runeData } = useQuery(["runeData"], getRune);
   const Me: IMatch = gameData?.info.participants.find(
     (user: any) => user.summonerName === username
   );
+  //-----getDate
   const date = new Date(gameData?.info.gameCreation);
   const today = new Date();
   let days = Math.floor(
@@ -107,10 +132,46 @@ export const Match: React.FC<Idata> = ({ data, username }) => {
     );
     daysW = t("montsago");
   }
+  //-----getTime
   const time = Math.floor(gameData?.info.gameDuration / 60);
-  const spell = Object.entries(spellData?.data);
-  const test = spell.find((da: any) => da[1].key === String(Me?.summoner1Id));
-  console.log(test?.[0]);
+  //-----getSpell
+  let spell1;
+  let spell2;
+  if (spellData) {
+    spell1 = Object.entries(spellData.data).find(
+      (da: any) => da[1].key === String(Me?.summoner1Id)
+    );
+    spell2 = Object.entries(spellData.data).find(
+      (da: any) => da[1].key === String(Me?.summoner2Id)
+    );
+  }
+  //-----getRune
+  let Rune1;
+  let Rune2;
+  if (runeData) {
+    const Primar = runeData?.find(
+      (da: any) => da.id === Me?.perks.styles[0].style
+    );
+    Rune1 = Primar?.slots[0].runes.find(
+      (da: any) => da.id === Me?.perks.styles[0].selections[0].perk
+    );
+    Rune2 = runeData?.find((da: any) => da.id === Me?.perks.styles[1].style);
+  }
+  //-----getMyteamScore
+  const Myteam = gameData?.info.teams.find((da: any) => da.win === Me?.win);
+  const myKillRate =
+    ((Me?.kills + Me?.assists) / Myteam?.objectives?.champion?.kills) * 100;
+  //-----getAce
+  let Ace;
+  if (Me?.pentaKills > 1) {
+    Ace = "펜타킬";
+  } else if (Me?.quadraKills > 1) {
+    Ace = "쿼드라킬";
+  } else if (Me?.tripleKills > 1) {
+    Ace = "트리플킬";
+  } else if (Me?.doubleKills > 1) {
+    Ace = "더블킬";
+  }
   return (
     <>
       {Me && (
@@ -136,23 +197,53 @@ export const Match: React.FC<Idata> = ({ data, username }) => {
               <ChampBox>
                 <Champ
                   id={data}
-                  src={`https://ddragon.leagueoflegends.com/cdn/10.6.1/img/champion/${Me.championName}.png`}
+                  src={`https://ddragon.leagueoflegends.com/cdn/12.19.1/img/champion/${Me.championName}.png`}
                 />
                 <Level>{Me.champLevel}</Level>
               </ChampBox>
-              <Data>{Me.summoner1Id}</Data>
-              <Data>{Me.summoner2Id}</Data>
               <SpellBox>
                 <Spell
-                  src={`https://ddragon.leagueoflegends.com/cdn/10.6.1/img/spell/${test?.[0]}.png`}
+                  src={`https://ddragon.leagueoflegends.com/cdn/12.19.1/img/spell/${spell1?.[0]}.png`}
                 />
-                <Spell />
+                <Spell
+                  src={`https://ddragon.leagueoflegends.com/cdn/12.19.1/img/spell/${spell2?.[0]}.png`}
+                />
               </SpellBox>
-              <RoonBox>
-                <Roon />
-                <Roon />
-              </RoonBox>
+              <RuneBox>
+                <Rune
+                  style={{ backgroundColor: "black", borderRadius: "50%" }}
+                  src={`https://ddragon.leagueoflegends.com/cdn/img/${Rune1?.icon}`}
+                />
+                <Rune
+                  src={`https://ddragon.leagueoflegends.com/cdn/img/${Rune2?.icon}`}
+                />
+              </RuneBox>
             </ChampInfo>
+            <KDABox>
+              <KDATotal>
+                <KDA>{Me?.kills}</KDA>
+                <KDA>{Me?.deaths}</KDA>
+                <KDA>{Me?.assists}</KDA>
+              </KDATotal>
+              <BoldData>{Me?.challenges?.kda.toFixed(1)}</BoldData>
+              <BoldData></BoldData>
+            </KDABox>
+            <ItemBox>
+              <Items></Items>
+              <BoldData>
+                CS : {Me?.totalMinionsKilled} (
+                {(Me?.totalMinionsKilled / time).toFixed(1)})
+              </BoldData>
+              <BoldData>킬관여 : {Math.floor(myKillRate)}%</BoldData>
+              <BoldData>시야점수 : {Math.floor(Me.visionScore)}</BoldData>
+              <BoldData>Gold : {Me.goldEarned}</BoldData>
+              <BoldData>{Me.firstBloodKill && "First Kill"}</BoldData>
+              <BoldData>{Me.firstTowerKill && "First Tower Kill"}</BoldData>
+              <BoldData>
+                {Me?.individualPosition !== "Invalid" && Me?.individualPosition}
+              </BoldData>
+              <AceH1>{Ace}</AceH1>
+            </ItemBox>
           </Box>
         </Container>
       )}

@@ -64,14 +64,18 @@ select {
 	outline : none;
 }
 `;
-const client = new QueryClient();
+const client = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 root.render(
-  <React.StrictMode>
+  <QueryClientProvider client={client}>
     <Global />
-    <QueryClientProvider client={client}>
-      <RecoilRoot>
-        <App />
-      </RecoilRoot>
-    </QueryClientProvider>
-  </React.StrictMode>
+    <RecoilRoot>
+      <App />
+    </RecoilRoot>
+  </QueryClientProvider>
 );

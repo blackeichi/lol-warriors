@@ -515,7 +515,67 @@ pentaKills
 0
 perks
 : 
-{statPerks: {…}, styles: Array(2)}
+    styles
+    : 
+    Array(2)
+        0
+        : 
+            description
+            : 
+            "primaryStyle"
+            selections
+            : 
+            Array(4)
+                0
+                : 
+                {perk: 8008, var1: 17, var2: 1, var3: 0}
+                1
+                : 
+                {perk: 8009, var1: 958, var2: 0, var3: 0}
+                2
+                : 
+                {perk: 9103, var1: 28, var2: 10, var3: 0}
+                3
+                : 
+                {perk: 8014, var1: 212, var2: 0, var3: 0}
+                length
+                : 
+                4
+            style
+            : 
+            8000
+        1
+        : 
+            description
+            : 
+            "subStyle"
+            selections
+            : 
+            Array(2)
+                0
+                : 
+                {perk: 8135, var1: 400, var2: 4, var3: 0}
+                1
+                : 
+                {perk: 8139, var1: 699, var2: 0, var3: 0}
+                length
+                : 
+                2
+            style
+            : 
+            8100
+[[Prototype]]
+: 
+Object
+length
+: 
+2
+[[Prototype]]
+: 
+Array(0)
+[[Prototype]]
+: 
+Object
 physicalDamageDealt
 : 
 158770
@@ -590,6 +650,7 @@ teamPosition
 "BOTTOM"
 timeCCingOthers
 : 
+/point/
 35
 timePlayed
 : 
@@ -649,6 +710,7 @@ unrealKills
 : 
 0
 visionScore
+/point/
 : 
 26
 visionWardsBoughtInGame
