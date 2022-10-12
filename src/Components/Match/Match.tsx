@@ -93,6 +93,7 @@ const KDATotal = styled.div``;
 const KDA = styled.div``;
 const ItemBox = styled.div``;
 const Items = styled.div``;
+const Item = styled.img``;
 const AceH1 = styled.h1``;
 
 type Idata = {
@@ -163,15 +164,29 @@ export const Match: React.FC<Idata> = ({ data, username }) => {
     ((Me?.kills + Me?.assists) / Myteam?.objectives?.champion?.kills) * 100;
   //-----getAce
   let Ace;
-  if (Me?.pentaKills > 1) {
+  if (Me?.pentaKills > 0) {
     Ace = "펜타킬";
-  } else if (Me?.quadraKills > 1) {
+  } else if (Me?.quadraKills > 0) {
     Ace = "쿼드라킬";
-  } else if (Me?.tripleKills > 1) {
+  } else if (Me?.tripleKills > 0) {
     Ace = "트리플킬";
-  } else if (Me?.doubleKills > 1) {
+  } else if (Me?.doubleKills > 0) {
     Ace = "더블킬";
   }
+  //-----getItem
+  let items;
+  if (Me) {
+    items = [
+      Me.item0,
+      Me.item1,
+      Me.item2,
+      Me.item3,
+      Me.item4,
+      Me.item5,
+      Me.item6,
+    ];
+  }
+
   return (
     <>
       {Me && (
@@ -229,7 +244,13 @@ export const Match: React.FC<Idata> = ({ data, username }) => {
               <BoldData></BoldData>
             </KDABox>
             <ItemBox>
-              <Items></Items>
+              <Items>
+                {items?.map((item) => (
+                  <Item
+                    src={`https://ddragon.leagueoflegends.com/cdn/12.19.1/img/item/${item}.png`}
+                  />
+                ))}
+              </Items>
               <BoldData>
                 CS : {Me?.totalMinionsKilled} (
                 {(Me?.totalMinionsKilled / time).toFixed(1)})
@@ -242,6 +263,7 @@ export const Match: React.FC<Idata> = ({ data, username }) => {
               <BoldData>
                 {Me?.individualPosition !== "Invalid" && Me?.individualPosition}
               </BoldData>
+              <BoldData>{Me?.tripleKills}</BoldData>
               <AceH1>{Ace}</AceH1>
             </ItemBox>
           </Box>
