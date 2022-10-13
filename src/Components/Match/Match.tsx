@@ -4,9 +4,12 @@ import styled from "styled-components";
 import { getGames, getRune, getSpell, IMatch } from "../../util/api";
 import { useTranslation } from "react-i18next";
 import { t } from "i18next";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCoins } from "@fortawesome/free-solid-svg-icons";
 
 const Container = styled.div`
   display: flex;
+  font-family: "MonoplexKR-Regular";
 `;
 
 const Overlay = styled.div<{ win: boolean }>`
@@ -26,13 +29,17 @@ const Box = styled.div<{ win: boolean }>`
   display: flex;
   align-items: center;
   padding: 10px;
+  justify-content: space-between;
+`;
+const LeftBox = styled.div`
+  display: flex;
 `;
 
 const GameInfo = styled.div`
-  font-family: "MonoplexKR-Regular";
   display: flex;
   flex-direction: column;
   gap: 5px;
+  width: 120px;
 `;
 const Gamemode = styled.h1<{ win: boolean }>`
   color: ${(props) => (props.win ? props.theme.blueColr : props.theme.redColr)};
@@ -51,6 +58,7 @@ const BoldData = styled.h1`
 const ChampInfo = styled.div`
   display: flex;
   align-items: center;
+  gap: 5px;
 `;
 const ChampBox = styled.div`
   position: relative;
@@ -71,7 +79,7 @@ const Level = styled.h1`
   font-size: 12px;
   font-weight: bold;
 `;
-const SpellBox = styled.div`
+const ColBox = styled.div`
   display: flex;
   flex-direction: column;
 `;
@@ -80,21 +88,46 @@ const Spell = styled.img`
   height: 30px;
   border-radius: 5px;
 `;
-const RuneBox = styled.div`
+const Rune = styled.img`
+  width: 25px;
+  height: 25px;
+`;
+const KDABox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+`;
+const RowBox = styled.div`
+  display: flex;
+  gap: 8px;
+`;
+const SpaceBox = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+`;
+const KDA = styled.div`
+  font-weight: bold;
+  font-size: 20px;
+`;
+const ItemBox = styled.div`
   display: flex;
   flex-direction: column;
 `;
-const Rune = styled.img`
+const Items = styled.div``;
+const Item = styled.img`
+  background-color: black;
   width: 30px;
   height: 30px;
 `;
-const KDABox = styled.div``;
-const KDATotal = styled.div``;
-const KDA = styled.div``;
-const ItemBox = styled.div``;
-const Items = styled.div``;
-const Item = styled.img``;
-const AceH1 = styled.h1``;
+const AceH1 = styled.h1`
+  font-size: 14px;
+  background-color: ${(props) => props.theme.redColr};
+  color: white;
+  padding: 7px;
+  border-radius: 20px;
+`;
 
 type Idata = {
   data: string;
@@ -103,6 +136,9 @@ type Idata = {
 type Ique = {
   [index: number]: string;
 };
+type IPosi = {
+  [index: string]: string;
+};
 const queType: Ique = {
   400: t("norm"),
   420: t("solo"),
@@ -110,6 +146,14 @@ const queType: Ique = {
   440: t("flex"),
   450: t("aram"),
   1900: "Event Game",
+};
+const positionType: IPosi = {
+  BOTTOM: t("bot"),
+  UTILITY: t("sup"),
+  Invalid: t("Invalid"),
+  TOP: t("top"),
+  JUNGLE: t("jung"),
+  MIDDLE: t("mid"),
 };
 
 export const Match: React.FC<Idata> = ({ data, username }) => {
@@ -163,7 +207,7 @@ export const Match: React.FC<Idata> = ({ data, username }) => {
   const myKillRate =
     ((Me?.kills + Me?.assists) / Myteam?.objectives?.champion?.kills) * 100;
   //-----getAce
-  let Ace;
+  let Ace = "";
   if (Me?.pentaKills > 0) {
     Ace = "펜타킬";
   } else if (Me?.quadraKills > 0) {
@@ -193,78 +237,100 @@ export const Match: React.FC<Idata> = ({ data, username }) => {
         <Container>
           <Overlay win={Me.win} />
           <Box win={Me.win}>
-            <GameInfo>
-              <Gamemode win={Me.win}>
-                {queType[gameData?.info.queueId]}
-              </Gamemode>
-              <Data>
-                {days}
-                {daysW}
-              </Data>
-              <BoldData>{Me.win ? t("victory") : t("defeat")}</BoldData>
-              <Data>
-                {time + t("minute")}&nbsp;
-                {Math.floor(gameData?.info.gameDuration - time * 60) +
-                  t("second")}
-              </Data>
-            </GameInfo>
-            <ChampInfo>
-              <ChampBox>
-                <Champ
-                  id={data}
-                  src={`https://ddragon.leagueoflegends.com/cdn/12.19.1/img/champion/${Me.championName}.png`}
-                />
-                <Level>{Me.champLevel}</Level>
-              </ChampBox>
-              <SpellBox>
-                <Spell
-                  src={`https://ddragon.leagueoflegends.com/cdn/12.19.1/img/spell/${spell1?.[0]}.png`}
-                />
-                <Spell
-                  src={`https://ddragon.leagueoflegends.com/cdn/12.19.1/img/spell/${spell2?.[0]}.png`}
-                />
-              </SpellBox>
-              <RuneBox>
-                <Rune
-                  style={{ backgroundColor: "black", borderRadius: "50%" }}
-                  src={`https://ddragon.leagueoflegends.com/cdn/img/${Rune1?.icon}`}
-                />
-                <Rune
-                  src={`https://ddragon.leagueoflegends.com/cdn/img/${Rune2?.icon}`}
-                />
-              </RuneBox>
-            </ChampInfo>
+            <LeftBox>
+              <GameInfo>
+                <Gamemode win={Me.win}>
+                  {queType[gameData?.info.queueId]}
+                </Gamemode>
+                <Data>
+                  {days}
+                  {daysW}
+                </Data>
+                <BoldData>{Me.win ? t("victory") : t("defeat")}</BoldData>
+                <Data>
+                  {time + t("minute")}&nbsp;
+                  {Math.floor(gameData?.info.gameDuration - time * 60) +
+                    t("second")}
+                </Data>
+              </GameInfo>
+              <ChampInfo>
+                <ChampBox>
+                  <Champ
+                    id={data}
+                    src={`https://ddragon.leagueoflegends.com/cdn/12.19.1/img/champion/${Me.championName}.png`}
+                  />
+                  <Level>{Me.champLevel}</Level>
+                </ChampBox>
+                <ColBox>
+                  <Spell
+                    src={`https://ddragon.leagueoflegends.com/cdn/12.19.1/img/spell/${spell1?.[0]}.png`}
+                  />
+                  <Spell
+                    src={`https://ddragon.leagueoflegends.com/cdn/12.19.1/img/spell/${spell2?.[0]}.png`}
+                  />
+                </ColBox>
+                <ColBox>
+                  <Rune
+                    style={{ backgroundColor: "black", borderRadius: "50%" }}
+                    src={`https://ddragon.leagueoflegends.com/cdn/img/${Rune1?.icon}`}
+                  />
+                  <Rune
+                    src={`https://ddragon.leagueoflegends.com/cdn/img/${Rune2?.icon}`}
+                  />
+                </ColBox>
+              </ChampInfo>
+            </LeftBox>
             <KDABox>
-              <KDATotal>
+              <RowBox>
                 <KDA>{Me?.kills}</KDA>
-                <KDA>{Me?.deaths}</KDA>
-                <KDA>{Me?.assists}</KDA>
-              </KDATotal>
-              <BoldData>{Me?.challenges?.kda.toFixed(1)}</BoldData>
-              <BoldData></BoldData>
+                <KDA>/</KDA>
+                <KDA style={{ color: "red" }}>{Me?.deaths}</KDA>
+                <KDA>/</KDA>
+                <KDA>{Me?.assists} </KDA>
+              </RowBox>
+              <RowBox>
+                <BoldData>
+                  {Me?.challenges?.kda && t("kda") + " "}
+                  {Me?.challenges?.kda.toFixed(2) + ":1 "}
+                </BoldData>
+                <BoldData style={{ color: "#9055A2" }}>
+                  킬관여 {Math.floor(myKillRate)}%
+                </BoldData>
+              </RowBox>
+              <RowBox>
+                {Ace && <AceH1>{Ace}</AceH1>}
+                {Me.firstBloodKill && <AceH1>FK</AceH1>}
+                {Me.firstTowerKill && <AceH1>FTK</AceH1>}
+              </RowBox>
             </KDABox>
             <ItemBox>
               <Items>
                 {items?.map((item) => (
-                  <Item
-                    src={`https://ddragon.leagueoflegends.com/cdn/12.19.1/img/item/${item}.png`}
-                  />
+                  <>
+                    {item ? (
+                      <Item
+                        key={item}
+                        src={`https://ddragon.leagueoflegends.com/cdn/12.19.1/img/item/${item}.png`}
+                      />
+                    ) : (
+                      <Item />
+                    )}
+                  </>
                 ))}
               </Items>
-              <BoldData>
-                CS : {Me?.totalMinionsKilled} (
-                {(Me?.totalMinionsKilled / time).toFixed(1)})
-              </BoldData>
-              <BoldData>킬관여 : {Math.floor(myKillRate)}%</BoldData>
-              <BoldData>시야점수 : {Math.floor(Me.visionScore)}</BoldData>
-              <BoldData>Gold : {Me.goldEarned}</BoldData>
-              <BoldData>{Me.firstBloodKill && "First Kill"}</BoldData>
-              <BoldData>{Me.firstTowerKill && "First Tower Kill"}</BoldData>
-              <BoldData>
-                {Me?.individualPosition !== "Invalid" && Me?.individualPosition}
-              </BoldData>
-              <BoldData>{Me?.tripleKills}</BoldData>
-              <AceH1>{Ace}</AceH1>
+              <SpaceBox>
+                <Data>
+                  CS {Me?.totalMinionsKilled} (
+                  {(Me?.totalMinionsKilled / time).toFixed(1)})
+                </Data>
+                <BoldData>
+                  <FontAwesomeIcon icon={faCoins} /> {Me.goldEarned}
+                </BoldData>
+              </SpaceBox>
+              <Data>
+                {t("position") + " : " + positionType[Me?.individualPosition]}
+              </Data>
+              <Data>{t("visionScore") + " " + Math.floor(Me.visionScore)}</Data>
             </ItemBox>
           </Box>
         </Container>

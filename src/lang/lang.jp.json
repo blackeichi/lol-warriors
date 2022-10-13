@@ -20,5 +20,14 @@
   "daysago": "days ago",
   "montsago": "month ago",
   "minute": "分",
-  "second": "秒"
+  "second": "秒",
+  "kda": "KDA",
+  "visionScore": "VisionScore",
+  "bot": "AD",
+  "sup": "SUP",
+  "mid": "MID",
+  "top": "TOP",
+  "jung": "JUNGLE",
+  "Invalid": "NOPE",
+  "position": "Position"
 }
