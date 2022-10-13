@@ -16,7 +16,11 @@ export const wins = atom({
   key: "wins",
   default: 0,
 });
+export const defeats = atom({
+  key: "defeats",
+  default: 0,
+});
 export const searchRange = atom({
   key: "searchRange",
-  default: 20,
+  default: 10,
 });

@@ -7,7 +7,7 @@ import { t } from "i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faCoins } from "@fortawesome/free-solid-svg-icons";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { wins } from "../../util/atom";
+import { defeats, wins } from "../../util/atom";
 
 const Container = styled.div`
   display: flex;
@@ -117,7 +117,10 @@ const ItemBox = styled.div`
   display: flex;
   flex-direction: column;
 `;
-const Items = styled.div``;
+const Items = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
 const Item = styled.img`
   background-color: black;
   width: 30px;
@@ -172,6 +175,7 @@ const positionType: IPosi = {
 export const Match: React.FC<Idata> = ({ data, username }) => {
   const { t } = useTranslation();
   const [win, setWins] = useRecoilState(wins);
+  const [defeat, setdefeats] = useRecoilState(defeats);
   const { data: gameData } = useQuery([data], () => getGames(data));
   const { data: spellData } = useQuery(["spellData"], getSpell);
   const { data: runeData } = useQuery(["runeData"], getRune);
@@ -253,8 +257,10 @@ export const Match: React.FC<Idata> = ({ data, username }) => {
   useEffect(() => {
     if (Me?.win) {
       setWins(win + 1);
+    } else {
+      setdefeats(defeat + 1);
     }
-  }, [Me?.win]);
+  }, [Me]);
 
   return (
     <>
@@ -330,17 +336,16 @@ export const Match: React.FC<Idata> = ({ data, username }) => {
             </KDABox>
             <ItemBox>
               <Items>
-                {items?.map((item) => (
-                  <>
+                {items?.map((item, index) => (
+                  <Items key={index}>
                     {item ? (
                       <Item
-                        key={item}
                         src={`https://ddragon.leagueoflegends.com/cdn/12.19.1/img/item/${item}.png`}
                       />
                     ) : (
                       <Item />
                     )}
-                  </>
+                  </Items>
                 ))}
               </Items>
               <SpaceBox>
