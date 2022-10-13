@@ -12,3 +12,11 @@ export const serverState = atom({
   key: "server",
   default: "kr",
 });
+export const wins = atom({
+  key: "wins",
+  default: 0,
+});
+export const searchRange = atom({
+  key: "searchRange",
+  default: 20,
+});

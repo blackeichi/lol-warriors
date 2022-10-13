@@ -5,7 +5,9 @@ import { getGames, getRune, getSpell, IMatch } from "../../util/api";
 import { useTranslation } from "react-i18next";
 import { t } from "i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCoins } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDown, faCoins } from "@fortawesome/free-solid-svg-icons";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { wins } from "../../util/atom";
 
 const Container = styled.div`
   display: flex;
@@ -128,6 +130,17 @@ const AceH1 = styled.h1`
   padding: 7px;
   border-radius: 20px;
 `;
+const ArrowBox = styled.div<{ win: boolean }>`
+  background-color: ${(props) =>
+    props.win ? props.theme.darkBlue : props.theme.darkRed};
+  display: flex;
+  align-items: flex-end;
+  padding: 20px 10px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  cursor: pointer;
+  color: ${(props) => (props.win ? "blue" : "red")};
+`;
 
 type Idata = {
   data: string;
@@ -158,7 +171,8 @@ const positionType: IPosi = {
 
 export const Match: React.FC<Idata> = ({ data, username }) => {
   const { t } = useTranslation();
-  const { data: gameData, refetch } = useQuery([data], () => getGames(data));
+  const [win, setWins] = useRecoilState(wins);
+  const { data: gameData } = useQuery([data], () => getGames(data));
   const { data: spellData } = useQuery(["spellData"], getSpell);
   const { data: runeData } = useQuery(["runeData"], getRune);
   const Me: IMatch = gameData?.info.participants.find(
@@ -167,10 +181,15 @@ export const Match: React.FC<Idata> = ({ data, username }) => {
   //-----getDate
   const date = new Date(gameData?.info.gameCreation);
   const today = new Date();
-  let days = Math.floor(
-    (today.getTime() - date.getTime()) / (1000 * 60 * 60 * 24)
-  );
-  let daysW = t("daysago");
+  let days = Math.floor((today.getTime() - date.getTime()) / (1000 * 60 * 60));
+  let daysW = t("hourago");
+  if (days > 24) {
+    days = Math.floor(
+      (today.getTime() - date.getTime()) / (1000 * 60 * 60 * 24)
+    );
+
+    daysW = t("daysago");
+  }
   if (days > 30) {
     days = Math.floor(
       (today.getTime() - date.getTime()) / (1000 * 60 * 60 * 24 * 30)
@@ -230,6 +249,12 @@ export const Match: React.FC<Idata> = ({ data, username }) => {
       Me.item6,
     ];
   }
+  //-----set P/win
+  useEffect(() => {
+    if (Me?.win) {
+      setWins(win + 1);
+    }
+  }, [Me?.win]);
 
   return (
     <>
@@ -294,7 +319,7 @@ export const Match: React.FC<Idata> = ({ data, username }) => {
                   {Me?.challenges?.kda.toFixed(2) + ":1 "}
                 </BoldData>
                 <BoldData style={{ color: "#9055A2" }}>
-                  킬관여 {Math.floor(myKillRate)}%
+                  {t("Kill") + " " + Math.floor(myKillRate)}%
                 </BoldData>
               </RowBox>
               <RowBox>
@@ -327,12 +352,20 @@ export const Match: React.FC<Idata> = ({ data, username }) => {
                   <FontAwesomeIcon icon={faCoins} /> {Me.goldEarned}
                 </BoldData>
               </SpaceBox>
-              <Data>
-                {t("position") + " : " + positionType[Me?.individualPosition]}
-              </Data>
-              <Data>{t("visionScore") + " " + Math.floor(Me.visionScore)}</Data>
+              <ColBox style={{ gap: "2px" }}>
+                <Data>
+                  {t("position") + ": " + positionType[Me?.individualPosition]}
+                </Data>
+                <Data>
+                  {t("visionScore") + ": " + Math.floor(Me.visionScore)}
+                </Data>
+                <Data>{"CC: " + Me?.timeCCingOthers + t("second")}</Data>
+              </ColBox>
             </ItemBox>
           </Box>
+          <ArrowBox win={Me.win}>
+            <FontAwesomeIcon icon={faAngleDown} />
+          </ArrowBox>
         </Container>
       )}
     </>
