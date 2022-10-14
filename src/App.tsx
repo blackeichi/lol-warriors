@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import styled, { ThemeProvider } from "styled-components";
 import { Color } from "./util/color";
 import { Search } from "./Router/Search";
@@ -34,12 +34,12 @@ function App() {
   return (
     <ThemeProvider theme={Color}>
       <Box>
-        <BrowserRouter basename={process.env.PUBLIC_URL}>
+        <HashRouter>
           <Routes>
             <Route path="/" element={<Search />} />
-            <Route path="/summoner/*" element={<Summoner />} />
+            <Route path="/summoner" element={<Summoner />} />
           </Routes>
-        </BrowserRouter>
+        </HashRouter>
       </Box>
     </ThemeProvider>
   );

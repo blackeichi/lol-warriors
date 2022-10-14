@@ -14,13 +14,9 @@ export const serverState = atom({
 });
 export const wins = atom({
   key: "wins",
-  default: 0,
-});
-export const defeats = atom({
-  key: "defeats",
-  default: 0,
+  default: [] as any,
 });
 export const searchRange = atom({
   key: "searchRange",
-  default: 10,
+  default: 20,
 });

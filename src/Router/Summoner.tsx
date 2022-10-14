@@ -33,6 +33,12 @@ const Box = styled.div`
   display: flex;
 `;
 
+const ErrorMsg = styled.h1`
+  padding: 10% 15px;
+  font-size: 25px;
+  font-weight: bold;
+`;
+
 let getUser: any[] = [];
 
 export const Summoner = () => {
@@ -84,7 +90,9 @@ export const Summoner = () => {
           <SummonerBot puuid={userData?.puuid} username={username} />
         </>
       ) : (
-        <h1>Loading..</h1>
+        <ErrorMsg>
+          Riot에 등록되지 않은 소환사입니다. 오타를 확인 후 다시 검색해주세요.🤔
+        </ErrorMsg>
       )}
     </Container>
   );

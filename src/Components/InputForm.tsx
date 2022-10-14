@@ -123,7 +123,7 @@ export const InputForm: React.FC<Interface> = ({ home = false }) => {
     if (data === "") {
       return;
     }
-    navigate(`/summoner/?username=${data.username}`);
+    navigate(`/summoner?username=${data.username}`);
     window.location.reload();
   };
   const { t } = useTranslation();
@@ -134,7 +134,7 @@ export const InputForm: React.FC<Interface> = ({ home = false }) => {
   };
   const handleRecommend = (user: IUser, event: any) => {
     setServer(user.server);
-    navigate(`/summoner/?username=${user.username}`);
+    navigate(`/summoner?username=${user.username}`);
     window.location.reload();
   };
   let getUser: any[] = [];
