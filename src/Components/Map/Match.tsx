@@ -149,20 +149,10 @@ type Idata = {
   data: string;
   username: string;
 };
-type Ique = {
-  [index: number]: string;
-};
 type IPosi = {
   [index: string]: string;
 };
-const queType: Ique = {
-  400: t("norm"),
-  420: t("solo"),
-  430: t("norm"),
-  440: t("flex"),
-  450: t("aram"),
-  1900: "Event Game",
-};
+
 const positionType: IPosi = {
   BOTTOM: t("bot"),
   UTILITY: t("sup"),
@@ -262,6 +252,21 @@ export const Match: React.FC<Idata> = ({ data, username }) => {
       }
     }
   });
+  //-----getGametype
+  let gameMode;
+  if (gameData?.info.queueId === 400) {
+    gameMode = t("norm");
+  } else if (gameData?.info.queueId === 420) {
+    gameMode = t("solo");
+  } else if (gameData?.info.queueId === 430) {
+    gameMode = t("norm");
+  } else if (gameData?.info.queueId === 440) {
+    gameMode = t("flex");
+  } else if (gameData?.info.queueId === 450) {
+    gameMode = t("aram");
+  } else {
+    gameMode = "Event";
+  }
   return (
     <>
       {Me && (
@@ -270,9 +275,7 @@ export const Match: React.FC<Idata> = ({ data, username }) => {
           <Box win={Me.win}>
             <LeftBox>
               <GameInfo>
-                <Gamemode win={Me.win}>
-                  {queType[gameData?.info.queueId]}
-                </Gamemode>
+                <Gamemode win={Me.win}>{gameMode}</Gamemode>
                 <Data>
                   {days}
                   {daysW}

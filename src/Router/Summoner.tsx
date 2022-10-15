@@ -107,7 +107,7 @@ export const Summoner = () => {
           {userData ? (
             <>
               <SummonerTop userData={userData} />
-              <SummonerBot puuid={userData?.puuid} username={username} />
+              <SummonerBot userData={userData} username={username} />
             </>
           ) : (
             <ErrorMsg>{t("nouser")}</ErrorMsg>

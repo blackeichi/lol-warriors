@@ -76,6 +76,15 @@ export type IMatch = {
   item6: number;
   win: true;
 };
+export type IChamp = {
+  championId: number;
+  championLevel: number;
+  championPoints: number;
+  championPointsSinceLastLevel: number;
+  championPointsUntilNextLevel: number;
+  chestGranted: boolean;
+  lastPlayTime: number;
+};
 
 export function getPuuid(server: string, id: string) {
   return fetch(
@@ -105,5 +114,15 @@ export function getSpell() {
 export function getRune() {
   return fetch(
     `https://ddragon.leagueoflegends.com/cdn/12.19.1/data/en_US/runesReforged.json`
+  ).then((response) => response.json());
+}
+export function getMastery(server: string, userid: string) {
+  return fetch(
+    `https://${server}.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${userid}/top?count=10&api_key=${API_KEY}`
+  ).then((response) => response.json());
+}
+export async function getChap() {
+  return await fetch(
+    `https://ddragon.leagueoflegends.com/cdn/12.19.1/data/ko_KR/champion.json`
   ).then((response) => response.json());
 }
