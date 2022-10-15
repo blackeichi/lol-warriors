@@ -4,7 +4,7 @@ import { useQuery } from "react-query";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { getRank, rankInterface, userInterface } from "../util/api";
-import { resizeState } from "../util/atom";
+import { resizeState, serverState } from "../util/atom";
 
 const Box = styled.div<{ size: string }>`
   width: 98%;
@@ -142,11 +142,12 @@ const icons: Iicon = {
 
 export const SummonerTop: React.FC<IUser> = ({ userData }) => {
   const { t } = useTranslation();
+  const server = useRecoilValue(serverState);
   const {
     data: rankData,
     isLoading: rankLoading,
     refetch,
-  } = useQuery<rankInterface>(["rankData"], () => getRank(userData.id));
+  } = useQuery<rankInterface>(["rankData"], () => getRank(server, userData.id));
   const soloRank = rankData?.find(
     (rank) => rank.queueType === "RANKED_SOLO_5x5"
   );

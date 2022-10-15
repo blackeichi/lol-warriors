@@ -5,7 +5,8 @@ import { TitleCompo } from "../Components/TitleCompo";
 
 const HomeBox = styled.div`
   width: 100%;
-  min-height: 100%;
+  min-height: 100vh;
+  height: 100%;
   background-color: ${(props) => props.theme.bgColr};
   display: flex;
   flex-direction: column;

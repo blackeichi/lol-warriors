@@ -82,9 +82,9 @@ export function getPuuid(server: string, id: string) {
     `https://${server}${BASE_URL}summoner/v4/summoners/by-name/${id}?api_key=${API_KEY}`
   ).then((response) => response.json());
 }
-export function getRank(userid: string) {
+export function getRank(server: string, userid: string) {
   return fetch(
-    `https://kr.api.riotgames.com/lol/league/v4/entries/by-summoner/${userid}?api_key=${API_KEY}`
+    `https://${server}.api.riotgames.com/lol/league/v4/entries/by-summoner/${userid}?api_key=${API_KEY}`
   ).then((response) => response.json());
 }
 export function getMatchs(puuid: string, count: number) {

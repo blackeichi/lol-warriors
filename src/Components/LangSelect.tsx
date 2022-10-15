@@ -1,5 +1,5 @@
 import React from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import i18next from "../lang/i18n";
 import { langState } from "../util/atom";
@@ -35,6 +35,7 @@ export const LangSelect: React.FC<Interface> = ({ home, size = "Web" }) => {
   const handleChange = (event: any) => {
     const lang = event?.target.value;
     i18next.changeLanguage(lang);
+    localStorage.setItem("Lang", JSON.stringify(lang));
     setLang(lang);
   };
   return (

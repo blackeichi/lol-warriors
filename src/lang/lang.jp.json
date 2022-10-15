@@ -31,5 +31,6 @@
   "top": "TOP",
   "jung": "JUNGLE",
   "Invalid": "NOPE",
-  "position": "Position"
+  "position": "Position",
+  "nouser": "Riotに登録されていない召喚士です。 誤字を確認した後、もう一度検索してください。🤔"
 }

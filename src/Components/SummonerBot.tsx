@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import { useRecoilValue } from "recoil";
 import styled from "styled-components";
@@ -48,6 +49,7 @@ export const SummonerBot: React.FC<Ipuuid> = ({ puuid, username }) => {
   const size = useRecoilValue(resizeState);
   const win = useRecoilValue(wins);
   const winNum = win.length;
+  const { t } = useTranslation();
   const Range = useRecoilValue(searchRange);
   const { data: matchData } = useQuery(["matchData"], () =>
     getMatchs(puuid, Range)
@@ -56,7 +58,16 @@ export const SummonerBot: React.FC<Ipuuid> = ({ puuid, username }) => {
   return (
     <Box size={size}>
       <Left size={size}>
-        <KDA>{Range + "전 " + winNum + "승 " + (Range - winNum) + "패"}</KDA>
+        <KDA>
+          {Range +
+            t("games") +
+            " " +
+            winNum +
+            t("wins") +
+            " " +
+            (Range - winNum) +
+            t("losses")}
+        </KDA>
         <Piechart win={winNum} defeat={Range - winNum} />
       </Left>
       <Right size={size}>

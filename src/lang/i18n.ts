@@ -4,6 +4,8 @@ import { initReactI18next } from "react-i18next";
 import langEn from "./lang.en.json";
 import langKo from "./lang.ko.json";
 import langJp from "./lang.jp.json";
+const getLang = window.localStorage.getItem("Lang");
+const parsedLang = JSON.parse(getLang as string);
 
 const resource = {
   en: {
@@ -19,8 +21,8 @@ const resource = {
 
 i18n.use(initReactI18next).init({
   resources: resource,
-  lng: "ko",
-  fallbackLng: "ko",
+  lng: parsedLang,
+  fallbackLng: parsedLang,
   debug: true,
   defaultNS: "translations",
   ns: "translations",

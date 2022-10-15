@@ -1,12 +1,15 @@
 import { atom } from "recoil";
 
+const getLang = window.localStorage.getItem("Lang");
+const parsedLang = JSON.parse(getLang as string);
+
 export const resizeState = atom({
   key: "resize",
   default: "Web" || "Mid" || "Mobile",
 });
 export const langState = atom({
   key: "lang",
-  default: "ko" || "en" || "jp",
+  default: parsedLang === null ? "ko" : parsedLang,
 });
 export const serverState = atom({
   key: "server",

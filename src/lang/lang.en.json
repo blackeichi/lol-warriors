@@ -31,5 +31,6 @@
   "top": "TOP",
   "jung": "JUNGLE",
   "Invalid": "NOPE",
-  "position": "Position"
+  "position": "Position",
+  "nouser": "Summoner not registered with Riot. Please check the typo and search again.🤔"
 }

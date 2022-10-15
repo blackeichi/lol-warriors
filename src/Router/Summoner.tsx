@@ -10,6 +10,8 @@ import { getPuuid, userInterface } from "../util/api";
 import { resizeState, serverState } from "../util/atom";
 import { SummonerTop } from "../Components/SummonerTop";
 import { SummonerBot } from "../Components/SummonerBot";
+import { useTranslation } from "react-i18next";
+import ReactLoading from "react-loading";
 
 const Container = styled.div`
   display: flex;
@@ -38,6 +40,9 @@ const ErrorMsg = styled.h1`
   font-size: 25px;
   font-weight: bold;
 `;
+const Loader = styled.div`
+  margin-top: 10%;
+`;
 
 let getUser: any[] = [];
 
@@ -45,19 +50,23 @@ export const Summoner = () => {
   const size = useRecoilValue(resizeState);
   const server = useRecoilValue(serverState);
   const location = useLocation();
+  const { t } = useTranslation();
   const username = new URLSearchParams(location.search).get(
     "username"
   ) as string;
-  const { data: userData, refetch } = useQuery<userInterface>(
-    ["userData"],
-    () => getPuuid(server, username)
-  );
+  const {
+    data: userData,
+    isLoading,
+    refetch,
+  } = useQuery<userInterface>(["userData"], () => getPuuid(server, username));
   useEffect(() => {
     const savedUser = localStorage.getItem("username");
     if (savedUser !== null) {
       getUser = JSON.parse(savedUser);
     }
-    if (userData !== undefined) {
+    if (userData === undefined) {
+      return;
+    } else {
       const newObject = {
         username,
         server,
@@ -84,15 +93,26 @@ export const Summoner = () => {
           <LangSelect size={size} home={false} />
         </Box>
       </Header>
-      {userData ? (
-        <>
-          <SummonerTop userData={userData} />
-          <SummonerBot puuid={userData?.puuid} username={username} />
-        </>
+      {isLoading ? (
+        <Loader>
+          <ReactLoading
+            type="spin"
+            color="#9055A2"
+            height={"100px"}
+            width={"100px"}
+          />
+        </Loader>
       ) : (
-        <ErrorMsg>
-          Riot에 등록되지 않은 소환사입니다. 오타를 확인 후 다시 검색해주세요.🤔
-        </ErrorMsg>
+        <>
+          {userData ? (
+            <>
+              <SummonerTop userData={userData} />
+              <SummonerBot puuid={userData?.puuid} username={username} />
+            </>
+          ) : (
+            <ErrorMsg>{t("nouser")}</ErrorMsg>
+          )}
+        </>
       )}
     </Container>
   );
