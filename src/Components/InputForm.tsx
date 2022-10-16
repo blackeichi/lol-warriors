@@ -124,6 +124,7 @@ export const InputForm: React.FC<Interface> = ({ home = false }) => {
       return;
     }
     navigate(`/summoner?username=${data.username}`);
+    window.location.reload();
   };
   const { t } = useTranslation();
 
@@ -134,6 +135,7 @@ export const InputForm: React.FC<Interface> = ({ home = false }) => {
   const handleRecommend = (user: IUser, event: any) => {
     setServer(user.server);
     navigate(`/summoner?username=${user.username}`);
+    window.location.reload();
   };
   let getUser: any[] = [];
   const savedUser = localStorage.getItem("username");

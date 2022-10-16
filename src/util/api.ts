@@ -45,7 +45,7 @@ export type IMatch = {
       { style: number }
     ];
   };
-
+  teamId: number;
   spell1Casts: number;
   spell2Casts: number;
   spell3Casts: number;
@@ -58,6 +58,7 @@ export type IMatch = {
   summonerLevel: number;
   summonerName: string;
   totalDamageDealtToChampions: number;
+  totalDamageTaken: number;
   challenges: { kda: number };
   totalMinionsKilled: number;
   timeCCingOthers: number;

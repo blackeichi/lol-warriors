@@ -23,3 +23,12 @@ export const searchRange = atom({
   key: "searchRange",
   default: 20,
 });
+
+export const myTeamEarn = atom({
+  key: "myTeamEarn",
+  default: 0,
+});
+export const EnemyTeamEarn = atom({
+  key: "EnemyTeamEarn",
+  default: 0,
+});

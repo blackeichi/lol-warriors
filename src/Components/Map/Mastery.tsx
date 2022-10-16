@@ -48,7 +48,6 @@ export const Mastery: React.FC<Interface> = ({ Champ }) => {
     month: "2-digit",
     day: "2-digit",
   });
-  console.log(date);
   return (
     <Box>
       {ChapData && (

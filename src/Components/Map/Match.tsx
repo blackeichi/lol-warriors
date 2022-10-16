@@ -1,33 +1,39 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import styled from "styled-components";
 import { getGames, getRune, getSpell, IMatch } from "../../util/api";
 import { useTranslation } from "react-i18next";
 import { t } from "i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown, faCoins } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
 import { useRecoilState } from "recoil";
 import { wins } from "../../util/atom";
+import { OpenMatch } from "../Map/OpenMatch";
+
+const Wrapper = styled.div`
+  margin-bottom: 10px;
+`;
 
 const Container = styled.div`
   display: flex;
   font-family: "MonoplexKR-Regular";
 `;
 
-const Overlay = styled.div<{ win: boolean }>`
+const Overlay = styled.div<{ win: boolean; open?: boolean }>`
   width: 10px;
   height: 120px;
   background-color: ${(props) =>
     props.win ? props.theme.blueColr : props.theme.redColr};
   border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
+  border-bottom-left-radius: ${(props) => (props.open ? "" : "10px")};
 `;
 
 const Box = styled.div<{ win: boolean }>`
   width: 100%;
   height: 120px;
   box-sizing: border-box;
-  background-color: ${(props) => (props.win ? "#ECF2FF" : "#FFF1F3")};
+  background-color: ${(props) =>
+    props.win ? props.theme.blueBg : props.theme.redBg};
   display: flex;
   align-items: center;
   padding: 10px;
@@ -104,11 +110,6 @@ const RowBox = styled.div`
   display: flex;
   gap: 8px;
 `;
-const SpaceBox = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-`;
 const KDA = styled.div`
   font-weight: bold;
   font-size: 20px;
@@ -116,6 +117,7 @@ const KDA = styled.div`
 const ItemBox = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
 `;
 const Items = styled.div`
   display: flex;
@@ -133,14 +135,14 @@ const AceH1 = styled.h1`
   padding: 7px;
   border-radius: 20px;
 `;
-const ArrowBox = styled.div<{ win: boolean }>`
+const ArrowBox = styled.div<{ win: boolean; open?: boolean }>`
   background-color: ${(props) =>
     props.win ? props.theme.darkBlue : props.theme.darkRed};
   display: flex;
   align-items: flex-end;
   padding: 20px 10px;
   border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-bottom-right-radius: ${(props) => (props.open ? "" : "10px")};
   cursor: pointer;
   color: ${(props) => (props.win ? "blue" : "red")};
 `;
@@ -267,11 +269,13 @@ export const Match: React.FC<Idata> = ({ data, username }) => {
   } else {
     gameMode = "Event";
   }
+  const [open, setOpen] = useState(false);
+
   return (
-    <>
+    <Wrapper>
       {Me && (
         <Container>
-          <Overlay win={Me.win} />
+          <Overlay win={Me.win} open={open} />
           <Box win={Me.win}>
             <LeftBox>
               <GameInfo>
@@ -320,7 +324,7 @@ export const Match: React.FC<Idata> = ({ data, username }) => {
                 <KDA>/</KDA>
                 <KDA style={{ color: "red" }}>{Me?.deaths}</KDA>
                 <KDA>/</KDA>
-                <KDA>{Me?.assists} </KDA>
+                <KDA>{Me?.assists} ⚔</KDA>
               </RowBox>
               <RowBox>
                 <BoldData>
@@ -351,16 +355,11 @@ export const Match: React.FC<Idata> = ({ data, username }) => {
                   </Items>
                 ))}
               </Items>
-              <SpaceBox>
+              <ColBox style={{ gap: "2px", alignItems: "flex-end" }}>
                 <Data>
                   CS {Me?.totalMinionsKilled} (
                   {(Me?.totalMinionsKilled / time).toFixed(1)})
                 </Data>
-                <BoldData>
-                  <FontAwesomeIcon icon={faCoins} /> {Me.goldEarned}
-                </BoldData>
-              </SpaceBox>
-              <ColBox style={{ gap: "2px" }}>
                 <Data>
                   {t("position") + ": " + positionType[Me?.individualPosition]}
                 </Data>
@@ -371,11 +370,23 @@ export const Match: React.FC<Idata> = ({ data, username }) => {
               </ColBox>
             </ItemBox>
           </Box>
-          <ArrowBox win={Me.win}>
-            <FontAwesomeIcon icon={faAngleDown} />
+          <ArrowBox
+            onClick={() => setOpen((prev) => !prev)}
+            open={open}
+            win={Me.win}
+          >
+            <FontAwesomeIcon icon={open ? faAngleUp : faAngleDown} />
           </ArrowBox>
         </Container>
       )}
-    </>
+      {open && (
+        <OpenMatch
+          gameData={gameData}
+          spellData={spellData}
+          runeData={runeData}
+          Me={Me}
+        />
+      )}
+    </Wrapper>
   );
 };
