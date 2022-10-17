@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useQuery } from "react-query";
+import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import { getChap, IChamp } from "../../util/api";
+import { ChampMastery } from "../../util/atom";
 
 const Box = styled.div`
   display: grid;
@@ -34,19 +36,30 @@ const ChampInfoContent = styled.h1`
 
 type Interface = {
   Champ: IChamp;
+  index: any;
+  data: any;
 };
 
-export const Mastery: React.FC<Interface> = ({ Champ }) => {
-  const { data } = useQuery(["ChampData"], getChap);
-  let ChapData;
-  if (data) {
-    ChapData = Object.entries(data?.data).find(
-      (arr: any) => arr[1].key === String(Champ?.championId)
-    );
-  }
+export const Mastery: React.FC<Interface> = ({ Champ, index, data }) => {
+  const ChapData = Object.entries(data.data).find(
+    (arr: any) => arr[1].key === String(Champ?.championId)
+  );
   const date = new Date(Champ.lastPlayTime).toLocaleDateString("en-US", {
     month: "2-digit",
     day: "2-digit",
+  });
+  //---get/set Mastery Data
+  const [mastery, setMastery] = useRecoilState(ChampMastery);
+  useEffect(() => {
+    if (ChapData && ChapData[0]) {
+      const filter = mastery.filter((data: any) => data.chap === ChapData[0]);
+      if (filter.length > 0) {
+      } else {
+        let kda;
+        kda = { chap: ChapData[0], index: 10 - index };
+        setMastery([...mastery, kda]);
+      }
+    }
   });
   return (
     <Box>

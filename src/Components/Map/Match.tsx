@@ -7,7 +7,7 @@ import { t } from "i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
 import { useRecoilState } from "recoil";
-import { wins } from "../../util/atom";
+import { ChampMastery, wins } from "../../util/atom";
 import { OpenMatch } from "../Map/OpenMatch";
 
 const Wrapper = styled.div`
@@ -270,7 +270,21 @@ export const Match: React.FC<Idata> = ({ data, username }) => {
     gameMode = "Event";
   }
   const [open, setOpen] = useState(false);
+  //----set KDA
+  const [mastery, setMastery] = useRecoilState(ChampMastery);
 
+  useEffect(() => {
+    const isChamp = mastery.filter(
+      (chap: any) => chap.chap === Me?.championName
+    );
+    console.log(isChamp);
+    if (isChamp[0]) {
+      const prev = mastery.slice(0, isChamp[0]?.index - 1);
+      const newObj = { ...isChamp[0], kda: (Me?.challenges?.kda).toFixed(2) };
+      const next = mastery.slice(isChamp[0]?.index);
+      setMastery([...prev, newObj, ...next]);
+    }
+  }, []);
   return (
     <Wrapper>
       {Me && (

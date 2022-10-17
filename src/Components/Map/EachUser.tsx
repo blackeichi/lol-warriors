@@ -8,14 +8,15 @@ import styled from "styled-components";
 import { getRank, IMatch } from "../../util/api";
 import { resizeState, serverState } from "../../util/atom";
 
-const Box = styled.div<{ size: string; me: boolean | undefined }>`
+const Box = styled.div<{ size: string; me: boolean | undefined; win: boolean }>`
   display: flex;
   align-items: center;
   padding: 10px;
   justify-content: ${(props) =>
     props.size === "Mid" ? "space-around" : "space-between"};
   font-family: "MonoplexKR-Regular";
-  background-color: ${(props) => props.me && "#dcd6f7"};
+  background-color: ${(props) =>
+    props.me ? (props.win ? props.theme.darkBlue : props.theme.darkRed) : ""};
 `;
 const Wrapper = styled.div<{ size: string }>`
   display: flex;
@@ -171,10 +172,10 @@ export const EachUser: React.FC<IType> = ({
     user.item6,
   ];
   //-----getKda
-  const kda = Number(((user.kills + user.assists) / user.deaths).toFixed(2));
+  const kda = (user.kills + user.assists) / user.deaths;
 
   return (
-    <Box me={me} size={size}>
+    <Box win={user.win} me={me} size={size}>
       <Wrapper size={size}>
         <IconBox>
           <ChampImg
@@ -219,7 +220,7 @@ export const EachUser: React.FC<IType> = ({
             Math.floor(((user.kills + user.assists) / totalKill) * 100) +
             "%)"}
         </Text>
-        {kda && <KDA kda={kda}>{kda}:1</KDA>}
+        {kda && <KDA kda={kda}>{kda.toFixed(2)}:1</KDA>}
       </ColBox>
       <ColBox style={{ width: "20px" }}>
         <Text style={{ fontWeight: "bold" }}>CS</Text>
