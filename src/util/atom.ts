@@ -32,7 +32,7 @@ export const EnemyTeamEarn = atom({
   key: "EnemyTeamEarn",
   default: 0,
 });
-export const ChampMastery = atom({
-  key: "ChampMastery",
+export const KDAstate = atom({
+  key: "KDAstate",
   default: [] as any,
 });

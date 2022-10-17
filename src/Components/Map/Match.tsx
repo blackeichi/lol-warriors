@@ -6,8 +6,8 @@ import { useTranslation } from "react-i18next";
 import { t } from "i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
-import { useRecoilState } from "recoil";
-import { ChampMastery, wins } from "../../util/atom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { KDAstate, wins } from "../../util/atom";
 import { OpenMatch } from "../Map/OpenMatch";
 
 const Wrapper = styled.div`
@@ -270,21 +270,23 @@ export const Match: React.FC<Idata> = ({ data, username }) => {
     gameMode = "Event";
   }
   const [open, setOpen] = useState(false);
-  //----set KDA
-  const [mastery, setMastery] = useRecoilState(ChampMastery);
-
+  const [KDAdata, setKDAdata] = useRecoilState(KDAstate);
   useEffect(() => {
-    const isChamp = mastery.filter(
-      (chap: any) => chap.chap === Me?.championName
+    const exist = KDAdata.filter(
+      (data: any) => data.gameId === gameData?.info.gameId
     );
-    console.log(isChamp);
-    if (isChamp[0]) {
-      const prev = mastery.slice(0, isChamp[0]?.index - 1);
-      const newObj = { ...isChamp[0], kda: (Me?.challenges?.kda).toFixed(2) };
-      const next = mastery.slice(isChamp[0]?.index);
-      setMastery([...prev, newObj, ...next]);
+    if (exist[0]) {
+    } else {
+      if (gameData && Me?.challenges?.kda) {
+        const newData = {
+          gameId: gameData?.info.gameId,
+          kda: Me?.challenges.kda,
+          championName: Me?.championName,
+        };
+        setKDAdata([...KDAdata, newData]);
+      }
     }
-  }, []);
+  });
   return (
     <Wrapper>
       {Me && (

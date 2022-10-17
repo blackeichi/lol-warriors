@@ -10,7 +10,13 @@ import {
   IChamp,
   userInterface,
 } from "../util/api";
-import { resizeState, searchRange, serverState, wins } from "../util/atom";
+import {
+  KDAstate,
+  resizeState,
+  searchRange,
+  serverState,
+  wins,
+} from "../util/atom";
 import { Match } from "./Map/Match";
 import { Piechart } from "./Piechart";
 import { Mastery } from "./Map/Mastery";
@@ -77,6 +83,7 @@ export const SummonerBot: React.FC<Ipuuid> = ({ userData, username }) => {
   const winNum = win.length;
   const { t } = useTranslation();
   const [Range, setRange] = useRecoilState(searchRange);
+
   const { data: matchData, refetch } = useQuery(["matchData"], () =>
     getMatchs(userData.puuid, Range)
   );
@@ -89,6 +96,7 @@ export const SummonerBot: React.FC<Ipuuid> = ({ userData, username }) => {
     refetch();
     console.log(matchData);
   };
+  const KDAdata = useRecoilValue(KDAstate);
   return (
     <Box size={size}>
       <Left size={size}>
@@ -104,7 +112,12 @@ export const SummonerBot: React.FC<Ipuuid> = ({ userData, username }) => {
         </KDA>
         <Piechart win={winNum} defeat={Range - winNum} />
         {masteryData?.map((data: IChamp, index: any) => (
-          <Mastery key={index} data={ChampData} index={index} Champ={data} />
+          <Mastery
+            key={index}
+            data={ChampData}
+            KDAdata={KDAdata}
+            Champ={data}
+          />
         ))}
       </Left>
       <Right size={size}>

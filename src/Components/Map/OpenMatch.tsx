@@ -85,7 +85,6 @@ export const OpenMatch: React.FC<IType> = ({
   runeData,
   Me,
 }) => {
-  console.log(gameData);
   const maxDealt = gameData.info.participants.reduce(
     (prev: IMatch, current: IMatch) => {
       return prev.totalDamageDealtToChampions >
@@ -117,13 +116,13 @@ export const OpenMatch: React.FC<IType> = ({
   const TotalKill1 = myTeam.objectives.champion.kills;
   const TotalKill2 = EnenyTeam.objectives.champion.kills;
   //-----get earned
+  console.log(myMember);
   const myTeamMoney = myMember.reduce((prev: number, current: IMatch) => {
     return prev + current.goldEarned;
   }, 0);
   const enemyMoney = eneMember.reduce((prev: number, current: IMatch) => {
     return prev + current.goldEarned;
   }, 0);
-  console.log(myTeamMoney);
   return (
     <Box win={Me.win}>
       {myMember.map((user: any) => (

@@ -1,14 +1,14 @@
 import React, { useEffect } from "react";
 import { useQuery } from "react-query";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { getChap, IChamp } from "../../util/api";
-import { ChampMastery } from "../../util/atom";
+import { KDAstate } from "../../util/atom";
 
 const Box = styled.div`
-  display: grid;
+  display: flex;
+  justify-content: space-between;
   width: 95%;
-  grid-template-columns: 1fr 2fr;
 `;
 const RowBox = styled.div`
   display: flex;
@@ -36,31 +36,25 @@ const ChampInfoContent = styled.h1`
 
 type Interface = {
   Champ: IChamp;
-  index: any;
+  KDAdata: any;
   data: any;
 };
 
-export const Mastery: React.FC<Interface> = ({ Champ, index, data }) => {
+export const Mastery: React.FC<Interface> = ({ Champ, KDAdata, data }) => {
   const ChapData = Object.entries(data.data).find(
     (arr: any) => arr[1].key === String(Champ?.championId)
   );
-  const date = new Date(Champ.lastPlayTime).toLocaleDateString("en-US", {
-    month: "2-digit",
-    day: "2-digit",
-  });
-  //---get/set Mastery Data
-  const [mastery, setMastery] = useRecoilState(ChampMastery);
-  useEffect(() => {
-    if (ChapData && ChapData[0]) {
-      const filter = mastery.filter((data: any) => data.chap === ChapData[0]);
-      if (filter.length > 0) {
-      } else {
-        let kda;
-        kda = { chap: ChapData[0], index: 10 - index };
-        setMastery([...mastery, kda]);
-      }
+  //---get KDA Data
+  let KDA, kda;
+  if (ChapData) {
+    KDA = KDAdata.filter((data: any) => data.championName === ChapData[0]);
+    if (KDA?.length > 0) {
+      kda = KDA?.reduce((prev: any, current: any) => {
+        return prev + current?.kda;
+      }, 0);
     }
-  });
+  }
+
   return (
     <Box>
       {ChapData && (
@@ -72,16 +66,15 @@ export const Mastery: React.FC<Interface> = ({ Champ, index, data }) => {
             <ChampInfo style={{ alignItems: "flex-start" }}>
               <ChampInfoTitle>{ChapData[0]}</ChampInfoTitle>
               <ChampInfoContent>LV.{Champ.championLevel}</ChampInfoContent>
+              <ChampInfoContent>{Champ.championPoints + "점"}</ChampInfoContent>
             </ChampInfo>
           </RowBox>
           <RowBox style={{ gap: "10px" }}>
             <ChampInfo>
-              <ChampInfoTitle>숙련도</ChampInfoTitle>
-              <ChampInfoContent>{Champ.championPoints + "점"}</ChampInfoContent>
-            </ChampInfo>
-            <ChampInfo>
-              <ChampInfoTitle></ChampInfoTitle>
-              <ChampInfoContent>{date}</ChampInfoContent>
+              <ChampInfoTitle>KDA</ChampInfoTitle>
+              <ChampInfoContent>
+                {kda ? (kda / KDA?.length).toFixed(2) : "전적없음"}
+              </ChampInfoContent>
             </ChampInfo>
           </RowBox>
         </>

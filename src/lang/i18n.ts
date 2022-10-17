@@ -21,8 +21,8 @@ const resource = {
 
 i18n.use(initReactI18next).init({
   resources: resource,
-  lng: parsedLang,
-  fallbackLng: parsedLang,
+  lng: parsedLang ? parsedLang : "ko",
+  fallbackLng: parsedLang ? parsedLang : "ko",
   debug: true,
   defaultNS: "translations",
   ns: "translations",
