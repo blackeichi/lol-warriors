@@ -54,7 +54,6 @@ export const Mastery: React.FC<Interface> = ({ Champ, KDAdata, data }) => {
       }, 0);
     }
   }
-
   return (
     <Box>
       {ChapData && (
