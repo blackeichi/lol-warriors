@@ -36,24 +36,14 @@ const ChampInfoContent = styled.h1`
 
 type Interface = {
   Champ: IChamp;
-  KDAdata: any;
   data: any;
 };
 
-export const Mastery: React.FC<Interface> = ({ Champ, KDAdata, data }) => {
+export const Mastery: React.FC<Interface> = ({ Champ, data }) => {
   const ChapData = Object.entries(data.data).find(
     (arr: any) => arr[1].key === String(Champ?.championId)
   );
-  //---get KDA Data
-  let KDA, kda;
-  if (ChapData) {
-    KDA = KDAdata.filter((data: any) => data.championName === ChapData[0]);
-    if (KDA?.length > 0) {
-      kda = KDA?.reduce((prev: any, current: any) => {
-        return prev + current?.kda;
-      }, 0);
-    }
-  }
+
   return (
     <Box>
       {ChapData && (
@@ -65,15 +55,12 @@ export const Mastery: React.FC<Interface> = ({ Champ, KDAdata, data }) => {
             <ChampInfo style={{ alignItems: "flex-start" }}>
               <ChampInfoTitle>{ChapData[0]}</ChampInfoTitle>
               <ChampInfoContent>LV.{Champ.championLevel}</ChampInfoContent>
-              <ChampInfoContent>{Champ.championPoints + "점"}</ChampInfoContent>
             </ChampInfo>
           </RowBox>
           <RowBox style={{ gap: "10px" }}>
             <ChampInfo>
-              <ChampInfoTitle>KDA</ChampInfoTitle>
-              <ChampInfoContent>
-                {kda ? (kda / KDA?.length).toFixed(2) : "전적없음"}
-              </ChampInfoContent>
+              <ChampInfoTitle>숙련도</ChampInfoTitle>
+              <ChampInfoContent>{Champ.championPoints + "점"}</ChampInfoContent>
             </ChampInfo>
           </RowBox>
         </>

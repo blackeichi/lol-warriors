@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -23,6 +23,7 @@ import { Mastery } from "./Map/Mastery";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { motion } from "framer-motion";
+import { RecentKDA } from "./Map/RecentKDA";
 
 const Box = styled.div<{ size: string }>`
   width: ${(props) => (props.size !== "Web" ? "95vw" : "98%")};
@@ -45,6 +46,7 @@ const Left = styled.div<{ size: string }>`
   font-family: "MonoplexKR-Regular";
   gap: 25px;
 `;
+const Title = styled.h1``;
 const KDA = styled.h1`
   font-size: 20px;
   font-weight: bold;
@@ -97,6 +99,13 @@ export const SummonerBot: React.FC<Ipuuid> = ({ userData, username }) => {
     console.log(matchData);
   };
   const KDAdata = useRecoilValue(KDAstate);
+  const recentChamp = KDAdata.reduce(
+    (prev: any, current: any) =>
+      prev.includes(current.championName)
+        ? prev
+        : [...prev, current.championName],
+    []
+  );
   return (
     <Box size={size}>
       <Left size={size}>
@@ -111,13 +120,13 @@ export const SummonerBot: React.FC<Ipuuid> = ({ userData, username }) => {
             t("losses")}
         </KDA>
         <Piechart win={winNum} defeat={Range - winNum} />
+        <Title>최근 {Range}게임 KDA</Title>
+        {recentChamp.map((champ: any) => (
+          <RecentKDA KDAdata={KDAdata} champ={champ} />
+        ))}
+        <Title>{username}님의 숙련도</Title>
         {masteryData?.map((data: IChamp, index: any) => (
-          <Mastery
-            key={index}
-            data={ChampData}
-            KDAdata={KDAdata}
-            Champ={data}
-          />
+          <Mastery key={index} data={ChampData} Champ={data} />
         ))}
       </Left>
       <Right size={size}>
