@@ -9,8 +9,8 @@ const LangSel = styled.div<{ size: string; home: boolean }>`
     props.size !== "Mobile" && props.home === false
       ? props.size !== "Small" && props.home === false
         ? "static"
-        : "fixed"
-      : "fixed"};
+        : "absolute"
+      : "absolute"};
   top: 0;
   right: 0;
   margin: 5px;
