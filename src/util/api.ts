@@ -119,7 +119,7 @@ export function getRune() {
 }
 export function getMastery(server: string, userid: string) {
   return fetch(
-    `https://${server}.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${userid}/top?count=5&api_key=${API_KEY}`
+    `https://${server}.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/${userid}/top?count=7&api_key=${API_KEY}`
   ).then((response) => response.json());
 }
 export async function getChap() {

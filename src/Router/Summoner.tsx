@@ -17,14 +17,20 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100vw;
+  width: 100%;
+  box-sizing: border-box;
 `;
 
 const Header = styled.div<{ size: string }>`
   background-color: ${(props) => props.theme.bgColr};
   width: 100%;
   display: flex;
-  flex-direction: ${(props) => (props.size !== "Mobile" ? "row" : "column")};
+  flex-direction: ${(props) =>
+    props.size !== "Web"
+      ? props.size !== "Mid"
+        ? "column"
+        : "row"
+      : "column"};
   justify-content: space-between;
   align-items: center;
   padding: 20px;

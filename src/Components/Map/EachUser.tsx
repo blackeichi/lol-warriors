@@ -39,6 +39,7 @@ const Level = styled.h1`
 const ChampImg = styled.img`
   border-radius: 50%;
   width: 40px;
+  height: 40px;
 `;
 const ColBox = styled.div`
   display: flex;
@@ -62,6 +63,15 @@ const Tier = styled.h1<{ tier: string }>`
   margin-top: 5px;
   color: darkgray;
   font-size: 14px;
+`;
+const ChartBox = styled.div<{ size: string }>`
+  display: ${(props) => (props.size === "Small" ? "none" : "flex")};
+  flex-direction: ${(props) =>
+    props.size !== "Mobile"
+      ? props.size !== "Small"
+        ? "row"
+        : "column"
+      : "column"};
 `;
 const ProgressBox = styled.div`
   display: flex;
@@ -226,18 +236,20 @@ export const EachUser: React.FC<IType> = ({
         <Text style={{ fontWeight: "bold" }}>CS</Text>
         <Text>{user.totalMinionsKilled}</Text>
       </ColBox>
-      <ProgressBox>
-        <Text>{user.totalDamageDealtToChampions}</Text>
-        <Progress>
-          <Dealt dealt={dealt} />
-        </Progress>
-      </ProgressBox>
-      <ProgressBox>
-        <Text>{user.totalDamageTaken}</Text>
-        <Progress>
-          <Taken taken={taken} />
-        </Progress>
-      </ProgressBox>
+      <ChartBox size={size}>
+        <ProgressBox>
+          <Text>{user.totalDamageDealtToChampions}</Text>
+          <Progress>
+            <Dealt dealt={dealt} />
+          </Progress>
+        </ProgressBox>
+        <ProgressBox>
+          <Text>{user.totalDamageTaken}</Text>
+          <Progress>
+            <Taken taken={taken} />
+          </Progress>
+        </ProgressBox>
+      </ChartBox>
       <ColBox style={{ alignItems: "flex-end", gap: "2px" }}>
         <Items>
           {items?.map((item, index) => (

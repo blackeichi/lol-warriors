@@ -22,8 +22,10 @@ function App() {
     window.addEventListener("resize", handleResize);
     if (screen >= 980) {
       setLarge("Web");
-    } else if (screen <= 650) {
+    } else if (screen <= 700 && screen > 560) {
       setLarge("Mobile");
+    } else if (screen <= 560) {
+      setLarge("Small");
     } else {
       setLarge("Mid");
     }

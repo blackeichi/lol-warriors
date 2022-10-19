@@ -6,7 +6,11 @@ import { langState } from "../util/atom";
 
 const LangSel = styled.div<{ size: string; home: boolean }>`
   position: ${(props) =>
-    props.size !== "Mobile" && props.home === false ? "static" : "fixed"};
+    props.size !== "Mobile" && props.home === false
+      ? props.size !== "Small" && props.home === false
+        ? "static"
+        : "fixed"
+      : "fixed"};
   top: 0;
   right: 0;
   margin: 5px;

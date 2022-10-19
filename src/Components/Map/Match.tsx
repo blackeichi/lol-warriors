@@ -7,7 +7,7 @@ import { t } from "i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { KDAstate, wins } from "../../util/atom";
+import { KDAstate, resizeState, wins } from "../../util/atom";
 import { OpenMatch } from "../Map/OpenMatch";
 
 const Wrapper = styled.div`
@@ -71,12 +71,12 @@ const ChampInfo = styled.div`
 const ChampBox = styled.div`
   position: relative;
 `;
-const Champ = styled.img`
-  width: 60px;
-  height: 60px;
+const Champ = styled.img<{ size: string }>`
+  width: ${(props) => (props.size === "Mobile" ? "10vw" : "60px")};
+  height: ${(props) => (props.size === "Mobile" ? "10vw" : "60px")};
   border-radius: 50%;
 `;
-const Level = styled.h1`
+const Level = styled.h1<{ size: string }>`
   position: absolute;
   right: -3px;
   bottom: 3px;
@@ -84,27 +84,28 @@ const Level = styled.h1`
   background-color: black;
   padding: 5px;
   border-radius: 50%;
-  font-size: 12px;
+  font-size: ${(props) => (props.size === "Mobile" ? "9px" : "12px")};
   font-weight: bold;
 `;
 const ColBox = styled.div`
   display: flex;
   flex-direction: column;
 `;
-const Spell = styled.img`
-  width: 30px;
-  height: 30px;
+const Spell = styled.img<{ size: string }>`
+  width: ${(props) => (props.size === "Mobile" ? "4vw" : "30px")};
+  height: ${(props) => (props.size === "Mobile" ? "4vw" : "30px")};
   border-radius: 5px;
 `;
-const Rune = styled.img`
-  width: 25px;
-  height: 25px;
+const Rune = styled.img<{ size: string }>`
+  width: ${(props) => (props.size === "Mobile" ? "4vw" : "25px")};
+  height: ${(props) => (props.size === "Mobile" ? "4vw" : "25px")};
 `;
 const KDABox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
+  font-size: 20px;
 `;
 const RowBox = styled.div`
   display: flex;
@@ -112,15 +113,14 @@ const RowBox = styled.div`
 `;
 const KDA = styled.div`
   font-weight: bold;
-  font-size: 20px;
 `;
-const ItemBox = styled.div`
-  display: flex;
+const ItemBox = styled.div<{ size: string }>`
+  display: ${(props) => (props.size === "Small" ? "none" : "flex")};
   flex-direction: column;
   justify-content: flex-end;
 `;
-const Items = styled.div`
-  display: flex;
+const Items = styled.div<{ size: string }>`
+  display: ${(props) => (props.size === "Mobile" ? "none" : "flex")};
   flex-direction: row;
 `;
 const Item = styled.img`
@@ -173,6 +173,7 @@ export const Match: React.FC<Idata> = ({ data, username }) => {
   const Me: IMatch = gameData?.info.participants.find(
     (user: any) => user.summonerName === username
   );
+  const size = useRecoilValue(resizeState);
   //-----getDate
   const date = new Date(gameData?.info.gameCreation);
   const today = new Date();
@@ -311,25 +312,30 @@ export const Match: React.FC<Idata> = ({ data, username }) => {
               <ChampInfo>
                 <ChampBox>
                   <Champ
+                    size={size}
                     id={data}
                     src={`https://ddragon.leagueoflegends.com/cdn/12.19.1/img/champion/${Me.championName}.png`}
                   />
-                  <Level>{Me.champLevel}</Level>
+                  <Level size={size}>{Me.champLevel}</Level>
                 </ChampBox>
                 <ColBox>
                   <Spell
+                    size={size}
                     src={`https://ddragon.leagueoflegends.com/cdn/12.19.1/img/spell/${spell1?.[0]}.png`}
                   />
                   <Spell
+                    size={size}
                     src={`https://ddragon.leagueoflegends.com/cdn/12.19.1/img/spell/${spell2?.[0]}.png`}
                   />
                 </ColBox>
                 <ColBox>
                   <Rune
+                    size={size}
                     style={{ backgroundColor: "black", borderRadius: "50%" }}
                     src={`https://ddragon.leagueoflegends.com/cdn/img/${Rune1?.icon}`}
                   />
                   <Rune
+                    size={size}
                     src={`https://ddragon.leagueoflegends.com/cdn/img/${Rune2?.icon}`}
                   />
                 </ColBox>
@@ -358,10 +364,10 @@ export const Match: React.FC<Idata> = ({ data, username }) => {
                 {Me.firstTowerKill && <AceH1>FTK</AceH1>}
               </RowBox>
             </KDABox>
-            <ItemBox>
-              <Items>
+            <ItemBox size={size}>
+              <Items size={size}>
                 {items?.map((item, index) => (
-                  <Items key={index}>
+                  <Container key={index}>
                     {item ? (
                       <Item
                         src={`https://ddragon.leagueoflegends.com/cdn/12.19.1/img/item/${item}.png`}
@@ -369,7 +375,7 @@ export const Match: React.FC<Idata> = ({ data, username }) => {
                     ) : (
                       <Item />
                     )}
-                  </Items>
+                  </Container>
                 ))}
               </Items>
               <ColBox style={{ gap: "2px", alignItems: "flex-end" }}>

@@ -1,9 +1,30 @@
 import React from "react";
+import styled from "styled-components";
 
+const ChapImg = styled.img`
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+`;
+const Text = styled.h1`
+  color: gray;
+`;
+const Title = styled(Text)`
+  font-weight: bold;
+  color: blaCK;
+`;
 type Props = {
   champ: string;
   KDAdata: any;
 };
+
+const RowBox = styled.div`
+  display: flex;
+  width: 95%;
+  align-items: center;
+  gap: 5px;
+`;
+const ColBox = styled.div``;
 
 export const RecentKDA: React.FC<Props> = ({ champ, KDAdata }) => {
   //---get KDA Data
@@ -16,11 +37,18 @@ export const RecentKDA: React.FC<Props> = ({ champ, KDAdata }) => {
       }, 0) / gameData.length
     ).toFixed(2);
   }
-  console.log(kda);
   return (
-    <>
-      <h1>{champ}</h1>
-      <h1>{kda}</h1>
-    </>
+    <RowBox>
+      <RowBox>
+        <ChapImg
+          src={`https://ddragon.leagueoflegends.com/cdn/12.19.1/img/champion/${champ}.png`}
+        ></ChapImg>
+        <Text>{champ}</Text>
+      </RowBox>
+      <ColBox>
+        <Title>KDA</Title>
+        <Text>{kda}:1</Text>
+      </ColBox>
+    </RowBox>
   );
 };

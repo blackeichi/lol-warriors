@@ -5,7 +5,7 @@ const parsedLang = JSON.parse(getLang as string);
 
 export const resizeState = atom({
   key: "resize",
-  default: "Web" || "Mid" || "Mobile",
+  default: "Web" || "Mid" || "Mobile" || "Small",
 });
 export const langState = atom({
   key: "lang",

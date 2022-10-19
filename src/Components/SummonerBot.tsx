@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -46,10 +46,15 @@ const Left = styled.div<{ size: string }>`
   font-family: "MonoplexKR-Regular";
   gap: 25px;
 `;
-const Title = styled.h1``;
 const KDA = styled.h1`
   font-size: 20px;
   font-weight: bold;
+`;
+const Title = styled(KDA)`
+  font-weight: bold;
+  color: ${(props) => props.theme.bgColr};
+  font-size: 18px;
+  margin-top: 30px;
 `;
 const Right = styled.div<{ size: string }>`
   width: 100%;
@@ -96,7 +101,6 @@ export const SummonerBot: React.FC<Ipuuid> = ({ userData, username }) => {
   const handlePage = async () => {
     await setRange(Range + 20);
     refetch();
-    console.log(matchData);
   };
   const KDAdata = useRecoilValue(KDAstate);
   const recentChamp = KDAdata.reduce(
@@ -120,13 +124,13 @@ export const SummonerBot: React.FC<Ipuuid> = ({ userData, username }) => {
             t("losses")}
         </KDA>
         <Piechart win={winNum} defeat={Range - winNum} />
-        <Title>최근 {Range}게임 KDA</Title>
-        {recentChamp.map((champ: any) => (
-          <RecentKDA KDAdata={KDAdata} champ={champ} />
-        ))}
         <Title>{username}님의 숙련도</Title>
         {masteryData?.map((data: IChamp, index: any) => (
           <Mastery key={index} data={ChampData} Champ={data} />
+        ))}
+        <Title>최근 {Range}게임 챔프별 KDA</Title>
+        {recentChamp.map((champ: any) => (
+          <RecentKDA KDAdata={KDAdata} champ={champ} />
         ))}
       </Left>
       <Right size={size}>

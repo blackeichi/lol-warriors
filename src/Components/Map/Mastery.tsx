@@ -1,9 +1,6 @@
-import React, { useEffect } from "react";
-import { useQuery } from "react-query";
-import { useRecoilState, useRecoilValue } from "recoil";
+import React from "react";
 import styled from "styled-components";
-import { getChap, IChamp } from "../../util/api";
-import { KDAstate } from "../../util/atom";
+import {  IChamp } from "../../util/api";
 
 const Box = styled.div`
   display: flex;
