@@ -26,11 +26,7 @@ const Header = styled.div<{ size: string }>`
   width: 100%;
   display: flex;
   flex-direction: ${(props) =>
-    props.size !== "Web"
-      ? props.size !== "Mid"
-        ? "column"
-        : "row"
-      : "column"};
+    props.size !== "Web" ? (props.size !== "Mid" ? "column" : "row") : "row"};
   justify-content: space-between;
   align-items: center;
   padding: 20px;
