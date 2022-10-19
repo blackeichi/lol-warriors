@@ -116,7 +116,6 @@ export const OpenMatch: React.FC<IType> = ({
   const TotalKill1 = myTeam.objectives.champion.kills;
   const TotalKill2 = EnenyTeam.objectives.champion.kills;
   //-----get earned
-  console.log(myMember);
   const myTeamMoney = myMember.reduce((prev: number, current: IMatch) => {
     return prev + current.goldEarned;
   }, 0);

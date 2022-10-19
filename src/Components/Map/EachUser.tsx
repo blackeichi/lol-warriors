@@ -18,12 +18,19 @@ const Box = styled.div<{ size: string; me: boolean | undefined; win: boolean }>`
   background-color: ${(props) =>
     props.me ? (props.win ? props.theme.darkBlue : props.theme.darkRed) : ""};
 `;
+const RowBox = styled.div`
+  display: flex;
+`;
 const Wrapper = styled.div<{ size: string }>`
   display: flex;
   width: 30%;
-  gap: ${(props) => (props.size === "Mid" ? "5px" : "")};
+  gap: ${(props) =>
+    props.size === "Mid" ? "5px" : props.size === "Small" ? "10px" : ""};
+  flex-direction: ${(props) => (props.size === "Small" ? "column" : "row")};
 `;
 const IconBox = styled.div`
+  width: 40px;
+  height: 40px;
   position: relative;
   display: flex;
 `;
@@ -62,7 +69,7 @@ const Username = styled.h1<{ me?: boolean }>`
 const Tier = styled.h1<{ tier: string }>`
   margin-top: 5px;
   color: darkgray;
-  font-size: 14px;
+  font-size: 12px;
 `;
 const ChartBox = styled.div<{ size: string }>`
   display: ${(props) => (props.size === "Small" ? "none" : "flex")};
@@ -187,39 +194,48 @@ export const EachUser: React.FC<IType> = ({
   return (
     <Box win={user.win} me={me} size={size}>
       <Wrapper size={size}>
-        <IconBox>
-          <ChampImg
-            src={`https://ddragon.leagueoflegends.com/cdn/12.19.1/img/champion/${user.championName}.png`}
-          />
-          <Level>{user.champLevel}</Level>
-        </IconBox>
-        <ColBox>
-          <Spell
-            src={`https://ddragon.leagueoflegends.com/cdn/12.19.1/img/spell/${spell1?.[0]}.png`}
-          />
-          <Spell
-            src={`https://ddragon.leagueoflegends.com/cdn/12.19.1/img/spell/${spell2?.[0]}.png`}
-          />
-        </ColBox>
-        <ColBox>
-          <Rune
-            style={{ backgroundColor: "black", borderRadius: "50%" }}
-            src={`https://ddragon.leagueoflegends.com/cdn/img/${Rune1?.icon}`}
-          />
-          <Rune
-            src={`https://ddragon.leagueoflegends.com/cdn/img/${Rune2?.icon}`}
-          />
-        </ColBox>
+        <RowBox>
+          <IconBox>
+            <ChampImg
+              src={`https://ddragon.leagueoflegends.com/cdn/12.19.1/img/champion/${user.championName}.png`}
+            />
+            <Level>{user.champLevel}</Level>
+          </IconBox>
+          <ColBox>
+            <Spell
+              src={`https://ddragon.leagueoflegends.com/cdn/12.19.1/img/spell/${spell1?.[0]}.png`}
+            />
+            <Spell
+              src={`https://ddragon.leagueoflegends.com/cdn/12.19.1/img/spell/${spell2?.[0]}.png`}
+            />
+          </ColBox>
+          <ColBox>
+            <Rune
+              style={{ backgroundColor: "black", borderRadius: "50%" }}
+              src={`https://ddragon.leagueoflegends.com/cdn/img/${Rune1?.icon}`}
+            />
+            <Rune
+              src={`https://ddragon.leagueoflegends.com/cdn/img/${Rune2?.icon}`}
+            />
+          </ColBox>
+        </RowBox>
         <UserInfo>
           <Username onClick={onMove} me={me}>
             {user.summonerName}
           </Username>
-          <Tier tier={soloTier}>
-            {soloTier ? soloTier?.tier + " " + soloTier?.rank : "UNRANKED"}
-          </Tier>
+          {size !== "Small" && (
+            <Tier tier={soloTier}>
+              {soloTier ? soloTier?.tier + " " + soloTier?.rank : "UNRANKED"}
+            </Tier>
+          )}
         </UserInfo>
       </Wrapper>
       <ColBox style={{ width: "13%" }}>
+        {size === "Small" && (
+          <Tier tier={soloTier}>
+            {soloTier ? soloTier?.tier + " " + soloTier?.rank : "UNRANKED"}
+          </Tier>
+        )}
         <Text>
           {user.kills +
             "/" +
