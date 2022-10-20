@@ -91,7 +91,6 @@ export const SummonerBot: React.FC<Ipuuid> = ({ userData, username }) => {
   const winNum = win.length;
   const { t } = useTranslation();
   const [Range, setRange] = useRecoilState(searchRange);
-
   const { data: matchData, refetch } = useQuery(["matchData"], () =>
     getMatchs(userData.puuid, Range)
   );
@@ -111,6 +110,7 @@ export const SummonerBot: React.FC<Ipuuid> = ({ userData, username }) => {
         : [...prev, current.championName],
     []
   );
+  console.log(matchData);
   return (
     <Box size={size}>
       <Left size={size}>
@@ -125,7 +125,7 @@ export const SummonerBot: React.FC<Ipuuid> = ({ userData, username }) => {
             t("losses")}
         </KDA>
         <Piechart win={winNum} defeat={Range - winNum} />
-        <Title>{username}님의 숙련도</Title>
+        <Title>{userData.name}님의 숙련도</Title>
         {masteryData?.map((data: IChamp, index: any) => (
           <Mastery key={index} data={ChampData} Champ={data} />
         ))}
@@ -136,7 +136,7 @@ export const SummonerBot: React.FC<Ipuuid> = ({ userData, username }) => {
       </Left>
       <Right size={size}>
         {matchData?.map((data: string) => (
-          <Match key={data} data={data} username={username} />
+          <Match key={data} data={data} username={userData.name} />
         ))}
         <MoreBtn onClick={handlePage} whileHover={{ fontSize: "40px" }}>
           <FontAwesomeIcon icon={faCaretDown} />

@@ -43,7 +43,7 @@ const Box = styled.div<{ win: boolean }>`
 const LeftBox = styled.div<{ size: string }>`
   display: flex;
   flex-direction: ${(props) => (props.size === "Small" ? "column" : "row")};
-  gap: ${(props) => (props.size === "Small" ? "1vw" : "")};
+  gap: ${(props) => (props.size === "Small" ? "2px" : "")};
 `;
 
 const GameInfo = styled.div<{ size: string }>`

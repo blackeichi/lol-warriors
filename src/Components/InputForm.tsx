@@ -76,6 +76,7 @@ const AutoBox = styled.div<{ size: string; home: boolean }>`
   width: ${(props) => (props.size !== "Mobile" ? "100%" : "90%")};
   position: absolute;
   top: ${(props) => (props.home ? "50px" : "30px")};
+  z-index: 1;
 `;
 const EachUser = styled.div`
   width: 50%;

@@ -76,6 +76,11 @@ const NameBox = styled.div<{ size: string }>`
         : "row"
       : "column"};
 `;
+const ColBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+`;
 const Name = styled.h1<{ size: string }>`
   font-weight: bold;
   font-family: "MonoplexKR-Regular";
@@ -85,6 +90,10 @@ const Name = styled.h1<{ size: string }>`
         ? "6vw"
         : "25px"
       : "6vw"};
+`;
+const PS = styled.h1`
+  font-size: 14px;
+  color: gray;
 `;
 const Reload = styled.h1`
   padding: 10px;
@@ -142,10 +151,11 @@ const TierTitle = styled.h1`
   font-weight: bold;
   color: darkgray;
 `;
-const Rank = styled.h1<{ tier?: string | undefined }>`
+const Rank = styled.h1<{ tier?: string | undefined; size: string }>`
   color: ${(props) => (props.tier === undefined ? "darkgray" : "black")};
   font-weight: bold;
-  font-size: 18px;
+  font-size: ${(props) =>
+    props.size !== "Mobile" && props.size !== "Small" ? "18px" : "4.5vw"};
 `;
 const WinInfo = styled.h2`
   font-size: 13px;
@@ -175,6 +185,24 @@ const icons: Iicon = {
 };
 
 export const SummonerTop: React.FC<IUser> = ({ userData }) => {
+  const ps =
+    userData.name === "유 우 섬"
+      ? "미친 대학원생"
+      : userData.name === "05년생빠른손"
+      ? "똥💩"
+      : userData.name === "유 성 킴"
+      ? "성균관 신지드"
+      : userData.name === "유성조절전문가"
+      ? "개🐶"
+      : userData.name === "듕듕듀듀"
+      ? "회화 큰 형님"
+      : userData.name === "석희노예12년"
+      ? "트롤들의 왕"
+      : userData.name === "핑자풍선"
+      ? "(핑크자크라는 뜻)"
+      : userData.name === "xeon 어둠의 왕"
+      ? "(대충 오타쿠라는 뜻)"
+      : "";
   const { t } = useTranslation();
   const server = useRecoilValue(serverState);
   const {
@@ -203,7 +231,11 @@ export const SummonerTop: React.FC<IUser> = ({ userData }) => {
           <Level>{userData.summonerLevel}</Level>
         </IconBox>
         <NameBox size={size}>
-          <Name size={size}>{userData.name}</Name>
+          <ColBox>
+            <Name size={size}>{userData.name}</Name>
+            {ps && <PS>{ps}</PS>}
+          </ColBox>
+
           <Reload
             onClick={() => {
               window.location.reload();
@@ -233,8 +265,12 @@ export const SummonerTop: React.FC<IUser> = ({ userData }) => {
                   {index === 0 ? t("soloRank") : t("flexRank")}
                 </TierTitle>
                 <InfoBox>
-                  <Rank tier={info?.tier}>{info ? info.tier : "Unranked"}</Rank>
-                  <Rank tier={info?.tier}>{info ? info.rank : ""}</Rank>
+                  <Rank size={size} tier={info?.tier}>
+                    {info ? info.tier : "Unranked"}
+                  </Rank>
+                  <Rank size={size} tier={info?.tier}>
+                    {info ? info.rank : ""}
+                  </Rank>
                 </InfoBox>
                 <WinInfo>{info?.leaguePoints} LP</WinInfo>
                 {info && (

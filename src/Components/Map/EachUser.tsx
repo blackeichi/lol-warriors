@@ -71,9 +71,10 @@ const Username = styled.h1<{ me?: boolean; size: string }>`
   color: ${(props) => (props.me ? props.theme.bgColr : "black")};
   cursor: pointer;
 `;
-const Tier = styled.h1<{ tier: string }>`
+const Tier = styled.h1<{ tier: string; size: string }>`
   color: darkgray;
-  font-size: 12px;
+  font-size: ${(props) =>
+    props.size !== "Mobile" && props.size !== "Small" ? "12px" : "2vw"};
 `;
 const ChartBox = styled.div<{ size: string }>`
   display: ${(props) => (props.size === "Small" ? "none" : "flex")};
@@ -227,7 +228,7 @@ export const EachUser: React.FC<IType> = ({
           <Username size={size} onClick={onMove} me={me}>
             {user.summonerName}
           </Username>
-          <Tier tier={soloTier}>
+          <Tier size={size} tier={soloTier}>
             {soloTier ? soloTier?.tier + " " + soloTier?.rank : "UNRANKED"}
           </Tier>
         </UserInfo>
