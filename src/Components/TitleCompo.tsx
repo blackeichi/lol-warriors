@@ -31,6 +31,13 @@ const Overlay = styled.div`
   border-radius: 50px;
   border: 8px solid ${(props) => props.theme.bgColr};
 `;
+const TitleBox = styled.div<{ size: string; home: boolean }>`
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  margin-bottom: ${(props) =>
+    props.home ? "40px" : props.size !== "Mobile" ? "0" : "10px"};
+`;
 const Title = styled.h1<{ size: string; home: boolean }>`
   font-family: "HBIOS-SYS";
   color: white;
@@ -42,9 +49,18 @@ const Title = styled.h1<{ size: string; home: boolean }>`
       : props.home
       ? "14vw"
       : "12vw"};
-  margin-bottom: ${(props) =>
-    props.home ? "40px" : props.size !== "Mobile" ? "0" : "10px"};
+
   cursor: pointer;
+`;
+const TitleImg = styled.img<{ size: string; home: boolean }>`
+  width: ${(props) =>
+    props.size !== "Mobile" && props.size !== "Small"
+      ? props.home
+        ? "70px"
+        : "40px"
+      : props.home
+      ? "14vw"
+      : "12vw"};
 `;
 
 type Interface = {
@@ -69,9 +85,16 @@ export const TitleCompo: React.FC<Interface> = ({ home = false }) => {
           volume={0.1}
         />
       </ImgBox>
-      <Title onClick={() => navigate(`/`)} home={home} size={size}>
-        LoL Warriors
-      </Title>
+      <TitleBox home={home} size={size}>
+        <TitleImg
+          home={home}
+          size={size}
+          src="https://opgg-gnb.akamaized.net/static/images/icons/img-navi-lol-white.svg?image=q_auto,f_webp,w_48&v=1666160193533"
+        />
+        <Title onClick={() => navigate(`/`)} home={home} size={size}>
+          Warriors
+        </Title>
+      </TitleBox>
     </Box>
   );
 };

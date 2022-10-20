@@ -78,6 +78,12 @@ const MoreBtn = styled(motion.div)`
   box-sizing: border-box;
   color: darkgray;
 `;
+const Erbox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
 
 type Ipuuid = {
   userData: userInterface;
@@ -135,12 +141,21 @@ export const SummonerBot: React.FC<Ipuuid> = ({ userData, username }) => {
         ))}
       </Left>
       <Right size={size}>
-        {matchData?.map((data: string) => (
-          <Match key={data} data={data} username={userData.name} />
-        ))}
-        <MoreBtn onClick={handlePage} whileHover={{ fontSize: "40px" }}>
-          <FontAwesomeIcon icon={faCaretDown} />
-        </MoreBtn>
+        {matchData ? (
+          <>
+            {matchData?.map((data: string) => (
+              <Match key={data} data={data} username={userData.name} />
+            ))}
+            <MoreBtn onClick={handlePage} whileHover={{ fontSize: "40px" }}>
+              <FontAwesomeIcon icon={faCaretDown} />
+            </MoreBtn>
+          </>
+        ) : (
+          <Erbox>
+            <Title>현재 데이터 사용량이 너무 많습니다.</Title>
+            <Title>1~2분 후 다시 이용해주세요.😉</Title>
+          </Erbox>
+        )}
       </Right>
     </Box>
   );
