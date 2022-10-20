@@ -116,7 +116,6 @@ export const SummonerBot: React.FC<Ipuuid> = ({ userData, username }) => {
         : [...prev, current.championName],
     []
   );
-  console.log(matchData);
   return (
     <Box size={size}>
       <Left size={size}>

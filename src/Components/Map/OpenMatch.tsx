@@ -15,6 +15,8 @@ const Box = styled.div<{ win: boolean }>`
   border-bottom-left-radius: 10px;
   margin-bottom: 10px;
   font-family: "MonoplexKR-Regular";
+  border-top: 3px solid
+    ${(props) => (props.win ? props.theme.blueColr : props.theme.redColr)};
 `;
 const Wrapper = styled.div<{ win: boolean }>`
   background-color: ${(props) =>
