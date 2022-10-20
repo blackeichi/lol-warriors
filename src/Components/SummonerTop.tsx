@@ -32,8 +32,18 @@ const IconBox = styled.div<{ size: string }>`
   position: relative;
   display: flex;
   justify-content: center;
-  width: ${(props) => (props.size !== "Mobile" ? "120px" : "25vw")};
-  height: ${(props) => (props.size !== "Mobile" ? "120px" : "25vw")};
+  width: ${(props) =>
+    props.size !== "Mobile"
+      ? props.size === "Small"
+        ? "30vw"
+        : "120px"
+      : "25vw"};
+  height: ${(props) =>
+    props.size !== "Mobile"
+      ? props.size === "Small"
+        ? "30vw"
+        : "120px"
+      : "25vw"};
 `;
 
 const Icon = styled.img`
@@ -53,14 +63,28 @@ const Level = styled.h1`
 const NameBox = styled.div<{ size: string }>`
   display: flex;
   align-items: ${(props) =>
-    props.size !== "Mobile" ? "center" : "flex-start"};
+    props.size !== "Mobile"
+      ? props.size === "Small"
+        ? "flex-start"
+        : "center"
+      : "flex-start"};
   gap: 10px;
-  flex-direction: ${(props) => (props.size !== "Mobile" ? "row" : "column")};
+  flex-direction: ${(props) =>
+    props.size !== "Mobile"
+      ? props.size === "Small"
+        ? "column"
+        : "row"
+      : "column"};
 `;
 const Name = styled.h1<{ size: string }>`
   font-weight: bold;
   font-family: "MonoplexKR-Regular";
-  font-size: ${(props) => (props.size !== "Mobile" ? "25px" : "7vw")};
+  font-size: ${(props) =>
+    props.size !== "Mobile"
+      ? props.size === "Small"
+        ? "6vw"
+        : "25px"
+      : "6vw"};
 `;
 const Reload = styled.h1`
   padding: 10px;
@@ -91,8 +115,18 @@ const TierBox = styled.div`
 `;
 
 const Img = styled.img<{ size: string }>`
-  width: ${(props) => (props.size !== "Mobile" ? "100px" : "20vw")};
-  height: ${(props) => (props.size !== "Mobile" ? "100px" : "20vw")};
+  width: ${(props) =>
+    props.size !== "Mobile"
+      ? props.size === "Small"
+        ? "20vw"
+        : "100px"
+      : "20vw"};
+  height: ${(props) =>
+    props.size !== "Mobile"
+      ? props.size === "Small"
+        ? "20vw"
+        : "100px"
+      : "20vw"};
 `;
 
 const TierInfo = styled.div`

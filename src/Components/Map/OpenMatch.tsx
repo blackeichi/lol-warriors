@@ -1,13 +1,15 @@
 import React from "react";
+import { useRecoilValue } from "recoil";
 import styled from "styled-components";
 import { IMatch } from "../../util/api";
+import { resizeState } from "../../util/atom";
 import { EachUser } from "../Map/EachUser";
 
 const Box = styled.div<{ win: boolean }>`
   width: 100%;
   background-color: ${(props) =>
     props.win ? props.theme.blueBg : props.theme.redBg};
-  border-left: 10px solid
+  border-left: 9px solid
     ${(props) => (props.win ? props.theme.blueColr : props.theme.redColr)};
   box-sizing: border-box;
   border-bottom-left-radius: 10px;
@@ -18,10 +20,13 @@ const Wrapper = styled.div<{ win: boolean }>`
   background-color: ${(props) =>
     props.win ? props.theme.redBg : props.theme.blueBg};
 `;
-const RateBox = styled.div`
+const RateBox = styled.div<{ size: string }>`
   width: 100%;
   background-color: white;
   display: flex;
+  flex-direction: ${(props) =>
+    props.size !== "Small" && props.size !== "Mobile" ? "row" : "column"};
+  gap: 5px;
   align-items: center;
   justify-content: space-around;
   padding: 30px 0;
@@ -85,6 +90,7 @@ export const OpenMatch: React.FC<IType> = ({
   runeData,
   Me,
 }) => {
+  const size = useRecoilValue(resizeState);
   const maxDealt = gameData.info.participants.reduce(
     (prev: IMatch, current: IMatch) => {
       return prev.totalDamageDealtToChampions >
@@ -136,7 +142,7 @@ export const OpenMatch: React.FC<IType> = ({
           user={user}
         />
       ))}
-      <RateBox>
+      <RateBox size={size}>
         <Icons>
           <IconBox>
             <Icon

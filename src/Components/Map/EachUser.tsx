@@ -17,6 +17,7 @@ const Box = styled.div<{ size: string; me: boolean | undefined; win: boolean }>`
   font-family: "MonoplexKR-Regular";
   background-color: ${(props) =>
     props.me ? (props.win ? props.theme.darkBlue : props.theme.darkRed) : ""};
+  font-size: ${(props) => (props.size === "Small" ? "2.3vw" : "15px")};
 `;
 const RowBox = styled.div`
   display: flex;
@@ -59,20 +60,25 @@ const Spell = styled.img`
 const Rune = styled.img`
   width: 20px;
 `;
-const UserInfo = styled.div``;
-const Username = styled.h1<{ me?: boolean }>`
+const UserInfo = styled.div<{ size: string }>`
+  display: flex;
+  flex-direction: column;
+  gap: ${(props) => props.size !== "Small" && "5px"};
+`;
+const Username = styled.h1<{ me?: boolean; size: string }>`
   font-weight: bold;
-  font-size: ${(props) => (props.me ? "15px" : "14px")};
+  font-size: ${(props) => (props.size === "Small" ? "3vw" : "14px")};
   color: ${(props) => (props.me ? props.theme.bgColr : "black")};
   cursor: pointer;
 `;
 const Tier = styled.h1<{ tier: string }>`
-  margin-top: 5px;
   color: darkgray;
   font-size: 12px;
 `;
 const ChartBox = styled.div<{ size: string }>`
   display: ${(props) => (props.size === "Small" ? "none" : "flex")};
+  gap: ${(props) =>
+    props.size !== "Mobile" && props.size !== "Small" ? "5px" : ""};
   flex-direction: ${(props) =>
     props.size !== "Mobile"
       ? props.size !== "Small"
@@ -85,9 +91,7 @@ const ProgressBox = styled.div`
   flex-direction: column;
   align-items: center;
 `;
-const Text = styled.h1`
-  font-size: 15px;
-`;
+const Text = styled.h1``;
 const KDA = styled.h1<{ kda: number }>`
   font-size: 15px;
   color: ${(props) =>
@@ -219,39 +223,36 @@ export const EachUser: React.FC<IType> = ({
             />
           </ColBox>
         </RowBox>
-        <UserInfo>
-          <Username onClick={onMove} me={me}>
+        <UserInfo size={size}>
+          <Username size={size} onClick={onMove} me={me}>
             {user.summonerName}
           </Username>
-          {size !== "Small" && (
-            <Tier tier={soloTier}>
-              {soloTier ? soloTier?.tier + " " + soloTier?.rank : "UNRANKED"}
-            </Tier>
-          )}
-        </UserInfo>
-      </Wrapper>
-      <ColBox style={{ width: "13%" }}>
-        {size === "Small" && (
           <Tier tier={soloTier}>
             {soloTier ? soloTier?.tier + " " + soloTier?.rank : "UNRANKED"}
           </Tier>
-        )}
-        <Text>
-          {user.kills +
-            "/" +
-            user.deaths +
-            "/" +
-            user.assists +
-            "(" +
-            Math.floor(((user.kills + user.assists) / totalKill) * 100) +
-            "%)"}
-        </Text>
-        {kda && <KDA kda={kda}>{kda.toFixed(2)}:1</KDA>}
-      </ColBox>
-      <ColBox style={{ width: "20px" }}>
-        <Text style={{ fontWeight: "bold" }}>CS</Text>
-        <Text>{user.totalMinionsKilled}</Text>
-      </ColBox>
+        </UserInfo>
+      </Wrapper>
+      {size !== "Small" && (
+        <ColBox style={{ width: "13%" }}>
+          <Text>
+            {user.kills +
+              "/" +
+              user.deaths +
+              "/" +
+              user.assists +
+              "(" +
+              Math.floor(((user.kills + user.assists) / totalKill) * 100) +
+              "%)"}
+          </Text>
+          {kda && <KDA kda={kda}>{kda.toFixed(2)}:1</KDA>}
+        </ColBox>
+      )}
+      {size !== "Small" && (
+        <ColBox style={{ width: "20px" }}>
+          <Text style={{ fontWeight: "bold" }}>CS</Text>
+          <Text>{user.totalMinionsKilled}</Text>
+        </ColBox>
+      )}
       <ChartBox size={size}>
         <ProgressBox>
           <Text>{user.totalDamageDealtToChampions}</Text>
@@ -280,9 +281,32 @@ export const EachUser: React.FC<IType> = ({
             </Items>
           ))}
         </Items>
-        <Text>
-          <FontAwesomeIcon icon={faCoins} /> {user.goldEarned}
-        </Text>
+        <RowBox style={{ gap: "10px" }}>
+          {size === "Small" && (
+            <RowBox>
+              <Text style={{ fontWeight: "bold" }}>CS : </Text>
+              <Text>{user.totalMinionsKilled}</Text>
+            </RowBox>
+          )}
+          <Text>
+            <FontAwesomeIcon icon={faCoins} /> {user.goldEarned}
+          </Text>
+        </RowBox>
+        {size === "Small" && (
+          <RowBox style={{ gap: "10px" }}>
+            <Text style={{ fontSize: "15px" }}>
+              {user.kills +
+                "/" +
+                user.deaths +
+                "/" +
+                user.assists +
+                "(" +
+                Math.floor(((user.kills + user.assists) / totalKill) * 100) +
+                "%)"}
+            </Text>
+            {kda && <KDA kda={kda}>{kda.toFixed(2)}:1</KDA>}
+          </RowBox>
+        )}
       </ColBox>
     </Box>
   );

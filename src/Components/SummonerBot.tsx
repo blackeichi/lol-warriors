@@ -60,6 +60,7 @@ const Right = styled.div<{ size: string }>`
   width: 100%;
   display: flex;
   flex-direction: column;
+  gap: 5px;
 `;
 const MoreBtn = styled(motion.div)`
   width: 100%;

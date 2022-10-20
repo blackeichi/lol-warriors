@@ -31,6 +31,7 @@ const Header = styled.div<{ size: string }>`
   align-items: center;
   padding: 20px;
   box-sizing: border-box;
+  gap: 10px;
 `;
 
 const Box = styled.div`

@@ -38,20 +38,25 @@ const Box = styled.div<{ win: boolean }>`
   align-items: center;
   padding: 10px;
   justify-content: space-between;
+  position: relative;
 `;
-const LeftBox = styled.div`
+const LeftBox = styled.div<{ size: string }>`
   display: flex;
+  flex-direction: ${(props) => (props.size === "Small" ? "column" : "row")};
+  gap: ${(props) => (props.size === "Small" ? "1vw" : "")};
 `;
 
-const GameInfo = styled.div`
+const GameInfo = styled.div<{ size: string }>`
   display: flex;
   flex-direction: column;
   gap: 5px;
-  width: 120px;
+  width: ${(props) => (props.size === "Small" ? "" : "120px")};
+  top: 5px;
+  left: 5px;
 `;
-const Gamemode = styled.h1<{ win: boolean }>`
+const Gamemode = styled.h1<{ win: boolean; size: string }>`
   color: ${(props) => (props.win ? props.theme.blueColr : props.theme.redColr)};
-  font-size: 15px;
+  font-size: ${(props) => (props.size === "Small" ? "3.5vw" : "15px")};
   font-weight: bold;
 `;
 const Data = styled.h1`
@@ -72,19 +77,29 @@ const ChampBox = styled.div`
   position: relative;
 `;
 const Champ = styled.img<{ size: string }>`
-  width: ${(props) => (props.size === "Mobile" ? "10vw" : "60px")};
-  height: ${(props) => (props.size === "Mobile" ? "10vw" : "60px")};
+  width: ${(props) =>
+    props.size === "Mobile"
+      ? "10vw"
+      : props.size === "Small"
+      ? "12vw"
+      : "60px"};
+  height: ${(props) =>
+    props.size === "Mobile"
+      ? "10vw"
+      : props.size === "Small"
+      ? "12vw"
+      : "60px"};
   border-radius: 50%;
 `;
 const Level = styled.h1<{ size: string }>`
   position: absolute;
-  right: -3px;
-  bottom: 3px;
+  right: -5px;
+  bottom: 0px;
   color: white;
   background-color: black;
   padding: 5px;
   border-radius: 50%;
-  font-size: ${(props) => (props.size === "Mobile" ? "9px" : "12px")};
+  font-size: ${(props) => (props.size === "Mobile" ? "8px" : "12px")};
   font-weight: bold;
 `;
 const ColBox = styled.div`
@@ -92,20 +107,40 @@ const ColBox = styled.div`
   flex-direction: column;
 `;
 const Spell = styled.img<{ size: string }>`
-  width: ${(props) => (props.size === "Mobile" ? "4vw" : "30px")};
-  height: ${(props) => (props.size === "Mobile" ? "4vw" : "30px")};
+  width: ${(props) =>
+    props.size === "Mobile"
+      ? "5vw"
+      : props.size === "Small"
+      ? "3.7vh"
+      : "30px"};
+  height: ${(props) =>
+    props.size === "Mobile"
+      ? "5vw"
+      : props.size === "Small"
+      ? "3.7vh"
+      : "30px"};
   border-radius: 5px;
 `;
 const Rune = styled.img<{ size: string }>`
-  width: ${(props) => (props.size === "Mobile" ? "4vw" : "25px")};
-  height: ${(props) => (props.size === "Mobile" ? "4vw" : "25px")};
+  width: ${(props) =>
+    props.size === "Mobile"
+      ? "5vw"
+      : props.size === "Small"
+      ? "3.7vh"
+      : "30px"};
+  height: ${(props) =>
+    props.size === "Mobile"
+      ? "5vw"
+      : props.size === "Small"
+      ? "3.7vh"
+      : "30px"};
 `;
-const KDABox = styled.div`
+const KDABox = styled.div<{ size: string }>`
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  font-size: 20px;
+  font-size: ${(props) => (props.size === "Small" ? "4vw" : "20px")};
 `;
 const RowBox = styled.div`
   display: flex;
@@ -128,8 +163,8 @@ const Item = styled.img`
   width: 30px;
   height: 30px;
 `;
-const AceH1 = styled.h1`
-  font-size: 14px;
+const AceH1 = styled.h1<{ size: string }>`
+  font-size: ${(props) => (props.size === "Small" ? "2vh" : "14px")};
   background-color: ${(props) => props.theme.redColr};
   color: white;
   padding: 7px;
@@ -295,19 +330,30 @@ export const Match: React.FC<Idata> = ({ data, username }) => {
         <Container>
           <Overlay win={Me.win} open={open} />
           <Box win={Me.win}>
-            <LeftBox>
-              <GameInfo>
-                <Gamemode win={Me.win}>{gameMode}</Gamemode>
-                <Data>
-                  {days}
-                  {daysW}
-                </Data>
-                <BoldData>{Me.win ? t("victory") : t("defeat")}</BoldData>
-                <Data>
-                  {time + t("minute")}&nbsp;
-                  {Math.floor(gameData?.info.gameDuration - time * 60) +
-                    t("second")}
-                </Data>
+            <LeftBox size={size}>
+              <GameInfo size={size}>
+                <Gamemode size={size} win={Me.win}>
+                  {gameMode}
+                </Gamemode>
+                {size !== "Small" && (
+                  <>
+                    <Data>
+                      {days}
+                      {daysW}
+                    </Data>
+                    <BoldData>{Me.win ? t("victory") : t("defeat")}</BoldData>
+                    <Data>
+                      {time + t("minute")}&nbsp;
+                      {Math.floor(gameData?.info.gameDuration - time * 60) +
+                        t("second")}
+                    </Data>
+                  </>
+                )}
+                {size === "Small" && (
+                  <Data>
+                    {time}:{Math.floor(gameData?.info.gameDuration - time * 60)}
+                  </Data>
+                )}
               </GameInfo>
               <ChampInfo>
                 <ChampBox>
@@ -340,8 +386,16 @@ export const Match: React.FC<Idata> = ({ data, username }) => {
                   />
                 </ColBox>
               </ChampInfo>
+              {size === "Small" && (
+                <>
+                  <Data>
+                    {days}
+                    {daysW}
+                  </Data>
+                </>
+              )}
             </LeftBox>
-            <KDABox>
+            <KDABox size={size}>
               <RowBox>
                 <KDA>{Me?.kills}</KDA>
                 <KDA>/</KDA>
@@ -359,9 +413,9 @@ export const Match: React.FC<Idata> = ({ data, username }) => {
                 </BoldData>
               </RowBox>
               <RowBox>
-                {Ace && <AceH1>{Ace}</AceH1>}
-                {Me.firstBloodKill && <AceH1>FK</AceH1>}
-                {Me.firstTowerKill && <AceH1>FTK</AceH1>}
+                {Ace && <AceH1 size={size}>{Ace}</AceH1>}
+                {Me.firstBloodKill && <AceH1 size={size}>FK</AceH1>}
+                {Me.firstTowerKill && <AceH1 size={size}>FTK</AceH1>}
               </RowBox>
             </KDABox>
             <ItemBox size={size}>

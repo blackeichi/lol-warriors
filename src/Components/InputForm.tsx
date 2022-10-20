@@ -16,7 +16,11 @@ const FormBox = styled.div`
 `;
 const Form = styled.form<{ size: string; home: boolean }>`
   width: ${(props) =>
-    props.size !== "Mobile" ? (props.home ? "500px" : "300px") : "90vw"};
+    props.size !== "Mobile" && props.size !== "Small"
+      ? props.home
+        ? "500px"
+        : "300px"
+      : "90vw"};
   display: flex;
   align-items: center;
 `;
