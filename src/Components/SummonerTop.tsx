@@ -202,6 +202,8 @@ export const SummonerTop: React.FC<IUser> = ({ userData }) => {
       ? "(핑크자크라는 뜻)"
       : userData.name === "xeon 어둠의 왕"
       ? "(대충 오타쿠라는 뜻)"
+      : userData.name === "오일파스텔장인"
+      ? "오피스텔장인"
       : "";
   const { t } = useTranslation();
   const server = useRecoilValue(serverState);
