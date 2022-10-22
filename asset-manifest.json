@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/lol-warriors/static/css/main.c21b1cba.css",
-    "main.js": "/lol-warriors/static/js/main.74119d4d.js",
+    "main.js": "/lol-warriors/static/js/main.db9727da.js",
     "index.html": "/lol-warriors/index.html",
     "main.c21b1cba.css.map": "/lol-warriors/static/css/main.c21b1cba.css.map",
-    "main.74119d4d.js.map": "/lol-warriors/static/js/main.74119d4d.js.map"
+    "main.db9727da.js.map": "/lol-warriors/static/js/main.db9727da.js.map"
   },
   "entrypoints": [
     "static/css/main.c21b1cba.css",
-    "static/js/main.74119d4d.js"
+    "static/js/main.db9727da.js"
   ]
 }
