@@ -1,17 +1,4 @@
-type IColor = {
-  blueColr: string;
-  darkBlue: string;
-  bgColr: string;
-  redColr: string;
-  darkRed: string;
-  grayColr: string;
-  blackColr: string;
-  darkGray: string;
-  blueBg: string;
-  redBg: string;
-};
-
-export const Color: IColor = {
+export const Color = {
   blueColr: "#13D8F6",
   darkBlue: "#D5E3FF",
   bgColr: "#9055A2",
