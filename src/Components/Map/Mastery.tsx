@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import {  IChamp } from "../../util/api";
+import { IChamp } from "../../util/api";
 
 const Box = styled.div`
   display: flex;
@@ -47,7 +47,7 @@ export const Mastery: React.FC<Interface> = ({ Champ, data }) => {
         <>
           <RowBox style={{ justifyContent: "flex-start" }}>
             <ChapImg
-              src={`https://ddragon.leagueoflegends.com/cdn/12.19.1/img/champion/${ChapData[0]}.png`}
+              src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/champion/${ChapData[0]}.png`}
             ></ChapImg>
             <ChampInfo style={{ alignItems: "flex-start" }}>
               <ChampInfoTitle>{ChapData[0]}</ChampInfoTitle>

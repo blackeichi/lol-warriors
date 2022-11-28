@@ -110,7 +110,7 @@ export const Summoner = () => {
           {userData ? (
             <>
               <SummonerTop userData={userData} />
-              <SummonerBot userData={userData} username={username} />
+              <SummonerBot userData={userData} />
             </>
           ) : (
             <ErrorMsg>{t("nouser")}</ErrorMsg>

@@ -41,7 +41,7 @@ export const RecentKDA: React.FC<Props> = ({ champ, KDAdata }) => {
     <RowBox>
       <RowBox>
         <ChapImg
-          src={`https://ddragon.leagueoflegends.com/cdn/12.19.1/img/champion/${champ}.png`}
+          src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/champion/${champ}.png`}
         ></ChapImg>
         <Text>{champ}</Text>
       </RowBox>

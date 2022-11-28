@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -24,6 +24,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { motion } from "framer-motion";
 import { RecentKDA } from "./Map/RecentKDA";
+import { useLocation } from "react-router-dom";
 
 const Box = styled.div<{ size: string }>`
   width: ${(props) => (props.size !== "Web" ? "95vw" : "98%")};
@@ -87,10 +88,9 @@ const Erbox = styled.div`
 
 type Ipuuid = {
   userData: userInterface;
-  username: string;
 };
 
-export const SummonerBot: React.FC<Ipuuid> = ({ userData, username }) => {
+export const SummonerBot: React.FC<Ipuuid> = ({ userData }) => {
   const size = useRecoilValue(resizeState);
   const server = useRecoilValue(serverState);
   const win = useRecoilValue(wins);
@@ -100,10 +100,14 @@ export const SummonerBot: React.FC<Ipuuid> = ({ userData, username }) => {
   const { data: matchData, refetch } = useQuery(["matchData"], () =>
     getMatchs(userData.puuid, Range)
   );
-  const { data: masteryData } = useQuery(["masteryData"], () =>
-    getMastery(server, userData.id)
+  const { data: masteryData, refetch: masteryRe } = useQuery(
+    ["masteryData"],
+    () => getMastery(server, userData.id)
   );
-  const { data: ChampData } = useQuery(["ChampData"], getChap);
+  const { data: ChampData, refetch: champRe } = useQuery(
+    ["ChampData"],
+    getChap
+  );
   const handlePage = async () => {
     await setRange(Range + 20);
     refetch();
@@ -116,6 +120,11 @@ export const SummonerBot: React.FC<Ipuuid> = ({ userData, username }) => {
         : [...prev, current.championName],
     []
   );
+  useEffect(() => {
+    refetch();
+    masteryRe();
+    champRe();
+  }, [champRe, masteryRe, refetch, userData]);
   return (
     <Box size={size}>
       <Left size={size}>
@@ -135,8 +144,8 @@ export const SummonerBot: React.FC<Ipuuid> = ({ userData, username }) => {
           <Mastery key={index} data={ChampData} Champ={data} />
         ))}
         <Title>최근 {Range}게임 챔프별 KDA</Title>
-        {recentChamp.map((champ: any) => (
-          <RecentKDA KDAdata={KDAdata} champ={champ} />
+        {recentChamp.map((champ: any, index: any) => (
+          <RecentKDA key={index} KDAdata={KDAdata} champ={champ} />
         ))}
       </Left>
       <Right size={size}>

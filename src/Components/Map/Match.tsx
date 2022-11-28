@@ -360,18 +360,18 @@ export const Match: React.FC<Idata> = ({ data, username }) => {
                   <Champ
                     size={size}
                     id={data}
-                    src={`https://ddragon.leagueoflegends.com/cdn/12.19.1/img/champion/${Me.championName}.png`}
+                    src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/champion/${Me.championName}.png`}
                   />
                   <Level size={size}>{Me.champLevel}</Level>
                 </ChampBox>
                 <ColBox>
                   <Spell
                     size={size}
-                    src={`https://ddragon.leagueoflegends.com/cdn/12.19.1/img/spell/${spell1?.[0]}.png`}
+                    src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/spell/${spell1?.[0]}.png`}
                   />
                   <Spell
                     size={size}
-                    src={`https://ddragon.leagueoflegends.com/cdn/12.19.1/img/spell/${spell2?.[0]}.png`}
+                    src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/spell/${spell2?.[0]}.png`}
                   />
                 </ColBox>
                 <ColBox>
@@ -424,7 +424,7 @@ export const Match: React.FC<Idata> = ({ data, username }) => {
                   <Container key={index}>
                     {item ? (
                       <Item
-                        src={`https://ddragon.leagueoflegends.com/cdn/12.19.1/img/item/${item}.png`}
+                        src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/item/${item}.png`}
                       />
                     ) : (
                       <Item />
