@@ -7,7 +7,7 @@ import { t } from "i18next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { KDAstate, resizeState, wins } from "../../util/atom";
+import { defeats, KDAstate, resizeState, wins } from "../../util/atom";
 import { OpenMatch } from "../Map/OpenMatch";
 
 const Wrapper = styled.div`
@@ -202,6 +202,7 @@ const positionType: IPosi = {
 export const Match: React.FC<Idata> = ({ data, username }) => {
   const { t } = useTranslation();
   const [win, setWins] = useRecoilState(wins);
+  const [defeat, setdefeats] = useRecoilState(defeats);
   const { data: gameData } = useQuery([data], () => getGames(data));
   const { data: spellData } = useQuery(["spellData"], getSpell);
   const { data: runeData } = useQuery(["runeData"], getRune);
@@ -283,10 +284,17 @@ export const Match: React.FC<Idata> = ({ data, username }) => {
   let gameId: number = gameData?.info.gameId;
   useEffect(() => {
     //-----set P/win
-    if (Me?.win) {
-      if (win.includes(gameId)) {
+    if (gameId !== undefined) {
+      if (Me?.win) {
+        if (win.includes(gameId)) {
+        } else {
+          setWins([...win, gameId]);
+        }
       } else {
-        setWins([...win, gameId]);
+        if (defeat.includes(gameId)) {
+        } else {
+          setdefeats([...defeat, gameId]);
+        }
       }
     }
   });

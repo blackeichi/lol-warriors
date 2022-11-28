@@ -11,6 +11,7 @@ import {
   userInterface,
 } from "../util/api";
 import {
+  defeats,
   KDAstate,
   resizeState,
   searchRange,
@@ -94,6 +95,8 @@ export const SummonerBot: React.FC<Ipuuid> = ({ userData }) => {
   const size = useRecoilValue(resizeState);
   const server = useRecoilValue(serverState);
   const win = useRecoilValue(wins);
+  const defeat = useRecoilValue(defeats);
+  const defeatNum = defeat.length;
   const winNum = win.length;
   const { t } = useTranslation();
   const [Range, setRange] = useRecoilState(searchRange);
@@ -129,16 +132,17 @@ export const SummonerBot: React.FC<Ipuuid> = ({ userData }) => {
     <Box size={size}>
       <Left size={size}>
         <KDA>
-          {Range +
+          {defeatNum +
+            winNum +
             t("games") +
             " " +
             winNum +
             t("wins") +
             " " +
-            (Range - winNum) +
+            defeatNum +
             t("losses")}
         </KDA>
-        <Piechart win={winNum} defeat={Range - winNum} />
+        <Piechart win={winNum} defeat={defeatNum} />
         <Title>{userData.name}님의 숙련도</Title>
         {masteryData?.map((data: IChamp, index: any) => (
           <Mastery key={index} data={ChampData} Champ={data} />

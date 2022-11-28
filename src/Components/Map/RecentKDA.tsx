@@ -43,7 +43,17 @@ export const RecentKDA: React.FC<Props> = ({ champ, KDAdata }) => {
         <ChapImg
           src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/champion/${champ}.png`}
         ></ChapImg>
-        <Text>{champ}</Text>
+        <ColBox>
+          <Text>{champ}</Text>
+          <RowBox>
+            <Text
+              style={{ fontSize: "12px", color: "#9055A2", fontWeight: "bold" }}
+            >
+              {gameData?.length}
+            </Text>
+            <Text style={{ fontSize: "12px" }}>Games</Text>
+          </RowBox>
+        </ColBox>
       </RowBox>
       <ColBox>
         <Title>KDA</Title>
