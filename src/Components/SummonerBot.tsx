@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -123,6 +123,19 @@ export const SummonerBot: React.FC<Ipuuid> = ({ userData }) => {
         : [...prev, current.championName],
     []
   );
+  const newArr: any[] = [];
+  recentChamp.map((item: any) => {
+    const ChapData = KDAdata.filter((data: any) => data.championName === item);
+    console.log(ChapData);
+    const newData = {
+      championName: item,
+      cnt: ChapData.length,
+    };
+    newArr.push(newData);
+  });
+  const sortedArr = newArr.sort((a, b) => b.cnt - a.cnt);
+  //cnt값에 따라 정렬하기.
+  console.log(recentChamp);
   useEffect(() => {
     refetch();
     masteryRe();
@@ -143,13 +156,13 @@ export const SummonerBot: React.FC<Ipuuid> = ({ userData }) => {
             t("losses")}
         </KDA>
         <Piechart win={winNum} defeat={defeatNum} />
+        <Title>최근 {Range}게임 챔프별 KDA</Title>
+        {sortedArr.map((champ: any, index: any) => (
+          <RecentKDA key={index} KDAdata={KDAdata} champ={champ.championName} />
+        ))}
         <Title>{userData.name}님의 숙련도</Title>
         {masteryData?.map((data: IChamp, index: any) => (
           <Mastery key={index} data={ChampData} Champ={data} />
-        ))}
-        <Title>최근 {Range}게임 챔프별 KDA</Title>
-        {recentChamp.map((champ: any, index: any) => (
-          <RecentKDA key={index} KDAdata={KDAdata} champ={champ} />
         ))}
       </Left>
       <Right size={size}>

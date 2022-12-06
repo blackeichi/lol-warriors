@@ -9,4 +9,5 @@ export const Color = {
   darkGray: "#606470",
   blueBg: "#ECF2FF",
   redBg: "#FFF1F3",
+  greenColor: "#49beb7",
 };

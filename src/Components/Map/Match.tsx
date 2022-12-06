@@ -201,8 +201,7 @@ const positionType: IPosi = {
 
 export const Match: React.FC<Idata> = ({ data, username }) => {
   const { t } = useTranslation();
-  const [win, setWins] = useRecoilState(wins);
-  const [defeat, setdefeats] = useRecoilState(defeats);
+
   const { data: gameData } = useQuery([data], () => getGames(data));
   const { data: spellData } = useQuery(["spellData"], getSpell);
   const { data: runeData } = useQuery(["runeData"], getRune);
@@ -282,6 +281,8 @@ export const Match: React.FC<Idata> = ({ data, username }) => {
     ];
   }
   let gameId: number = gameData?.info.gameId;
+  const [win, setWins] = useRecoilState(wins);
+  const [defeat, setdefeats] = useRecoilState(defeats);
   useEffect(() => {
     //-----set P/win
     if (gameId !== undefined) {
@@ -327,6 +328,7 @@ export const Match: React.FC<Idata> = ({ data, username }) => {
           gameId: gameData?.info.gameId,
           kda: Me?.challenges.kda,
           championName: Me?.championName,
+          win: Me?.win,
         };
         setKDAdata([...KDAdata, newData]);
       }
