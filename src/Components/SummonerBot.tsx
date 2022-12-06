@@ -126,7 +126,6 @@ export const SummonerBot: React.FC<Ipuuid> = ({ userData }) => {
   const newArr: any[] = [];
   recentChamp.map((item: any) => {
     const ChapData = KDAdata.filter((data: any) => data.championName === item);
-    console.log(ChapData);
     const newData = {
       championName: item,
       cnt: ChapData.length,
@@ -135,7 +134,6 @@ export const SummonerBot: React.FC<Ipuuid> = ({ userData }) => {
   });
   const sortedArr = newArr.sort((a, b) => b.cnt - a.cnt);
   //cnt값에 따라 정렬하기.
-  console.log(recentChamp);
   useEffect(() => {
     refetch();
     masteryRe();
