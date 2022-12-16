@@ -97,6 +97,11 @@ export function getRank(server: string, userid: string) {
     `https://${server}.api.riotgames.com/lol/league/v4/entries/by-summoner/${userid}?api_key=${API_KEY}`
   ).then((response) => response.json());
 }
+export function getIngame(userid: string) {
+  return fetch(
+    `https://kr.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/${userid}?api_key=${API_KEY}`
+  ).then((response) => response.json());
+}
 export function getMatchs(puuid: string, count: number) {
   return fetch(
     `https://asia.api.riotgames.com/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=${count}&api_key=${API_KEY}`

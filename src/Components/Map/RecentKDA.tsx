@@ -50,7 +50,11 @@ export const RecentKDA: React.FC<Props> = ({ champ, KDAdata }) => {
       setWins(
         (
           (gameData?.reduce((prev: any, current: any) => {
-            return prev + current?.win ? 1 : 0;
+            if (current?.win) {
+              return prev + 1;
+            } else {
+              return prev;
+            }
           }, 0) /
             gameData.length) *
           100
@@ -95,7 +99,7 @@ export const RecentKDA: React.FC<Props> = ({ champ, KDAdata }) => {
         </Text>
       </ColBox>
       <ColBox style={{ alignItems: "end" }}>
-        <Title>KDA</Title>
+        <Title>승률</Title>
         <Text>{wins}%</Text>
       </ColBox>
     </Container>

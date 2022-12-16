@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -25,9 +25,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
 import { motion } from "framer-motion";
 import { RecentKDA } from "./Map/RecentKDA";
-import { useLocation } from "react-router-dom";
 
-const Box = styled.div<{ size: string }>`
+export const Box = styled.div<{ size: string }>`
   width: ${(props) => (props.size !== "Web" ? "95vw" : "98%")};
   max-width: 980px;
   background-color: ${(props) => props.theme.grayColr};
@@ -52,7 +51,7 @@ const KDA = styled.h1`
   font-size: 20px;
   font-weight: bold;
 `;
-const Title = styled(KDA)`
+export const Title = styled(KDA)`
   font-weight: bold;
   color: ${(props) => props.theme.bgColr};
   font-size: 18px;
@@ -80,8 +79,9 @@ const MoreBtn = styled(motion.div)`
   box-sizing: border-box;
   color: darkgray;
 `;
-const Erbox = styled.div`
+export const Erbox = styled.div`
   display: flex;
+  width: 100%;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -90,6 +90,7 @@ const Erbox = styled.div`
 type Ipuuid = {
   userData: userInterface;
 };
+export type TIngame = {};
 
 export const SummonerBot: React.FC<Ipuuid> = ({ userData }) => {
   const size = useRecoilValue(resizeState);
@@ -107,6 +108,7 @@ export const SummonerBot: React.FC<Ipuuid> = ({ userData }) => {
     ["masteryData"],
     () => getMastery(server, userData.id)
   );
+
   const { data: ChampData, refetch: champRe } = useQuery(
     ["ChampData"],
     getChap

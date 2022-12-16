@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useQuery } from "react-query";
 import { useLocation } from "react-router-dom";
 import { useRecoilValue } from "recoil";
@@ -9,6 +9,7 @@ import { TitleCompo } from "../Components/TitleCompo";
 import { getPuuid, userInterface } from "../util/api";
 import { resizeState, serverState } from "../util/atom";
 import { SummonerTop } from "../Components/SummonerTop";
+import { SummonerIngame } from "../Components/SummonerIngame";
 import { SummonerBot } from "../Components/SummonerBot";
 import { useTranslation } from "react-i18next";
 import ReactLoading from "react-loading";
@@ -53,6 +54,7 @@ export const Summoner = () => {
   const size = useRecoilValue(resizeState);
   const server = useRecoilValue(serverState);
   const location = useLocation();
+  const [ingame, setIngame] = useState(false);
   const { t } = useTranslation();
   const username = new URLSearchParams(location.search).get(
     "username"
@@ -91,6 +93,7 @@ export const Summoner = () => {
     <Container>
       <Header size={size}>
         <TitleCompo />
+        <h1 onClick={() => setIngame((prev) => !prev)}>인게임</h1>
         <Box>
           <InputForm />
           <LangSelect size={size} home={false} />
@@ -110,7 +113,11 @@ export const Summoner = () => {
           {userData ? (
             <>
               <SummonerTop userData={userData} />
-              <SummonerBot userData={userData} />
+              {ingame ? (
+                <SummonerIngame userData={userData} />
+              ) : (
+                <SummonerBot userData={userData} />
+              )}
             </>
           ) : (
             <ErrorMsg>{t("nouser")}</ErrorMsg>
