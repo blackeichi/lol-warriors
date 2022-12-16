@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { Color } from "../../util/color";
 
@@ -38,6 +39,7 @@ export const RecentKDA: React.FC<Props> = ({ champ, KDAdata }) => {
   const [kda, setKda] = useState() as any;
   const [wins, setWins] = useState() as any;
   const gameData = KDAdata.filter((data: any) => data.championName === champ);
+  const { t } = useTranslation();
   useEffect(() => {
     if (gameData?.length > 0) {
       setKda(
@@ -99,7 +101,7 @@ export const RecentKDA: React.FC<Props> = ({ champ, KDAdata }) => {
         </Text>
       </ColBox>
       <ColBox style={{ alignItems: "end" }}>
-        <Title>승률</Title>
+        <Title>{t("winningRate")}</Title>
         <Text>{wins}%</Text>
       </ColBox>
     </Container>

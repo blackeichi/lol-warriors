@@ -32,5 +32,10 @@
   "jung": "JUNGLE",
   "Invalid": "NOPE",
   "position": "Position",
-  "nouser": "Riotに登録されていない召喚士です。 誤字を確認した後、もう一度検索してください。🤔"
+  "nouser": "Riotに登録されていない召喚士です。 誤字を確認した後、もう一度検索してください。🤔",
+  "recent": "最近",
+  "recent2": "ゲーム別 KDA",
+  "winningRate": "勝率",
+  "proficiency": "さんの熟練度",
+  "proficiency2": "熟練度"
 }

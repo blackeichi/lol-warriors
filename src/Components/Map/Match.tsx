@@ -201,7 +201,6 @@ const positionType: IPosi = {
 
 export const Match: React.FC<Idata> = ({ data, username }) => {
   const { t } = useTranslation();
-
   const { data: gameData } = useQuery([data], () => getGames(data));
   const { data: spellData } = useQuery(["spellData"], getSpell);
   const { data: runeData } = useQuery(["runeData"], getRune);
@@ -259,13 +258,13 @@ export const Match: React.FC<Idata> = ({ data, username }) => {
   //-----getAce
   let Ace = "";
   if (Me?.pentaKills > 0) {
-    Ace = "펜타킬";
+    Ace = "Penta";
   } else if (Me?.quadraKills > 0) {
-    Ace = "쿼드라킬";
+    Ace = "Quadra";
   } else if (Me?.tripleKills > 0) {
-    Ace = "트리플킬";
+    Ace = "Tripple";
   } else if (Me?.doubleKills > 0) {
-    Ace = "더블킬";
+    Ace = "Double";
   }
   //-----getItem
   let items;

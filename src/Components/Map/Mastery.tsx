@@ -1,4 +1,6 @@
+import { t } from "i18next";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { IChamp } from "../../util/api";
 
@@ -37,6 +39,7 @@ type Interface = {
 };
 
 export const Mastery: React.FC<Interface> = ({ Champ, data }) => {
+  const { t } = useTranslation();
   const ChapData = Object.entries(data?.data).find(
     (arr: any) => arr[1].key === String(Champ?.championId)
   );
@@ -55,8 +58,8 @@ export const Mastery: React.FC<Interface> = ({ Champ, data }) => {
           </RowBox>
           <RowBox style={{ gap: "10px" }}>
             <ChampInfo>
-              <ChampInfoTitle>숙련도</ChampInfoTitle>
-              <ChampInfoContent>{Champ.championPoints + "점"}</ChampInfoContent>
+              <ChampInfoTitle>{t("proficiency2")}</ChampInfoTitle>
+              <ChampInfoContent>{Champ.championPoints + "P"}</ChampInfoContent>
             </ChampInfo>
           </RowBox>
         </>

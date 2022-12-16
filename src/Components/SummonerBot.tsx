@@ -156,11 +156,16 @@ export const SummonerBot: React.FC<Ipuuid> = ({ userData }) => {
             t("losses")}
         </KDA>
         <Piechart win={winNum} defeat={defeatNum} />
-        <Title>최근 {Range}게임 챔프별 KDA</Title>
+        <div style={{ display: "flex" }}>
+          <Title>{t("recent")}&nbsp;</Title>
+          <Title>{Range}&nbsp;</Title>
+          <Title>{t("recent2")}</Title>
+        </div>
+
         {sortedArr.map((champ: any, index: any) => (
           <RecentKDA key={index} KDAdata={KDAdata} champ={champ.championName} />
         ))}
-        <Title>{userData.name}님의 숙련도</Title>
+        <Title>{userData.name + t("proficiency")}</Title>
         {masteryData?.map((data: IChamp, index: any) => (
           <Mastery key={index} data={ChampData} Champ={data} />
         ))}

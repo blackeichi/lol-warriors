@@ -32,5 +32,10 @@
   "jung": "JUNGLE",
   "Invalid": "NOPE",
   "position": "Position",
-  "nouser": "Summoner not registered with Riot. Please check the typo and search again.🤔"
+  "nouser": "Summoner not registered with Riot. Please check the typo and search again.🤔",
+  "recent": "Recent",
+  "recent2": "Games KDA",
+  "winningRate": "WR",
+  "proficiency": "'s Proficiency",
+  "proficiency2": "Proficiency"
 }
