@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useRecoilValue } from "recoil";
 import { resizeState } from "../util/atom";
@@ -6,6 +6,8 @@ import { getIngame, userInterface } from "../util/api";
 import { useQuery } from "react-query";
 import { Box, Erbox, Title } from "./SummonerBot";
 import { useTranslation } from "react-i18next";
+import { EachTeam } from "./Map/Ingame/EachTeam";
+import { text } from "stream/consumers";
 
 type Ipuuid = {
   userData: userInterface;
@@ -24,7 +26,7 @@ type TUser = {
   summonerName: string;
   teamId: number;
 };
-type IngameType = {
+export type IngameType = {
   bannedChampions: Tban[];
   gameId: number;
   gameLength: number;
@@ -69,20 +71,49 @@ export const SummonerIngame = ({ userData }: Ipuuid) => {
   } else {
     gameMode = "Event";
   }
-  console.log(ingameData);
-  console.log(userData.name);
+  /* Make Team */
+  let Teams = [];
+  const [noon, setNoon] = useState("");
+  useEffect(() => {
+    if (ingameData) {
+      setNoon(
+        new Date(ingameData?.gameStartTime).getHours() >= 12 ? "PM" : "AM"
+      );
+    }
+  }, [ingameData, ingameData?.gameStartTime]);
+  const teams = [{ teamId: 100 }, { teamId: 200 }];
   return (
     <Box size={size}>
       {ingameData ? (
         <Wrapper>
           <Header>
             <BoldText>{gameMode}</BoldText>
+
             <Text>
-              {("0" + new Date(ingameData.gameStartTime).getHours()).slice(-2)}{" "}
+              {(
+                "0" +
+                (new Date(ingameData.gameStartTime).getHours() === 0
+                  ? 12
+                  : new Date(ingameData.gameStartTime).getHours() % 12)
+              ).slice(-2)}{" "}
               :&nbsp;
             </Text>
-            <Text>{new Date(ingameData.gameStartTime).getMinutes()}</Text>
+            <Text>
+              {("0" + new Date(ingameData.gameStartTime).getMinutes()).slice(
+                -2
+              )}
+            </Text>
+            <Text>{noon}</Text>
           </Header>
+          {teams.map((team: any) => (
+            <div key={team}>
+              <EachTeam
+                team={team}
+                me={userData.name}
+                ingameData={ingameData}
+              />
+            </div>
+          ))}
         </Wrapper>
       ) : (
         <Erbox>
