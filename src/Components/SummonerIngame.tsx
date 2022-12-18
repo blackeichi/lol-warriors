@@ -2,7 +2,13 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useRecoilValue } from "recoil";
 import { resizeState } from "../util/atom";
-import { getIngame, userInterface } from "../util/api";
+import {
+  getChap,
+  getIngame,
+  getRune,
+  getSpell,
+  userInterface,
+} from "../util/api";
 import { useQuery } from "react-query";
 import { Box, Erbox, Title } from "./SummonerBot";
 import { useTranslation } from "react-i18next";
@@ -16,7 +22,7 @@ type Tban = {
   championId: number;
   teamId: number;
 };
-type TUser = {
+export type TUser = {
   championId: 236;
   perks: { perkIds: number[]; perkStyle: number; perkSubStyle: number };
   profileIconId: number;
@@ -52,9 +58,13 @@ const BoldText = styled(Text)`
 export const SummonerIngame = ({ userData }: Ipuuid) => {
   const size = useRecoilValue(resizeState);
   const { data: ingameData, refetch: ingameRe } = useQuery<IngameType>(
-    ["ingameData"],
+    ["ingameData2"],
     () => getIngame(userData.id)
   );
+  //Get Rune, Spell, Champion Data
+  const { data: spellData } = useQuery(["spellData2"], getSpell);
+  const { data: runeData } = useQuery(["runeData2"], getRune);
+  const { data: ChampData } = useQuery(["ChampData2"], getChap);
   const { t } = useTranslation();
   /* Get game mode */
   let gameMode;
@@ -72,7 +82,6 @@ export const SummonerIngame = ({ userData }: Ipuuid) => {
     gameMode = "Event";
   }
   /* Make Team */
-  let Teams = [];
   const [noon, setNoon] = useState("");
   useEffect(() => {
     if (ingameData) {
@@ -108,9 +117,12 @@ export const SummonerIngame = ({ userData }: Ipuuid) => {
           {teams.map((team: any) => (
             <div key={team}>
               <EachTeam
+                spellData={spellData}
+                runeData={runeData}
                 team={team}
                 me={userData.name}
                 ingameData={ingameData}
+                ChampData={ChampData}
               />
             </div>
           ))}

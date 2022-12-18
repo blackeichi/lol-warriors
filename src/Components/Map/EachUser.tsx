@@ -158,28 +158,22 @@ export const EachUser: React.FC<IType> = ({
     (tier: any) => tier?.queueType === "RANKED_SOLO_5x5"
   );
   //-----getSpell
-  let spell1;
-  let spell2;
-  if (spellData) {
-    spell1 = Object.entries(spellData.data).find(
-      (da: any) => da[1].key === String(user?.summoner1Id)
-    );
-    spell2 = Object.entries(spellData.data).find(
-      (da: any) => da[1].key === String(user?.summoner2Id)
-    );
-  }
+  const spell1 = Object.entries(spellData.data).find(
+    (da: any) => da[1].key === String(user?.summoner1Id)
+  );
+  const spell2 = Object.entries(spellData.data).find(
+    (da: any) => da[1].key === String(user?.summoner2Id)
+  );
   //-----getRune
-  let Rune1;
-  let Rune2;
-  if (runeData) {
-    const Primar = runeData?.find(
-      (da: any) => da.id === user?.perks.styles[0].style
-    );
-    Rune1 = Primar?.slots[0].runes.find(
-      (da: any) => da.id === user?.perks.styles[0].selections[0].perk
-    );
-    Rune2 = runeData?.find((da: any) => da.id === user?.perks.styles[1].style);
-  }
+  const Primar = runeData?.find(
+    (da: any) => da.id === user?.perks.styles[0].style
+  );
+  const Rune1 = Primar?.slots[0].runes.find(
+    (da: any) => da.id === user?.perks.styles[0].selections[0].perk
+  );
+  const Rune2 = runeData?.find(
+    (da: any) => da.id === user?.perks.styles[1].style
+  );
   //-----get Progress Data
   const dealt = Math.floor((user.totalDamageDealtToChampions / maxDealt) * 100);
   const taken = Math.floor((user.totalDamageTaken / maxTaken) * 100);
