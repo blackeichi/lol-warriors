@@ -144,8 +144,8 @@ export const EachInUser = ({
           {user.summonerName}
         </Username>
         <Tier size={size}>
-          <h1>{rank[0] ? rank?.[0]?.tier + rank?.[0]?.rank : "UNRANKED"}</h1>
-          <h1>{rank[0] ? "( " + rank?.[0]?.leaguePoints + "LP )" : ""}</h1>
+          <h1>{rank?.[0] ? rank?.[0]?.tier + rank?.[0]?.rank : "UNRANKED"}</h1>
+          <h1>{rank?.[0] ? "( " + rank?.[0]?.leaguePoints + "LP )" : ""}</h1>
         </Tier>
         {rank ? (
           <ProgressBox>
