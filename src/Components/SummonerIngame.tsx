@@ -54,7 +54,9 @@ const Text = styled.h1``;
 const BoldText = styled(Text)`
   font-weight: bold;
 `;
-
+const EachWrapper = styled.div`
+  width: fit-content;
+`;
 export const SummonerIngame = ({ userData }: Ipuuid) => {
   const size = useRecoilValue(resizeState);
   const { data: ingameData, refetch: ingameRe } = useQuery<IngameType>(
@@ -114,18 +116,20 @@ export const SummonerIngame = ({ userData }: Ipuuid) => {
             </Text>
             <Text>{noon}</Text>
           </Header>
-          {teams.map((team: any) => (
-            <div key={team}>
-              <EachTeam
-                spellData={spellData}
-                runeData={runeData}
-                team={team}
-                me={userData.name}
-                ingameData={ingameData}
-                ChampData={ChampData}
-              />
-            </div>
-          ))}
+          <EachWrapper>
+            {teams.map((team: any) => (
+              <div key={team}>
+                <EachTeam
+                  spellData={spellData}
+                  runeData={runeData}
+                  team={team}
+                  me={userData.name}
+                  ingameData={ingameData}
+                  ChampData={ChampData}
+                />
+              </div>
+            ))}
+          </EachWrapper>
         </Wrapper>
       ) : (
         <Erbox>

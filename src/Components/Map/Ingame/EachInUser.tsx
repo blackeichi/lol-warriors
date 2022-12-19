@@ -16,6 +16,7 @@ const Text = styled.h1``;
 const RowBox = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
 `;
 const IconBox = styled.div`
   width: 40px;
@@ -115,6 +116,14 @@ export const EachInUser = ({
   const rank: rankInterface = rankData?.filter(
     (da: any) => da.queueType === "RANKED_SOLO_5x5"
   );
+  /*  let perks = user.perks.perkIds;
+  const test = [] as any;
+  perks.map((perk) => {
+    perk = Primar?.slots?.[0].runes.find((da: any) => da.id === perk);
+    test.push(perk);
+  });
+  console.log(test);*/
+
   return (
     <Box>
       <RowBox>

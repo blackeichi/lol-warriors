@@ -40,9 +40,12 @@ type Interface = {
 
 export const Mastery: React.FC<Interface> = ({ Champ, data }) => {
   const { t } = useTranslation();
-  const ChapData = Object.entries(data?.data).find(
-    (arr: any) => arr[1].key === String(Champ?.championId)
-  );
+  let ChapData;
+  if (data) {
+    ChapData = Object.entries(data?.data).find(
+      (arr: any) => arr[1].key === String(Champ?.championId)
+    );
+  }
   return (
     <Box>
       {ChapData && (

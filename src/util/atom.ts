@@ -40,3 +40,7 @@ export const KDAstate = atom({
   key: "KDAstate",
   default: [] as any,
 });
+export const InfoState = atom({
+  key: "InfoState",
+  default: false,
+});

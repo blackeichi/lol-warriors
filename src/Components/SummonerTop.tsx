@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useQuery } from "react-query";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import styled from "styled-components";
 import { getRank, rankInterface, userInterface } from "../util/api";
-import { resizeState, serverState } from "../util/atom";
+import { InfoState, resizeState, serverState } from "../util/atom";
 
 const Box = styled.div<{ size: string }>`
   width: 98%;
@@ -91,10 +91,7 @@ const Name = styled.h1<{ size: string }>`
         : "25px"
       : "6vw"};
 `;
-const PS = styled.h1`
-  font-size: 14px;
-  color: gray;
-`;
+
 const Reload = styled.h1`
   padding: 10px;
   background-color: ${(props) => props.theme.bgColr};
@@ -165,7 +162,14 @@ const InfoBox = styled.div`
   display: flex;
   gap: 5px;
 `;
-
+const ChangeBtnBox = styled.div`
+  margin-top: 5px;
+  box-shadow: 1px gray;
+  width: fit-content;
+  padding: 5px 10px;
+  border-radius: 10px;
+  cursor: pointer;
+`;
 type IUser = {
   userData: userInterface;
 };
@@ -185,26 +189,6 @@ const icons: Iicon = {
 };
 
 export const SummonerTop: React.FC<IUser> = ({ userData }) => {
-  const ps =
-    userData.name === "유 우 섬"
-      ? "미친 대학원생"
-      : userData.name === "05년생빠른손"
-      ? "똥💩"
-      : userData.name === "유 성 킴"
-      ? "성균관 신지드"
-      : userData.name === "유성조절전문가"
-      ? "개🐶"
-      : userData.name === "듕듕듀듀"
-      ? "회화 큰 형님"
-      : userData.name === "석희노예12년"
-      ? "트롤들의 왕"
-      : userData.name === "핑자풍선"
-      ? "(핑크자크라는 뜻)"
-      : userData.name === "xeon 어둠의 왕"
-      ? "(대충 오타쿠라는 뜻)"
-      : userData.name === "오일파스텔장인"
-      ? "오피스텔장인"
-      : "";
   const { t } = useTranslation();
   const server = useRecoilValue(serverState);
   const {
@@ -223,6 +207,7 @@ export const SummonerTop: React.FC<IUser> = ({ userData }) => {
   useEffect(() => {
     refetch();
   }, [refetch, userData]);
+  const [infostate, setState] = useRecoilState(InfoState);
   return (
     <Box size={size}>
       <WrapperColOne>
@@ -232,20 +217,25 @@ export const SummonerTop: React.FC<IUser> = ({ userData }) => {
           />
           <Level>{userData.summonerLevel}</Level>
         </IconBox>
-        <NameBox size={size}>
-          <ColBox>
-            <Name size={size}>{userData.name}</Name>
-            {ps && <PS>{ps}</PS>}
-          </ColBox>
-
-          <Reload
-            onClick={() => {
-              window.location.reload();
-            }}
-          >
-            {t("update")}
-          </Reload>
-        </NameBox>
+        <div>
+          <NameBox size={size}>
+            <ColBox>
+              <Name size={size}>{userData.name}</Name>
+            </ColBox>
+            <Reload
+              onClick={() => {
+                window.location.reload();
+              }}
+            >
+              {t("update")}
+            </Reload>
+          </NameBox>
+          <ChangeBtnBox onClick={() => setState((prev) => !prev)}>
+            <WinInfo style={{ color: "#9055A2", fontWeight: "bold" }}>
+              {infostate ? "MATCH" : "IN-GAME"}
+            </WinInfo>
+          </ChangeBtnBox>
+        </div>
       </WrapperColOne>
       {rankLoading ? (
         <></>

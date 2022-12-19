@@ -8,7 +8,9 @@ const Box = styled.div`
   border-top: 1px solid rgba(0, 0, 0, 0.1);
 `;
 const Header = styled.div``;
-
+const Wrapper = styled.div`
+  width: 100%;
+`;
 type TEach = {
   team: {
     teamId: number;
@@ -30,20 +32,23 @@ export const EachTeam = ({
   const users = ingameData?.participants?.filter(
     (user: any) => user.teamId === team.teamId
   );
+  console.log(users);
   return (
     <Box>
       <Header></Header>
-      {users.map((user) => (
-        <div key={user.summonerId}>
-          <EachInUser
-            spellData={spellData}
-            runeData={runeData}
-            ChampData={ChampData}
-            user={user}
-            me={me}
-          />
-        </div>
-      ))}
+      <Wrapper>
+        {users.map((user, index) => (
+          <div key={index}>
+            <EachInUser
+              spellData={spellData}
+              runeData={runeData}
+              ChampData={ChampData}
+              user={user}
+              me={me}
+            />
+          </div>
+        ))}
+      </Wrapper>
     </Box>
   );
 };

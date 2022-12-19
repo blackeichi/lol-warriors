@@ -7,7 +7,7 @@ import { InputForm } from "../Components/InputForm";
 import { LangSelect } from "../Components/LangSelect";
 import { TitleCompo } from "../Components/TitleCompo";
 import { getPuuid, userInterface } from "../util/api";
-import { resizeState, serverState } from "../util/atom";
+import { InfoState, resizeState, serverState } from "../util/atom";
 import { SummonerTop } from "../Components/SummonerTop";
 import { SummonerIngame } from "../Components/SummonerIngame";
 import { SummonerBot } from "../Components/SummonerBot";
@@ -89,11 +89,12 @@ export const Summoner = () => {
   useEffect(() => {
     refetch();
   }, [refetch, username]);
+  const infostate = useRecoilValue(InfoState);
   return (
     <Container>
       <Header size={size}>
         <TitleCompo />
-        <h1 onClick={() => setIngame((prev) => !prev)}>인게임</h1>
+
         <Box>
           <InputForm />
           <LangSelect size={size} home={false} />
@@ -113,7 +114,7 @@ export const Summoner = () => {
           {userData ? (
             <>
               <SummonerTop userData={userData} />
-              {ingame ? (
+              {infostate ? (
                 <SummonerIngame userData={userData} />
               ) : (
                 <SummonerBot userData={userData} />
