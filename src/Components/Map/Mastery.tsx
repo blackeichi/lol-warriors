@@ -52,7 +52,7 @@ export const Mastery: React.FC<Interface> = ({ Champ, data }) => {
         <>
           <RowBox style={{ justifyContent: "flex-start" }}>
             <ChapImg
-              src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/champion/${ChapData[0]}.png`}
+              src={`https://ddragon.leagueoflegends.com/cdn/12.23.1/img/champion/${ChapData[0]}.png`}
             ></ChapImg>
             <ChampInfo style={{ alignItems: "flex-start" }}>
               <ChampInfoTitle>{ChapData[0]}</ChampInfoTitle>

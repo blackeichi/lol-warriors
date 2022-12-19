@@ -196,16 +196,16 @@ export const EachUser: React.FC<IType> = ({
         <RowBox>
           <IconBox>
             <ChampImg
-              src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/champion/${user.championName}.png`}
+              src={`https://ddragon.leagueoflegends.com/cdn/12.23.1/img/champion/${user.championName}.png`}
             />
             <Level>{user.champLevel}</Level>
           </IconBox>
           <ColBox>
             <Spell
-              src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/spell/${spell1?.[0]}.png`}
+              src={`https://ddragon.leagueoflegends.com/cdn/12.23.1/img/spell/${spell1?.[0]}.png`}
             />
             <Spell
-              src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/spell/${spell2?.[0]}.png`}
+              src={`https://ddragon.leagueoflegends.com/cdn/12.23.1/img/spell/${spell2?.[0]}.png`}
             />
           </ColBox>
           <ColBox>
@@ -268,7 +268,7 @@ export const EachUser: React.FC<IType> = ({
             <Items key={index}>
               {item ? (
                 <Item
-                  src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/item/${item}.png`}
+                  src={`https://ddragon.leagueoflegends.com/cdn/12.23.1/img/item/${item}.png`}
                 />
               ) : (
                 <Item />

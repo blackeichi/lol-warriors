@@ -139,15 +139,15 @@ export const EachInUser = ({
         <Row>
           <IconBox>
             <ChampImg
-              src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/champion/${ChapData?.[0]}.png`}
+              src={`https://ddragon.leagueoflegends.com/cdn/12.23.1/img/champion/${ChapData?.[0]}.png`}
             />
           </IconBox>
           <ColBox>
             <Spell
-              src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/spell/${spell1?.[0]}.png`}
+              src={`https://ddragon.leagueoflegends.com/cdn/12.23.1/img/spell/${spell1?.[0]}.png`}
             />
             <Spell
-              src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/spell/${spell2?.[0]}.png`}
+              src={`https://ddragon.leagueoflegends.com/cdn/12.23.1/img/spell/${spell2?.[0]}.png`}
             />
           </ColBox>
           <ColBox>

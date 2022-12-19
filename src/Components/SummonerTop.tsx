@@ -213,7 +213,7 @@ export const SummonerTop: React.FC<IUser> = ({ userData }) => {
       <WrapperColOne>
         <IconBox size={size}>
           <Icon
-            src={`http://ddragon.leagueoflegends.com/cdn/12.22.1/img/profileicon/${userData.profileIconId}.png`}
+            src={`http://ddragon.leagueoflegends.com/cdn/12.23.1/img/profileicon/${userData.profileIconId}.png`}
           />
           <Level>{userData.summonerLevel}</Level>
         </IconBox>
