@@ -91,8 +91,8 @@ export const EachInUser = ({
     (da: any) => da[1].key === String(user?.spell2Id)
   );
   const Primar = runeData?.find((da: any) => da.id === user?.perks.perkStyle);
-  const Rune1 = Primar?.slots[0].runes.find(
-    (da: any) => da.id === user?.perks.perkIds[0]
+  const Rune1 = Primar?.slots?.[0].runes.find(
+    (da: any) => da.id === user?.perks.perkIds?.[0]
   );
   const Rune2 = runeData?.find((da: any) => da.id === user?.perks.perkSubStyle);
   const ChapData = Object.entries(ChampData?.data).find(
@@ -115,7 +115,6 @@ export const EachInUser = ({
   const rank: rankInterface = rankData?.filter(
     (da: any) => da.queueType === "RANKED_SOLO_5x5"
   );
-  console.log(rank[0]);
   return (
     <Box>
       <RowBox>
