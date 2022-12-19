@@ -10,13 +10,20 @@ import { TUser } from "../../SummonerIngame";
 const Box = styled.div`
   width: 100%;
   height: 50px;
-  border-left: 1px solid black;
 `;
 const Text = styled.h1``;
-const RowBox = styled.div`
+const RowBox = styled.div<{ size?: string }>`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: ${(props) =>
+    props.size !== "Mobile" && props.size !== "Small" ? "200px" : ""};
+`;
+const Row = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 3px;
 `;
 const IconBox = styled.div`
   width: 40px;
@@ -45,6 +52,7 @@ const ProgressBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-left: 10px;
 `;
 const Progress = styled.div`
   width: 60px;
@@ -66,6 +74,8 @@ const Tier = styled.div<{ size: string }>`
   color: darkgray;
   display: flex;
   gap: 4px;
+  flex-direction: ${(props) =>
+    props.size !== "Mobile" && props.size !== "Small" ? "row" : "column"};
   font-size: ${(props) =>
     props.size !== "Mobile" && props.size !== "Small" ? "12px" : "2vw"};
 `;
@@ -123,61 +133,66 @@ export const EachInUser = ({
     test.push(perk);
   });
   console.log(test);*/
-
   return (
     <Box>
-      <RowBox>
-        <IconBox>
-          <ChampImg
-            src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/champion/${ChapData?.[0]}.png`}
-          />
-        </IconBox>
-        <ColBox>
-          <Spell
-            src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/spell/${spell1?.[0]}.png`}
-          />
-          <Spell
-            src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/spell/${spell2?.[0]}.png`}
-          />
-        </ColBox>
-        <ColBox>
-          <Rune
-            style={{ backgroundColor: "black", borderRadius: "50%" }}
-            src={`https://ddragon.leagueoflegends.com/cdn/img/${Rune1?.icon}`}
-          />
-          <Rune
-            src={`https://ddragon.leagueoflegends.com/cdn/img/${Rune2?.icon}`}
-          />
-        </ColBox>
-        <Username size={size} onClick={onMove} me={ItsMe}>
-          {user.summonerName}
-        </Username>
-        <Tier size={size}>
-          <h1>{rank?.[0] ? rank?.[0]?.tier + rank?.[0]?.rank : "UNRANKED"}</h1>
-          <h1>{rank?.[0] ? "( " + rank?.[0]?.leaguePoints + "LP )" : ""}</h1>
-        </Tier>
-        {rank ? (
-          <ProgressBox>
-            <Text>
-              {rank[0]?.wins && rank[0]?.losses
-                ? Math.floor(
-                    (rank[0].wins / (rank[0]?.wins + rank[0]?.losses)) * 100
-                  ) + "%"
-                : "0%"}
-            </Text>
-            <Progress>
-              <Dealt
-                dealt={
-                  rank[0]?.wins && rank[0]?.losses
-                    ? (rank[0].wins / (rank[0].wins + rank[0].losses)) * 100
-                    : 0
-                }
-              />
-            </Progress>
-          </ProgressBox>
-        ) : (
-          ""
-        )}
+      <RowBox size={size}>
+        <Row>
+          <IconBox>
+            <ChampImg
+              src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/champion/${ChapData?.[0]}.png`}
+            />
+          </IconBox>
+          <ColBox>
+            <Spell
+              src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/spell/${spell1?.[0]}.png`}
+            />
+            <Spell
+              src={`https://ddragon.leagueoflegends.com/cdn/12.22.1/img/spell/${spell2?.[0]}.png`}
+            />
+          </ColBox>
+          <ColBox>
+            <Rune
+              style={{ backgroundColor: "black", borderRadius: "50%" }}
+              src={`https://ddragon.leagueoflegends.com/cdn/img/${Rune1?.icon}`}
+            />
+            <Rune
+              src={`https://ddragon.leagueoflegends.com/cdn/img/${Rune2?.icon}`}
+            />
+          </ColBox>
+          <Username size={size} onClick={onMove} me={ItsMe}>
+            {user.summonerName}
+          </Username>
+        </Row>
+        <Row>
+          <Tier size={size}>
+            <h1>
+              {rank?.[0] ? rank?.[0]?.tier + rank?.[0]?.rank : "UNRANKED"}
+            </h1>
+            <h1>{rank?.[0] ? "( " + rank?.[0]?.leaguePoints + "LP )" : ""}</h1>
+          </Tier>
+          {rank ? (
+            <ProgressBox>
+              <Text>
+                {rank[0]?.wins && rank[0]?.losses
+                  ? Math.floor(
+                      (rank[0].wins / (rank[0]?.wins + rank[0]?.losses)) * 100
+                    ) + "%"
+                  : "0%"}
+              </Text>
+              <Progress>
+                <Dealt
+                  dealt={
+                    rank[0]?.wins && rank[0]?.losses
+                      ? (rank[0].wins / (rank[0].wins + rank[0].losses)) * 100
+                      : 0
+                  }
+                />
+              </Progress>
+            </ProgressBox>
+          ) : (
+            ""
+          )}
+        </Row>
       </RowBox>
     </Box>
   );

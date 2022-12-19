@@ -45,10 +45,16 @@ export type IngameType = {
 
 const Wrapper = styled.div`
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 const Header = styled.div`
   display: flex;
   width: 100%;
+  justify-content: center;
+  height: 40px;
+  gap: 10px;
 `;
 const Text = styled.h1``;
 const BoldText = styled(Text)`
@@ -99,22 +105,24 @@ export const SummonerIngame = ({ userData }: Ipuuid) => {
         <Wrapper>
           <Header>
             <BoldText>{gameMode}</BoldText>
-
-            <Text>
-              {(
-                "0" +
-                (new Date(ingameData.gameStartTime).getHours() === 0
-                  ? 12
-                  : new Date(ingameData.gameStartTime).getHours() % 12)
-              ).slice(-2)}{" "}
-              :&nbsp;
-            </Text>
-            <Text>
-              {("0" + new Date(ingameData.gameStartTime).getMinutes()).slice(
-                -2
-              )}
-            </Text>
-            <Text>{noon}</Text>
+            <div style={{ display: "flex" }}>
+              <Text style={{ marginRight: "2px" }}>From</Text>
+              <Text>
+                {(
+                  "0" +
+                  (new Date(ingameData.gameStartTime).getHours() === 0
+                    ? 12
+                    : new Date(ingameData.gameStartTime).getHours() % 12)
+                ).slice(-2)}{" "}
+                :&nbsp;
+              </Text>
+              <Text>
+                {("0" + new Date(ingameData.gameStartTime).getMinutes()).slice(
+                  -2
+                )}
+              </Text>
+              <Text>{noon}</Text>
+            </div>
           </Header>
           <EachWrapper>
             {teams.map((team: any) => (
