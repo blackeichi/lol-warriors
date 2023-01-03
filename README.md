@@ -32,14 +32,14 @@
 
 <img width="100%" src="https://user-images.githubusercontent.com/87626378/210290258-89ee9d91-f9b2-4b35-8c56-23bc2af01f27.PNG">
 매치의 자세한 정보도 확인 가능!
-
+<br/>
 ### 2. 다양한 언어 제공
 
 > Lol-wr은 한국어, 일본어, 영어 세 가지 언어를 제공합니다!
 
 <img width="100%" src="https://user-images.githubusercontent.com/87626378/210290371-e42fd848-aefb-4939-b23e-b0345ea0cd63.PNG">
 본인에게 편리한 언어를 사용하세요!
-
+<br/>
 ### 3. 검색 기록 저장 및 인게임 정보 확인 등의 기타 기능
 
 > 이외의 다양한 기능들을 직접 사용해보시고 확인해보세요!!
