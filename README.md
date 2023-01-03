@@ -45,9 +45,7 @@
 > 이외의 다양한 기능들을 직접 사용해보시고 확인해보세요!!
 
 <div align=center>
-![ezgif-4-cffbeb19b5](https://user-images.githubusercontent.com/87626378/210291468-9d760b68-6a04-474e-b2c3-862d062a5e98.gif)
-<img width="50%" src="https://user-images.githubusercontent.com/87626378/210290481-fbb37e13-6242-4b17-99c5-8c4ae9ce6b6b.png">
-<img width="50%" src="https://user-images.githubusercontent.com/87626378/210290503-eeb9bb26-0be3-4214-9cd8-c73f2c58aadb.png">
+<img width="50%" src="[https://user-images.githubusercontent.com/87626378/210290481-fbb37e13-6242-4b17-99c5-8c4ae9ce6b6b.png](https://user-images.githubusercontent.com/87626378/210291468-9d760b68-6a04-474e-b2c3-862d062a5e98.gif)">
 </div>
 > <br />
 
