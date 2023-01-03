@@ -50,8 +50,8 @@
 > <br />
 
 ## 🦾 Tech Stacks
-
-<img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black">
+<div align=center><img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black">
 <img src="https://img.shields.io/badge/typescript-3178C6?style=for-the-badge&logo=typescript&logoColor=white">
 <img src="https://img.shields.io/badge/styled_component-DB7093?style=for-the-badge&logo=styled-components&logoColor=white">
-<img src="https://img.shields.io/badge/Recoil-black?style=for-the-badge&logo=Recoil&logoColor=white">
+<img src="https://img.shields.io/badge/Recoil-black?style=for-the-badge&logo=Recoil&logoColor=white"></div>
+
